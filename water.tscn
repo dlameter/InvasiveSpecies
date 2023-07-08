@@ -14,6 +14,10 @@ properties/1/path = NodePath("DeathTimer:wait_time")
 properties/1/spawn = true
 properties/1/sync = true
 properties/1/watch = false
+properties/2/path = NodePath(".:velocity_proxy")
+properties/2/spawn = true
+properties/2/sync = true
+properties/2/watch = false
 
 [node name="Water" type="CharacterBody2D"]
 script = ExtResource("1_w0ef3")
@@ -31,4 +35,4 @@ autostart = true
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_mncnt")
 
-[connection signal="timeout" from="DeathTimer" to="." method="queue_free"]
+[connection signal="timeout" from="DeathTimer" to="." method="die"]

@@ -27,6 +27,7 @@ func add_player(id: int):
 	var character = preload("res://player.tscn").instantiate()
 	character.name = str(id)
 	character.player = id
+	character.spawn_location = $Players
 	$Players.add_child(character, true)
 
 func del_player(id: int):

@@ -16,7 +16,9 @@ unique_name_in_owner = true
 _spawnable_scenes = PackedStringArray("res://level.tscn")
 spawn_path = NodePath("../Level")
 
-[node name="Menu" type="PanelContainer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Menu" type="PanelContainer" parent="CanvasLayer"]
 unique_name_in_owner = true
 anchors_preset = 8
 anchor_left = 0.5
@@ -32,40 +34,40 @@ grow_vertical = 2
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
-[node name="MarginContainer" type="MarginContainer" parent="Menu"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Menu"]
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Menu/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Menu/MarginContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="HostButton" type="Button" parent="Menu/MarginContainer/VBoxContainer"]
+[node name="HostButton" type="Button" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Host"
 
-[node name="Label" type="Label" parent="Menu/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="To" type="LineEdit" parent="Menu/MarginContainer/VBoxContainer"]
+[node name="To" type="LineEdit" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "localhost"
 placeholder_text = "Enter server IP"
 
-[node name="JoinButton" type="Button" parent="Menu/MarginContainer/VBoxContainer"]
+[node name="JoinButton" type="Button" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "Join"
 
-[node name="DisplayPublicIP" type="Label" parent="."]
+[node name="DisplayPublicIP" type="Label" parent="CanvasLayer"]
 unique_name_in_owner = true
 offset_right = 158.0
 offset_bottom = 26.0
 metadata/_edit_lock_ = true
 
-[connection signal="pressed" from="Menu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
-[connection signal="text_submitted" from="Menu/MarginContainer/VBoxContainer/To" to="." method="_on_to_text_submitted"]
-[connection signal="pressed" from="Menu/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="text_submitted" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/To" to="." method="_on_to_text_submitted"]
+[connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]

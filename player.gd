@@ -7,22 +7,24 @@ extends CharacterBody2D
 
 @onready var input = $PlayerInput
 
-var spawn_location: Node:
+@export var spawn_location: Node:
 	set (value):
 		spawn_location = value
 		$WaterGun.bullet_destination = value
 
 var delay = 0
-var threshold = 5
+var threshold = 0.05
 
 func _ready():
 	$Authority.visible = input.is_multiplayer_authority()
+	if input.is_multiplayer_authority():
+		$Camera2D.make_current()
 
 func _physics_process(delta):
 	if input.mouse_pos:
 		$WaterGun.look_at(input.mouse_pos)
 	
-	if input.firing:
+	if input.firing and is_multiplayer_authority():
 		delay += delta
 		if delay >= threshold:
 			delay = 0

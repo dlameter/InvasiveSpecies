@@ -34,6 +34,7 @@ func _on_join_button_pressed():
 	print("joining with id ", multiplayer.get_unique_id())
 
 	multiplayer.connected_to_server.connect(start_game)
+	multiplayer.server_disconnected.connect(server_offline)
 
 func start_game():
 	%Menu.hide()
@@ -51,5 +52,5 @@ func change_level(scene: PackedScene):
 
 func server_offline():
 	%Menu.show()
-	if %MapInstance.get_child(0):
-		%MapInstance.get_child(0).queue_free()
+	if %Level.get_child(0):
+		%Level.get_child(0).queue_free()
