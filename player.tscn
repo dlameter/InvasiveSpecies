@@ -1,8 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://dmqs76oj7hyhh"]
+[gd_scene load_steps=10 format=3 uid="uid://dmqs76oj7hyhh"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_hc75s"]
 [ext_resource type="Texture2D" uid="uid://df0ooqpnic0cc" path="res://icon.svg" id="2_xusq6"]
-[ext_resource type="Texture2D" uid="uid://c6dsaptmilc7m" path="res://asset/image/watercan.png" id="3_bo2wi"]
+[ext_resource type="Texture2D" path="res://asset/image/watercan.png" id="3_bo2wi"]
+[ext_resource type="Script" path="res://WaterGun.gd" id="3_gjo7p"]
+[ext_resource type="PackedScene" uid="uid://csac0aao5h5ca" path="res://water.tscn" id="4_hy0fw"]
+[ext_resource type="Script" path="res://PlayerInput.gd" id="6_j08vi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mubqp"]
+size = Vector2(127, 126)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_eswml"]
 properties/0/path = NodePath(".:position")
@@ -13,6 +19,24 @@ properties/1/path = NodePath("WaterGun:rotation")
 properties/1/spawn = true
 properties/1/sync = true
 properties/1/watch = false
+properties/2/path = NodePath(".:player")
+properties/2/spawn = true
+properties/2/sync = true
+properties/2/watch = false
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_y881q"]
+properties/0/path = NodePath("PlayerInput:direction")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+properties/1/path = NodePath("PlayerInput:mouse_pos")
+properties/1/spawn = true
+properties/1/sync = true
+properties/1/watch = false
+properties/2/path = NodePath("PlayerInput:firing")
+properties/2/spawn = true
+properties/2/sync = true
+properties/2/watch = false
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_hc75s")
@@ -24,6 +48,11 @@ offset_right = 69.0
 offset_bottom = 69.0
 color = Color(0, 0, 0, 1)
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_mubqp")
+disabled = true
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_xusq6")
 
@@ -31,8 +60,17 @@ texture = ExtResource("2_xusq6")
 replication_config = SubResource("SceneReplicationConfig_eswml")
 
 [node name="WaterGun" type="Node2D" parent="."]
+script = ExtResource("3_gjo7p")
+bullet = ExtResource("4_hy0fw")
 
-[node name="Sprite2D" type="Sprite2D" parent="WaterGun"]
-texture_filter = 1
+[node name="FirePos" type="Node2D" parent="WaterGun"]
+position = Vector2(100, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="WaterGun/FirePos"]
+position = Vector2(-25, -5)
 scale = Vector2(4, 4)
 texture = ExtResource("3_bo2wi")
+
+[node name="PlayerInput" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_y881q")
+script = ExtResource("6_j08vi")

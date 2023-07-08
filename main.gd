@@ -14,37 +14,40 @@ func _ready():
 func _on_host_button_pressed():
 	var peer = ENetMultiplayerPeer.new()
 	peer.create_server(9999)
+	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
+		OS.alert("Failed to start multiplayer server")
+		return
+	
 	multiplayer.multiplayer_peer = peer
-
-	multiplayer.peer_disconnected.connect(remove_player)
-
-	load_game()
-	add_player(multiplayer.get_unique_id())
+	start_game()
 
 # Client
 func _on_join_button_pressed():
 	var peer = ENetMultiplayerPeer.new()
 	peer.create_client(%To.text, 9999)
+	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
+		OS.alert("Failed to start multiplayer client.")
+		return
+	
 	multiplayer.multiplayer_peer = peer
+	
+	print("joining with id ", multiplayer.get_unique_id())
 
-	multiplayer.connected_to_server.connect(load_game)
-	multiplayer.server_disconnected.connect(server_offline)
+	multiplayer.connected_to_server.connect(start_game)
 
-func load_game():
+func start_game():
 	%Menu.hide()
-	%MapInstance.add_child(map.instantiate())
-	add_player.rpc_id(1, multiplayer.get_unique_id())
+	if multiplayer.is_server():
+		change_level.call_deferred(load("res://level.tscn"))
 
-@rpc("any_peer") # Add "call_local" to spawn a player from the server
-func add_player(id):
-	var player_instance = player.instantiate()
-	player_instance.name = str(id)
-	%SpawnPosition.add_child(player_instance)
-
-@rpc("any_peer")
-func remove_player(id):
-	if %SpawnPosition.get_node(str(id)):
-		%SpawnPosition.get_node(str(id)).queue_free()
+func change_level(scene: PackedScene):
+	# Remove old level if any.
+	var level = $Level
+	for c in level.get_children():
+		level.remove_child(c)
+		c.queue_free()
+	# Add new level.
+	level.add_child(scene.instantiate())
 
 func server_offline():
 	%Menu.show()

@@ -1,12 +1,38 @@
 extends CharacterBody2D
 
+@export var player := 1 :
+	set(id):
+		player = id
+		$PlayerInput.set_multiplayer_authority(id)
+
+@onready var input = $PlayerInput
+
+var spawn_location: Node:
+	set (value):
+		spawn_location = value
+		$WaterGun.bullet_destination = value
+
+var delay = 0
+var threshold = 5
+
 func _ready():
-	set_multiplayer_authority(name.to_int())
-	$Authority.visible = is_multiplayer_authority()
+	$Authority.visible = input.is_multiplayer_authority()
 
 func _physics_process(delta):
-	if not is_multiplayer_authority(): return
+	if input.mouse_pos:
+		$WaterGun.look_at(input.mouse_pos)
+	
+	if input.firing:
+		delay += delta
+		if delay >= threshold:
+			delay = 0
+			$WaterGun.fire()
+	else:
+		delay = threshold
 
-	$WaterGun.look_at(get_viewport().get_mouse_position())
-	velocity = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down") * 500
+	if input.direction:
+		velocity = input.direction * 500
+	else:
+		velocity = Vector2()
+
 	move_and_slide()
