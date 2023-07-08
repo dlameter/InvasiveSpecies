@@ -12,6 +12,8 @@ extends CharacterBody2D
 		spawn_location = value
 		$WaterGun.bullet_destination = value
 
+const SPEED = 350
+
 var delay = 0
 var threshold = 0.05
 
@@ -33,7 +35,7 @@ func _physics_process(delta):
 		delay = threshold
 
 	if input.direction:
-		velocity = input.direction * 500
+		velocity = input.direction * SPEED
 	else:
 		velocity = Vector2()
 
