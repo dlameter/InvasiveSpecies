@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://c2mvh0w14peaw"]
+[gd_scene load_steps=2 format=3 uid="uid://bxv6u3bhx42wl"]
 
-[ext_resource type="Script" path="res://Crop.gd" id="1_vaikw"]
+[ext_resource type="Script" path="res://crop/Crop.gd" id="1_wacjm"]
 
 [node name="Crop" type="Node2D"]
-script = ExtResource("1_vaikw")
+script = ExtResource("1_wacjm")

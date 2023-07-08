@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bs2gc7qk73ujl"]
-
-[ext_resource type="Script" path="res://cropPlot.gd" id="1_ttgdd"]
-
-[node name="CropPlot" type="Node2D"]
-script = ExtResource("1_ttgdd")

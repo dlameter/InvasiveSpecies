@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://csac0aao5h5ca"]
 
-[ext_resource type="Texture2D" path="res://asset/image/watercan.png" id="1_7ax6f"]
+[ext_resource type="Texture2D" uid="uid://c6dsaptmilc7m" path="res://asset/image/watercan.png" id="1_7ax6f"]
 [ext_resource type="Script" path="res://water.gd" id="1_w0ef3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6yj6v"]

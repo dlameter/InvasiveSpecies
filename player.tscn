@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://player.gd" id="1_hc75s"]
 [ext_resource type="Texture2D" uid="uid://pneel2kxfa8y" path="res://asset/image/character_0002.png" id="2_81pyn"]
-[ext_resource type="Texture2D" path="res://asset/image/watercan.png" id="3_bo2wi"]
+[ext_resource type="Texture2D" uid="uid://c6dsaptmilc7m" path="res://asset/image/watercan.png" id="3_bo2wi"]
 [ext_resource type="Script" path="res://WaterGun.gd" id="3_gjo7p"]
 [ext_resource type="PackedScene" uid="uid://csac0aao5h5ca" path="res://water.tscn" id="4_hy0fw"]
 [ext_resource type="Script" path="res://PlayerInput.gd" id="6_j08vi"]
@@ -77,3 +77,4 @@ replication_config = SubResource("SceneReplicationConfig_y881q")
 script = ExtResource("6_j08vi")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+scale = Vector2(1, 1.02446)
