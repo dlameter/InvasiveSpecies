@@ -27,6 +27,7 @@ func _physics_process(delta):
 		$WaterGun.look_at(input.mouse_pos)
 	
 	if input.firing and is_multiplayer_authority():
+		# extract firing to watercan object
 		delay += delta
 		if delay >= threshold:
 			delay = 0

@@ -39,6 +39,7 @@ properties/2/sync = true
 properties/2/watch = false
 
 [node name="Player" type="CharacterBody2D"]
+collision_mask = 2
 script = ExtResource("1_hc75s")
 
 [node name="Authority" type="ColorRect" parent="."]
@@ -51,7 +52,6 @@ color = Color(0, 0, 0, 1)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_mubqp")
-disabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(3, 3)
