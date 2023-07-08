@@ -1,6 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://bs2gc7qk73ujl"]
+[gd_scene load_steps=3 format=3 uid="uid://bs2gc7qk73ujl"]
 
 [ext_resource type="Script" path="res://cropPlot.gd" id="1_ttgdd"]
+[ext_resource type="Texture2D" uid="uid://cndmxi72hkvsk" path="res://asset/image/dirttile.png" id="2_wgx6u"]
 
 [node name="CropPlot" type="Node2D"]
 script = ExtResource("1_ttgdd")
+
+[node name="Dirt" type="Sprite2D" parent="."]
+texture_repeat = 2
+position = Vector2(224, 214)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_wgx6u")
+region_enabled = true
+region_rect = Rect2(0, 0, 224, 224)
