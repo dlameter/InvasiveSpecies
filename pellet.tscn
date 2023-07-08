@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://d33fnncsrxerv"]
+[gd_scene load_steps=4 format=3 uid="uid://cba0novc5rfh7"]
 
-[ext_resource type="Texture2D" uid="uid://c5rmdvrgp12hi" path="res://pelletthing.png" id="1_7wnso"]
 [ext_resource type="Script" path="res://pellet.gd" id="1_tldf2"]
+[ext_resource type="Texture2D" uid="uid://c5rmdvrgp12hi" path="res://asset/image/pelletthing.png" id="2_go5b1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wmawu"]
 
@@ -18,4 +18,4 @@ shape = SubResource("CircleShape2D_wmawu")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-4.76837e-07, -4.76837e-07)
 scale = Vector2(1.25, 1.25)
-texture = ExtResource("1_7wnso")
+texture = ExtResource("2_go5b1")

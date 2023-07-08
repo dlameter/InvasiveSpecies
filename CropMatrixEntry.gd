@@ -1,4 +1,4 @@
-class_name	CropMatrixEntry extends Node
+class_name CropMatrixEntry extends Node2D
 
 enum Stage {SEED, SPROUT, BUD, PLANT}
 
@@ -8,13 +8,12 @@ var sproutThreshold: float
 var budThreshold: float
 var plantThreshold: float
 
-func _init(Crop: CropMatrixEntry):
+func copyProperties(Crop: CropMatrixEntry):
 	growth = Crop.growth
 	stage = Crop.stage
 	sproutThreshold = Crop.sproutThreshold
 	budThreshold = Crop.budThreshold
 	plantThreshold = Crop.budThreshold
-	pass
 	
 func _randomCrop():
 	pass
