@@ -1,3 +1,3 @@
-# Godot Simple Networking
+# This Is A README
 
-A simple Godot networking system for connecting to an online server, spawning players, and updating positions.
+woooooooooooooooooo
