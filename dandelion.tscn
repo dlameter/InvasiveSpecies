@@ -1,10 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://cx1lybputlhkp"]
+[gd_scene load_steps=5 format=3 uid="uid://cx1lybputlhkp"]
 
 [ext_resource type="Script" path="res://Dandelion.gd" id="1_26hvy"]
-[ext_resource type="Texture2D" uid="uid://bahwegqy7cl63" path="res://asset/image/Dandelion.png" id="2_4xx27"]
+[ext_resource type="Texture2D" uid="uid://omuwmbplog0m" path="res://asset/image/Fantasy Crops.png" id="2_4uqpm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_oiapy"]
 radius = 3.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h238e"]
+atlas = ExtResource("2_4uqpm")
+region = Rect2(64, 80, 16, 16)
 
 [node name="Dandelion" type="Node2D"]
 script = ExtResource("1_26hvy")
@@ -17,6 +21,6 @@ collision_mask = 4294967295
 shape = SubResource("CircleShape2D_oiapy")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-2.84217e-14, -8)
-scale = Vector2(1.25, 1.25)
-texture = ExtResource("2_4xx27")
+position = Vector2(-1.69407e-21, -1)
+scale = Vector2(5, 5)
+texture = SubResource("AtlasTexture_h238e")
