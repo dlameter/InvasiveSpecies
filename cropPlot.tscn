@@ -4,6 +4,3 @@
 
 [node name="CropPlot" type="Node2D"]
 script = ExtResource("1_ttgdd")
-
-[node name="TileMap" type="TileMap" parent="."]
-format = 2
