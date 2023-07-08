@@ -1,6 +1,44 @@
-[gd_scene load_steps=2 format=3 uid="uid://bxv6u3bhx42wl"]
+[gd_scene load_steps=7 format=3 uid="uid://bxv6u3bhx42wl"]
 
 [ext_resource type="Script" path="res://crop/Crop.gd" id="1_vaikw"]
+[ext_resource type="Texture2D" uid="uid://omuwmbplog0m" path="res://asset/image/Fantasy Crops.png" id="2_qmbcd"]
+[ext_resource type="Texture2D" uid="uid://c20r44nnah8r7" path="res://asset/image/Fantasy Crops.tres" id="3_fb7m3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1frtn"]
+atlas = ExtResource("2_qmbcd")
+region = Rect2(112, 16, 16, 16)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6omw3"]
+load_path = "res://.godot/imported/Fantasy Crops.png-fe228563631712e6606b64f4801951dd.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yhps7"]
+atlas = SubResource("CompressedTexture2D_6omw3")
+region = Rect2(176, 16, 16, 16)
 
 [node name="Crop" type="Node2D"]
 script = ExtResource("1_vaikw")
+
+[node name="SeedSprite" type="Sprite2D" parent="."]
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_1frtn")
+
+[node name="SproutSprite" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(4, 4)
+texture = ExtResource("3_fb7m3")
+
+[node name="PlantSprite" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_yhps7")
+
+[node name="SproutTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="PlantTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="timeout" from="SproutTimer" to="." method="transition_to_sprout"]
+[connection signal="timeout" from="PlantTimer" to="." method="transition_to_plant"]

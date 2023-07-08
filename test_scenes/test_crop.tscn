@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://v83e52lixd3l"]
-
-[ext_resource type="PackedScene" uid="uid://cyq50pow65pdy" path="res://crop/cropPlot.tscn" id="1_dsecw"]
-
-[node name="test_crop" type="Node2D"]
-
-[node name="CropPlot" parent="." instance=ExtResource("1_dsecw")]
-position = Vector2(28, 19)
