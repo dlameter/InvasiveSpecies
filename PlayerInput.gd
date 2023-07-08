@@ -9,5 +9,5 @@ func _ready():
 
 func _process(delta):
 	mouse_pos = get_viewport().get_mouse_position()
-	direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	direction = Input.get_vector("left", "right", "up", "down")
 	firing = Input.is_action_pressed("fire")
