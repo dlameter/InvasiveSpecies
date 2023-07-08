@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://PlayerInput.gd" id="6_j08vi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mubqp"]
-size = Vector2(127, 126)
+size = Vector2(58, 68)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_eswml"]
 properties/0/path = NodePath(".:position")
@@ -42,14 +42,14 @@ properties/2/watch = false
 script = ExtResource("1_hc75s")
 
 [node name="Authority" type="ColorRect" parent="."]
-offset_left = -69.0
-offset_top = -69.0
-offset_right = 69.0
-offset_bottom = 69.0
+offset_left = -35.0
+offset_top = -38.0
+offset_right = 35.0
+offset_bottom = 40.0
 color = Color(0, 0, 0, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, 0)
+position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_mubqp")
 disabled = true
 
