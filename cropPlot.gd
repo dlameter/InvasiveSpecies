@@ -8,7 +8,7 @@ func _ready():
 	for x in range(size):
 		cropMatrix[x]=[]
 		for y in range(size):
-			cropMatrix[x][y]= CropMatrixEntry.new()
+			cropMatrix[x][y] = null
 			
 	pass # Replace with function body.
 
