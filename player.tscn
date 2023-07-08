@@ -65,11 +65,11 @@ script = ExtResource("3_gjo7p")
 bullet = ExtResource("4_hy0fw")
 
 [node name="FirePos" type="Node2D" parent="WaterGun"]
-position = Vector2(100, 0)
+position = Vector2(55.12, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="WaterGun/FirePos"]
 position = Vector2(-25, -5)
-scale = Vector2(4, 4)
+scale = Vector2(3, 3)
 texture = ExtResource("3_bo2wi")
 
 [node name="PlayerInput" type="MultiplayerSynchronizer" parent="."]
