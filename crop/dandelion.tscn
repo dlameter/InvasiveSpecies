@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cx1lybputlhkp"]
 
-[ext_resource type="Script" path="res://Dandelion.gd" id="1_26hvy"]
+[ext_resource type="Script" path="res://crop/Dandelion.gd" id="1_26hvy"]
 [ext_resource type="Texture2D" uid="uid://omuwmbplog0m" path="res://asset/image/Fantasy Crops.png" id="2_4uqpm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_oiapy"]
