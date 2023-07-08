@@ -15,6 +15,7 @@ unique_name_in_owner = true
 [node name="LevelSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://level.tscn")
 spawn_path = NodePath("../Level")
+spawn_limit = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

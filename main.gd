@@ -13,7 +13,7 @@ func _ready():
 # Server
 func _on_host_button_pressed():
 	var peer = ENetMultiplayerPeer.new()
-	peer.create_server(9999)
+	peer.create_server(9999, 1)
 	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
 		OS.alert("Failed to start multiplayer server")
 		return
