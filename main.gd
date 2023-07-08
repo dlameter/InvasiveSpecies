@@ -19,6 +19,7 @@ func _on_host_button_pressed():
 	multiplayer.peer_disconnected.connect(remove_player)
 
 	load_game()
+	add_player(multiplayer.get_unique_id())
 
 # Client
 func _on_join_button_pressed():
