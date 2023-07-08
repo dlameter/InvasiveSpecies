@@ -23,7 +23,7 @@ func _exit_tree():
 	multiplayer.peer_disconnected.disconnect(del_player)
 
 func add_player(id: int, first = false):
-	var character = preload("res://player.tscn").instantiate()
+	var character = preload("res://player/player.tscn").instantiate()
 	character.name = str(id)
 	character.player = id
 	character.spawn_location = $Players

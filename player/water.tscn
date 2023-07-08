@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://csac0aao5h5ca"]
 
-[ext_resource type="Texture2D" uid="uid://c6dsaptmilc7m" path="res://asset/image/watercan.png" id="1_7ax6f"]
-[ext_resource type="Script" path="res://water.gd" id="1_w0ef3"]
+[ext_resource type="Script" path="res://player/water.gd" id="1_enk45"]
+[ext_resource type="Texture2D" uid="uid://c6dsaptmilc7m" path="res://asset/image/watercan.png" id="2_3l8y8"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6yj6v"]
 
@@ -20,10 +20,10 @@ properties/2/sync = true
 properties/2/watch = false
 
 [node name="Water" type="CharacterBody2D"]
-script = ExtResource("1_w0ef3")
+script = ExtResource("1_enk45")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_7ax6f")
+texture = ExtResource("2_3l8y8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_6yj6v")

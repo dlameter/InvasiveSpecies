@@ -39,7 +39,7 @@ func _on_join_button_pressed():
 func start_game():
 	%Menu.hide()
 	if multiplayer.is_server():
-		change_level.call_deferred(load("res://level.tscn"))
+		change_level.call_deferred(load("res://levels/level.tscn"))
 
 func change_level(scene: PackedScene):
 	# Remove old level if any.
