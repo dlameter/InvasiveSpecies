@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://cyq50pow65pdy"]
+[gd_scene load_steps=5 format=3 uid="uid://cyq50pow65pdy"]
 
 [ext_resource type="Script" path="res://crop/cropPlot.gd" id="1_r2ox3"]
 [ext_resource type="Texture2D" uid="uid://qp275dsml5d2" path="res://asset/image/tilemap.png" id="2_k5h50"]
@@ -7,9 +7,18 @@
 atlas = ExtResource("2_k5h50")
 region = Rect2(17, 102, 16, 16)
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3pwnb"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = false
+properties/0/watch = true
+
 [node name="CropPlot" type="Node2D"]
 script = ExtResource("1_r2ox3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(4, 4)
 texture = SubResource("AtlasTexture_8b7ff")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_3pwnb")

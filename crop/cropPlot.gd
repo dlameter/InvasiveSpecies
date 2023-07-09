@@ -18,7 +18,7 @@ func set_crop(new_crop: Crop) -> Crop:
 		if crop.get_parent():
 			crop.get_parent().remove_child.call_deferred(crop)
 		
-		crop.position = Vector2()
-		add_child.call_deferred(crop, true)
+		crop.position = position
+		get_parent().add_child.call_deferred(crop, true)
 	
 	return old_crop

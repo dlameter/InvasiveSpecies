@@ -28,6 +28,10 @@ properties/2/path = NodePath("PlantSprite:visible")
 properties/2/spawn = true
 properties/2/sync = true
 properties/2/watch = false
+properties/3/path = NodePath(".:position")
+properties/3/spawn = true
+properties/3/sync = false
+properties/3/watch = true
 
 [node name="Crop" type="Node2D"]
 script = ExtResource("1_vaikw")

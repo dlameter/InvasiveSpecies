@@ -11,12 +11,12 @@
 plot_managers = [NodePath("../PlotManager1"), NodePath("../PlotManager2")]
 
 [node name="PlotManager1" parent="." instance=ExtResource("1_rkane")]
-position = Vector2(184, 45)
+position = Vector2(416, 160)
 plot_width = 4
 plot_height = 3
 
 [node name="PlotManager2" parent="." instance=ExtResource("1_rkane")]
-position = Vector2(54, 130)
+position = Vector2(32, 160)
 plot_width = 4
 plot_height = 3
 
