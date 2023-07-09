@@ -30,8 +30,6 @@ func _on_join_button_pressed():
 		return
 	
 	multiplayer.multiplayer_peer = peer
-	
-	print("joining with id ", multiplayer.get_unique_id())
 
 	multiplayer.connected_to_server.connect(start_lobby)
 	multiplayer.server_disconnected.connect(server_offline)
@@ -71,7 +69,6 @@ func call_rpc_game_end(winner_id: int):
 	game_end.rpc(winner_id)
 
 func game_end(winner_id: int):
-	print("got winner id: ", winner_id, " at client: ", multiplayer.get_unique_id())
 	%EndScreen.show()
 	%YouWon.visible = multiplayer.get_unique_id() == winner_id
 	%YouLost.visible = multiplayer.get_unique_id() != winner_id
