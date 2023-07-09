@@ -6,7 +6,8 @@ extends Node
 signal game_won(int)
 
 var crops := [
-	preload("res://crop/crop.tscn")
+	preload("res://crop/crop.tscn"),
+	preload("res://crop/dandelion_crop.tscn")
 ]
 
 var winner := -1

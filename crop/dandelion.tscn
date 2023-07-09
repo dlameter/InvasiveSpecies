@@ -1,7 +1,40 @@
-[gd_scene load_steps=8 format=3 uid="uid://c1kfnewoxfctu"]
+[gd_scene load_steps=8 format=3 uid="uid://cwqflrjp8ejeq"]
 
-[ext_resource type="Script" path="res://crop/Dandelion.gd" id="1_26hvy"]
 [ext_resource type="Texture2D" uid="uid://omuwmbplog0m" path="res://asset/image/Fantasy Crops.png" id="2_4uqpm"]
+
+[sub_resource type="GDScript" id="GDScript_pd564"]
+script/source = "# TODO: Handle Pellet Collisions
+extends CropMatrixEntry
+
+var puff = preload(\"res://crop/dandelion_puff.tscn\")
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+func _hitByPellet():
+	if stage == Stage.PLANT || true:
+		for i in range(randi() % 3 + 2):
+			var puffButActually = puff.instantiate()
+			puffButActually.velocity = Vector2(randi() % 100 - 50,randi() % 100 - 50)
+			puffButActually.lifetime = 2
+			#puffButActually.owner_id = null
+			puffButActually.position = position
+			get_parent().add_child(puffButActually)
+		wilt()
+	
+# TODO: Crop becomes inactive, but remains occupying spot
+func wilt():
+	pass
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta):
+	if Input.is_anything_pressed():
+		_hitByPellet()
+	pass
+	
+
+	
+"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8rp7r"]
 atlas = ExtResource("2_4uqpm")
@@ -37,7 +70,7 @@ properties/3/sync = false
 properties/3/watch = true
 
 [node name="Dandelion" type="Node2D"]
-script = ExtResource("1_26hvy")
+script = SubResource("GDScript_pd564")
 
 [node name="SeedSprite" type="Sprite2D" parent="."]
 scale = Vector2(4, 4)

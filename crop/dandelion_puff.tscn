@@ -1,22 +1,22 @@
-[gd_scene load_steps=4 format=3 uid="uid://dc2auoqf6r3tv"]
+[gd_scene load_steps=4 format=3 uid="uid://catdhkj0e1jjw"]
 
-[ext_resource type="Script" path="res://dandelion_puff.gd" id="1_i4n5e"]
-[ext_resource type="Texture2D" uid="uid://dm02s2woveut" path="res://asset/image/DandelionPuff.png" id="2_pkp0s"]
+[ext_resource type="Texture2D" uid="uid://dm02s2woveut" path="res://asset/image/DandelionPuff.png" id="1_uoj38"]
+[ext_resource type="Script" path="res://crop/dandelion_puff.gd" id="1_x6quo"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_4rkbc"]
-radius = 3.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_e8kam"]
+radius = 6.08276
 
 [node name="DandelionPuff" type="Node2D"]
-script = ExtResource("1_i4n5e")
+script = ExtResource("1_x6quo")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 4294967295
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_4rkbc")
+shape = SubResource("CircleShape2D_e8kam")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-2.84217e-14, -8)
+position = Vector2(-2.84217e-14, -17)
 scale = Vector2(2.5, 2.5)
-texture = ExtResource("2_pkp0s")
+texture = ExtResource("1_uoj38")

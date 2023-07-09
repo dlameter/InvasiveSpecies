@@ -34,9 +34,9 @@ func _ready():
 func _process(delta):
 	growth_time += delta
 	
-	if growth_time >= sprout_threshold:
+	if growth_time >= sprout_threshold and stage == Stage.SEED:
 		transition_to_sprout()
-	if growth_time >= plant_threshold:
+	if growth_time >= plant_threshold and stage == Stage.SPROUT:
 		transition_to_plant()
 
 func transition_to_sprout():

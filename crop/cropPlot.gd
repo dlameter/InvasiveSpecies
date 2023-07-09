@@ -13,7 +13,7 @@ func get_crop() -> Crop:
 
 func set_crop(new_crop: Crop) -> Crop:
 	var old_crop = crop
-	if old_crop:
+	if old_crop and old_crop.is_connected("fully_grown", propogate_fully_grown):
 		old_crop.disconnect("fully_grown", propogate_fully_grown)
 	
 	crop = new_crop
