@@ -14,5 +14,5 @@ crop_plot_height = 64
 [node name="CropPlots" type="Node2D" parent="."]
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://crop/cropPlot.tscn", "res://crop/crop.tscn")
+_spawnable_scenes = PackedStringArray("res://crop/cropPlot.tscn", "res://crop/dandelion_crop.tscn", "res://crop/dandelion_puff.tscn", "res://crop/crop.tscn")
 spawn_path = NodePath("../CropPlots")

@@ -1,10 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://catdhkj0e1jjw"]
+[gd_scene load_steps=5 format=3 uid="uid://catdhkj0e1jjw"]
 
 [ext_resource type="Texture2D" uid="uid://dm02s2woveut" path="res://asset/image/DandelionPuff.png" id="1_uoj38"]
 [ext_resource type="Script" path="res://crop/dandelion_puff.gd" id="1_x6quo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e8kam"]
 radius = 6.08276
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_hpudr"]
+properties/0/path = NodePath(".:velocity")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/sync = true
+properties/1/watch = false
 
 [node name="DandelionPuff" type="Node2D"]
 script = ExtResource("1_x6quo")
@@ -20,3 +30,6 @@ shape = SubResource("CircleShape2D_e8kam")
 position = Vector2(-2.84217e-14, -17)
 scale = Vector2(2.5, 2.5)
 texture = ExtResource("1_uoj38")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_hpudr")

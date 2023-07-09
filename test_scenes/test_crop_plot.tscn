@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://de0ueq7en34kc"]
 
-[ext_resource type="PackedScene" path="res://crop/PlotManager.tscn" id="1_rkane"]
-[ext_resource type="PackedScene" path="res://crop/GameManager.tscn" id="1_t7nia"]
+[ext_resource type="PackedScene" uid="uid://cecxifs2a2yat" path="res://crop/PlotManager.tscn" id="1_rkane"]
+[ext_resource type="PackedScene" uid="uid://dfoa3nqrx1ave" path="res://crop/GameManager.tscn" id="1_t7nia"]
 [ext_resource type="PackedScene" uid="uid://cyq50pow65pdy" path="res://crop/cropPlot.tscn" id="1_urvu5"]
 [ext_resource type="PackedScene" uid="uid://bxv6u3bhx42wl" path="res://crop/crop.tscn" id="2_6uk1c"]
 
