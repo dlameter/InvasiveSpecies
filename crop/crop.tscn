@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bxv6u3bhx42wl"]
+[gd_scene load_steps=8 format=3 uid="uid://cbxn8s786cujc"]
 
 [ext_resource type="Script" path="res://crop/Crop.gd" id="1_vaikw"]
 [ext_resource type="Texture2D" uid="uid://omuwmbplog0m" path="res://asset/image/Fantasy Crops.png" id="2_qmbcd"]

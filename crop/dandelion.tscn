@@ -1,26 +1,66 @@
-[gd_scene load_steps=5 format=3 uid="uid://cx1lybputlhkp"]
+[gd_scene load_steps=8 format=3 uid="uid://c1kfnewoxfctu"]
 
 [ext_resource type="Script" path="res://crop/Dandelion.gd" id="1_26hvy"]
 [ext_resource type="Texture2D" uid="uid://omuwmbplog0m" path="res://asset/image/Fantasy Crops.png" id="2_4uqpm"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_oiapy"]
-radius = 3.0
+[sub_resource type="AtlasTexture" id="AtlasTexture_8rp7r"]
+atlas = ExtResource("2_4uqpm")
+region = Rect2(0, 80, 16, 16)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6omw3"]
+load_path = "res://.godot/imported/Fantasy Crops.png-fe228563631712e6606b64f4801951dd.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kl13i"]
+atlas = SubResource("CompressedTexture2D_6omw3")
+region = Rect2(32, 80, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_h238e"]
 atlas = ExtResource("2_4uqpm")
 region = Rect2(64, 80, 16, 16)
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_h0b3i"]
+properties/0/path = NodePath("SeedSprite:visible")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+properties/1/path = NodePath("SproutSprite:visible")
+properties/1/spawn = true
+properties/1/sync = true
+properties/1/watch = false
+properties/2/path = NodePath("PlantSprite:visible")
+properties/2/spawn = true
+properties/2/sync = true
+properties/2/watch = false
+properties/3/path = NodePath(".:position")
+properties/3/spawn = true
+properties/3/sync = false
+properties/3/watch = true
+
 [node name="Dandelion" type="Node2D"]
 script = ExtResource("1_26hvy")
 
-[node name="Area2D" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 4294967295
+[node name="SeedSprite" type="Sprite2D" parent="."]
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_8rp7r")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_oiapy")
+[node name="SproutSprite" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_kl13i")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="PlantSprite" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(-1.69407e-21, -1)
 scale = Vector2(5, 5)
 texture = SubResource("AtlasTexture_h238e")
+
+[node name="SproutTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="PlantTimer" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_h0b3i")
