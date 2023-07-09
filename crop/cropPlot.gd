@@ -1,4 +1,4 @@
-extends Node2D
+class_name CropPlot extends Node2D
 
 @export var crop: Crop = null
 

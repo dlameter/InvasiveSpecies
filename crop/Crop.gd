@@ -6,7 +6,7 @@ enum Stage {
 	PLANT
 }
 
-var stage: Stage
+@export var stage: Stage
 
 @onready var seed_sprite = $SeedSprite
 @onready var sprout_sprite = $SproutSprite
@@ -17,6 +17,9 @@ var stage: Stage
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if get_multiplayer_authority() != multiplayer.get_unique_id():
+		return
+	
 	stage = Stage.SEED
 	handle_stage_visuals()
 	sprout_timer.start()

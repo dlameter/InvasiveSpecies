@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://cecxifs2a2yat"]
+
+[ext_resource type="Script" path="res://crop/PlotManager.gd" id="1_m6jk4"]
+[ext_resource type="PackedScene" uid="uid://cyq50pow65pdy" path="res://crop/cropPlot.tscn" id="2_6xrhn"]
+
+[node name="PlotManager" type="Node2D"]
+script = ExtResource("1_m6jk4")
+crop_plot_scene = ExtResource("2_6xrhn")
+plot_width = 2
+plot_height = 2
+crop_plot_width = 64
+crop_plot_height = 64
+
+[node name="CropPlots" type="Node2D" parent="."]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://crop/cropPlot.tscn", "res://crop/crop.tscn")
+spawn_path = NodePath("../CropPlots")

@@ -1,9 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://v83e52lixd3l"]
+[gd_scene load_steps=4 format=3 uid="uid://v83e52lixd3l"]
 
+[ext_resource type="PackedScene" uid="uid://cecxifs2a2yat" path="res://crop/PlotManager.tscn" id="1_rkane"]
 [ext_resource type="PackedScene" uid="uid://cyq50pow65pdy" path="res://crop/cropPlot.tscn" id="1_urvu5"]
 [ext_resource type="PackedScene" uid="uid://bxv6u3bhx42wl" path="res://crop/crop.tscn" id="2_6uk1c"]
 
 [node name="test_crop" type="Node2D"]
+
+[node name="PlotManager" parent="." instance=ExtResource("1_rkane")]
+position = Vector2(184, 45)
+plot_width = 4
+plot_height = 3
 
 [node name="CropPlot" parent="." node_paths=PackedStringArray("crop") instance=ExtResource("1_urvu5")]
 position = Vector2(62, 52)

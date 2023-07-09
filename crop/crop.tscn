@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bxv6u3bhx42wl"]
+[gd_scene load_steps=8 format=3 uid="uid://bxv6u3bhx42wl"]
 
 [ext_resource type="Script" path="res://crop/Crop.gd" id="1_vaikw"]
 [ext_resource type="Texture2D" uid="uid://omuwmbplog0m" path="res://asset/image/Fantasy Crops.png" id="2_qmbcd"]
@@ -14,6 +14,20 @@ load_path = "res://.godot/imported/Fantasy Crops.png-fe228563631712e6606b64f4801
 [sub_resource type="AtlasTexture" id="AtlasTexture_yhps7"]
 atlas = SubResource("CompressedTexture2D_6omw3")
 region = Rect2(176, 16, 16, 16)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ehhvw"]
+properties/0/path = NodePath("SeedSprite:visible")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+properties/1/path = NodePath("SproutSprite:visible")
+properties/1/spawn = true
+properties/1/sync = true
+properties/1/watch = false
+properties/2/path = NodePath("PlantSprite:visible")
+properties/2/spawn = true
+properties/2/sync = true
+properties/2/watch = false
 
 [node name="Crop" type="Node2D"]
 script = ExtResource("1_vaikw")
@@ -39,6 +53,9 @@ one_shot = true
 [node name="PlantTimer" type="Timer" parent="."]
 wait_time = 3.0
 one_shot = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_ehhvw")
 
 [connection signal="timeout" from="SproutTimer" to="." method="transition_to_sprout"]
 [connection signal="timeout" from="PlantTimer" to="." method="transition_to_plant"]
