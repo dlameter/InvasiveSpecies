@@ -8,12 +8,17 @@ func _ready():
 func get_crop() -> Crop:
 	return crop
 
-func set_crop(new_crop: Crop):
+func set_crop(new_crop: Crop) -> Crop:
 	var old_crop = crop
 	
-	if new_crop:
-		crop.global_position = global_position
-		add_child(crop, true)
-	
 	crop = new_crop
+	if new_crop:
+		
+		
+		if crop.get_parent():
+			crop.get_parent().remove_child.call_deferred(crop)
+		
+		crop.position = Vector2()
+		add_child.call_deferred(crop, true)
 	
+	return old_crop

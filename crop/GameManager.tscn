@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dfoa3nqrx1ave"]
+
+[ext_resource type="Script" path="res://crop/GameManager.gd" id="1_6tpgh"]
+
+[node name="GameManager" type="Node"]
+script = ExtResource("1_6tpgh")
+
+[node name="PlantTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="PlantTimer" to="." method="plant"]
