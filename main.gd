@@ -5,7 +5,8 @@ func _ready():
 	var upnp = UPNP.new()
 	upnp.discover()
 	var result = upnp.add_port_mapping(9999)
-	%DisplayPublicIP.text = " " + upnp.query_external_address()
+	# gets public IP of current computer, disabling for internet safety
+	# %DisplayPublicIP.text = " " + upnp.query_external_address()
 	%EndScreen.hide()
 	AutoloadState.connect("game_won_by", game_end)
 
