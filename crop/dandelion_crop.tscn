@@ -1,37 +1,37 @@
-[gd_scene load_steps=9 format=3 uid="uid://buvb8q4pkcqt2"]
+[gd_scene load_steps=9 format=3 uid="uid://olyeu2ql7yxb"]
 
 [ext_resource type="PackedScene" uid="uid://bxv6u3bhx42wl" path="res://crop/crop.tscn" id="1_3x03w"]
+[ext_resource type="Script" path="res://crop/dandelion_crop.gd" id="2_h7ag7"]
 [ext_resource type="Texture2D" uid="uid://omuwmbplog0m" path="res://asset/image/Fantasy Crops.png" id="2_nv6x6"]
-[ext_resource type="Script" path="res://crop/dandelion_crop.gd" id="2_vfsdn"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_i3bs5"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ii5cl"]
 atlas = ExtResource("2_nv6x6")
 region = Rect2(0, 80, 16, 16)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6omw3"]
 load_path = "res://.godot/imported/Fantasy Crops.png-fe228563631712e6606b64f4801951dd.ctex"
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bkueu"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_w7gur"]
 atlas = SubResource("CompressedTexture2D_6omw3")
 region = Rect2(32, 80, 16, 16)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_nab8m"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2xguc"]
 load_path = "res://.godot/imported/Fantasy Crops.png-fe228563631712e6606b64f4801951dd.ctex"
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vh5ef"]
-atlas = SubResource("CompressedTexture2D_nab8m")
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ny36"]
+atlas = SubResource("CompressedTexture2D_2xguc")
 region = Rect2(64, 80, 16, 16)
 
-[node name="DandelionCrop" instance=ExtResource("1_3x03w")]
-script = ExtResource("2_vfsdn")
+[node name="Crop" instance=ExtResource("1_3x03w")]
+script = ExtResource("2_h7ag7")
 
 [node name="SeedSprite" parent="." index="0"]
-texture = SubResource("AtlasTexture_i3bs5")
+texture = SubResource("AtlasTexture_ii5cl")
 
 [node name="SproutSprite" parent="." index="1"]
-texture = SubResource("AtlasTexture_bkueu")
+texture = SubResource("AtlasTexture_w7gur")
 
 [node name="PlantSprite" parent="." index="2"]
-texture = SubResource("AtlasTexture_vh5ef")
+texture = SubResource("AtlasTexture_6ny36")
 
 [connection signal="fully_grown" from="." to="." method="dandyBurst"]

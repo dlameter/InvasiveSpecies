@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://dgck1ncw45oby"]
 
 [ext_resource type="Script" path="res://levels/Level.gd" id="1_ipytw"]
-[ext_resource type="PackedScene" path="res://crop/GameManager.tscn" id="2_6oyo2"]
+[ext_resource type="PackedScene" uid="uid://dfoa3nqrx1ave" path="res://crop/GameManager.tscn" id="2_6oyo2"]
 [ext_resource type="Texture2D" uid="uid://qp275dsml5d2" path="res://asset/image/tilemap.png" id="2_tjnwm"]
 [ext_resource type="Texture2D" uid="uid://cndmxi72hkvsk" path="res://asset/image/dirttile.png" id="3_7bi3x"]
 [ext_resource type="PackedScene" uid="uid://cecxifs2a2yat" path="res://crop/PlotManager.tscn" id="5_x7nig"]

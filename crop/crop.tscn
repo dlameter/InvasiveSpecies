@@ -8,11 +8,11 @@
 atlas = ExtResource("2_qmbcd")
 region = Rect2(112, 16, 16, 16)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6omw3"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2xguc"]
 load_path = "res://.godot/imported/Fantasy Crops.png-fe228563631712e6606b64f4801951dd.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yhps7"]
-atlas = SubResource("CompressedTexture2D_6omw3")
+atlas = SubResource("CompressedTexture2D_2xguc")
 region = Rect2(176, 16, 16, 16)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ehhvw"]
