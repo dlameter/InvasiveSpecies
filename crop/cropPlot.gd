@@ -29,5 +29,13 @@ func set_crop(new_crop: Crop) -> Crop:
 	
 	return old_crop
 
+func set_if_empty(new_crop: Crop) -> bool:
+	if not crop:
+		var old_crop = set_crop(new_crop)
+		if old_crop:
+			old_crop.queue_free()
+		return true
+	return false
+
 func propogate_fully_grown(_crop: Crop):
 	emit_signal("crop_fully_grown", self)

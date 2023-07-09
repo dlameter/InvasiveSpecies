@@ -70,7 +70,7 @@ func set_random_free_plot(crop: Crop) -> bool:
 	
 	var crop_plot = free_plots.keys().pick_random()
 	free_plots.erase(crop_plot)
-	crop_plot.set_crop(crop)
+	crop_plot.set_if_empty(crop)
 	
 	return true
 
