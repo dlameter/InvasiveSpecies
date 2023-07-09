@@ -7,8 +7,7 @@
 
 [node name="test_crop" type="Node2D"]
 
-[node name="GameManager" parent="." node_paths=PackedStringArray("plot_managers") instance=ExtResource("1_t7nia")]
-plot_managers = [NodePath("../PlotManager1"), NodePath("../PlotManager2")]
+[node name="GameManager" parent="." instance=ExtResource("1_t7nia")]
 
 [node name="PlotManager1" parent="." instance=ExtResource("1_rkane")]
 position = Vector2(416, 160)

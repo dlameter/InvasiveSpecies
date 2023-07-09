@@ -37,3 +37,6 @@ func del_player(id: int):
 	if not $Players.has_node(str(id)):
 		return
 	$Players.get_node(str(id)).queue_free()
+
+func print_winner(winner: int):
+	print("winner was: ", winner)

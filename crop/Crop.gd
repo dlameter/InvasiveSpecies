@@ -8,6 +8,8 @@ enum Stage {
 
 @export var stage: Stage
 
+signal fully_grown(Crop)
+
 @onready var seed_sprite = $SeedSprite
 @onready var sprout_sprite = $SproutSprite
 @onready var plant_sprite = $PlantSprite 
@@ -32,6 +34,7 @@ func transition_to_sprout():
 func transition_to_plant():
 	stage = Stage.PLANT
 	handle_stage_visuals()
+	emit_signal("fully_grown", self)
 
 func handle_stage_visuals():
 	seed_sprite.visible = stage == Stage.SEED
