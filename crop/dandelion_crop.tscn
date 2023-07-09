@@ -1,0 +1,37 @@
+[gd_scene load_steps=9 format=3 uid="uid://b0ga8mibrlugv"]
+
+[ext_resource type="PackedScene" uid="uid://bxv6u3bhx42wl" path="res://crop/crop.tscn" id="1_e16o6"]
+[ext_resource type="Script" path="res://crop/dandelion_crop.gd" id="2_ci8sp"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_te2i1"]
+load_path = "res://.godot/imported/Fantasy Crops.png-fe228563631712e6606b64f4801951dd.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bt84y"]
+atlas = SubResource("CompressedTexture2D_te2i1")
+region = Rect2(0, 80, 16, 16)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_lawne"]
+load_path = "res://.godot/imported/Fantasy Crops.png-fe228563631712e6606b64f4801951dd.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_glrkv"]
+atlas = SubResource("CompressedTexture2D_lawne")
+region = Rect2(32, 80, 16, 16)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_u5guj"]
+load_path = "res://.godot/imported/Fantasy Crops.png-fe228563631712e6606b64f4801951dd.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1schg"]
+atlas = SubResource("CompressedTexture2D_u5guj")
+region = Rect2(64, 80, 16, 16)
+
+[node name="DandelionCrop" instance=ExtResource("1_e16o6")]
+script = ExtResource("2_ci8sp")
+
+[node name="SeedSprite" parent="." index="0"]
+texture = SubResource("AtlasTexture_bt84y")
+
+[node name="SproutSprite" parent="." index="1"]
+texture = SubResource("AtlasTexture_glrkv")
+
+[node name="PlantSprite" parent="." index="2"]
+texture = SubResource("AtlasTexture_1schg")

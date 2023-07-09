@@ -5,7 +5,7 @@ extends Node2D
 @export var lifetime = 10 # life expectancy of the pellet, used with delta
 var timelife = 0
 
-@onready var plant = preload("res://crop/dandelion_not_crop.tscn")
+@onready var plant = preload("res://crop/dandelion_crop.tscn")
 
 func _ready():
 	#set collision mask to ignore owner
