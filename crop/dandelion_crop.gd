@@ -19,5 +19,6 @@ func dandyBurst(_unused):
 func _ready():
 	sprout_delay = 5
 	plant_delay = 5
+	connect("fully_grown", dandyBurst)
 	super._ready()
 

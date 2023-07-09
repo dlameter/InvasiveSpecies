@@ -7,7 +7,7 @@ signal game_won(int)
 
 var crops := [
 	preload("res://crop/crop.tscn"),
-	preload("res://crop/dandelion_crop.tscn")
+	preload("res://crop/dandelion_not_crop.tscn")
 ]
 
 var winner := -1
