@@ -49,7 +49,6 @@ func _ready():
 	current_water = 0
 	$WaterBar.max_value = MAX_WATER
 	$DigBar.max_value = dig_threshold
-	$Authority.visible = input.is_multiplayer_authority()
 	if input.is_multiplayer_authority():
 		$Camera2D.make_current()
 
