@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://csac0aao5h5ca"]
 
 [ext_resource type="Script" path="res://player/water.gd" id="1_enk45"]
-[ext_resource type="Texture2D" uid="uid://c6dsaptmilc7m" path="res://asset/image/watercan.png" id="2_3l8y8"]
+[ext_resource type="Texture2D" uid="uid://b7fcjh1romn4p" path="res://asset/image/water-drop-4.png" id="2_e7dbd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6yj6v"]
 
@@ -20,15 +20,19 @@ properties/2/sync = true
 properties/2/watch = false
 
 [node name="Water" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 4294967295
 script = ExtResource("1_enk45")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_3l8y8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_6yj6v")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(3, 3)
+texture = ExtResource("2_e7dbd")
+
 [node name="DeathTimer" type="Timer" parent="."]
+wait_time = 0.25
 one_shot = true
 autostart = true
 

@@ -19,10 +19,15 @@ const SPEED = 350
 var delay = 0
 var threshold = 0.05
 
+@export var current_water = 0
+var water_threshold = 20
+const MAX_WATER = 25
+
 func _ready():
 	$Authority.visible = input.is_multiplayer_authority()
 	if input.is_multiplayer_authority():
 		$Camera2D.make_current()
+
 
 func _physics_process(delta):
 	if input.mouse_pos:
@@ -33,12 +38,16 @@ func _physics_process(delta):
 		delay += delta
 		if delay >= threshold:
 			delay = 0
-			$WaterGun.fire()
+			$WaterGun.fire(self)
 	else:
 		delay = threshold
 
 	if input.direction:
-		velocity = input.direction * SPEED
+		var speed_modifier = SPEED
+		if current_water >= water_threshold:
+			speed_modifier = speed_modifier * 0.33
+		
+		velocity = input.direction * speed_modifier
 	else:
 		velocity = Vector2()
 	
@@ -56,11 +65,19 @@ func _physics_process(delta):
 		for collision in collisions:
 			if collision.collider and collision.collider is CropPlot:
 				clear_crop_plot.rpc_id(1, collision.collider)
-
+	
+	if current_water > MAX_WATER:
+		current_water = MAX_WATER
+	current_water -= delta
 	move_and_slide()
+
 
 @rpc("call_local")
 func clear_crop_plot(crop_plot: CropPlot):
-	var crop = crop_plot.set_crop(null) 
+	var crop = crop_plot.set_crop(null)
 	if crop:
 		crop.queue_free()
+
+
+func get_watered():
+	current_water += 1

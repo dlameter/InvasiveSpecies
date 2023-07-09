@@ -1,9 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://dmqs76oj7hyhh"]
+[gd_scene load_steps=9 format=3 uid="uid://dmqs76oj7hyhh"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_d25k8"]
 [ext_resource type="Texture2D" uid="uid://pneel2kxfa8y" path="res://asset/image/character_0002.png" id="2_ommnd"]
 [ext_resource type="Script" path="res://player/WaterGun.gd" id="3_twiyx"]
-[ext_resource type="PackedScene" uid="uid://csac0aao5h5ca" path="res://player/water.tscn" id="4_8n2o7"]
 [ext_resource type="Texture2D" uid="uid://c6dsaptmilc7m" path="res://asset/image/watercan.png" id="5_xigby"]
 [ext_resource type="Script" path="res://player/PlayerInput.gd" id="6_5smtc"]
 
@@ -23,6 +22,10 @@ properties/2/path = NodePath(".:player")
 properties/2/spawn = true
 properties/2/sync = true
 properties/2/watch = false
+properties/3/path = NodePath(".:current_water")
+properties/3/spawn = true
+properties/3/sync = true
+properties/3/watch = false
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_y881q"]
 properties/0/path = NodePath("PlayerInput:direction")
@@ -67,7 +70,6 @@ replication_config = SubResource("SceneReplicationConfig_eswml")
 
 [node name="WaterGun" type="Node2D" parent="."]
 script = ExtResource("3_twiyx")
-bullet = ExtResource("4_8n2o7")
 
 [node name="FirePos" type="Node2D" parent="WaterGun"]
 position = Vector2(55.12, 0)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dgck1ncw45oby"]
+[gd_scene load_steps=10 format=3 uid="uid://dgck1ncw45oby"]
 
 [ext_resource type="Script" path="res://levels/Level.gd" id="1_ipytw"]
 [ext_resource type="PackedScene" uid="uid://dfoa3nqrx1ave" path="res://crop/GameManager.tscn" id="2_6oyo2"]
@@ -422,6 +422,12 @@ physics_layer_0/collision_mask = 3
 sources/0 = SubResource("TileSetAtlasSource_wncbw")
 sources/1 = SubResource("TileSetAtlasSource_ipevo")
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_nv1ml"]
+properties/0/path = NodePath(".:winner")
+properties/0/spawn = true
+properties/0/sync = false
+properties/0/watch = true
+
 [node name="Level" type="Node2D"]
 script = ExtResource("1_ipytw")
 
@@ -475,5 +481,8 @@ unique_name_in_owner = true
 position = Vector2(248.25, 104.5)
 
 [node name="Players" type="Node2D" parent="."]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_nv1ml")
 
 [connection signal="game_won" from="GameManager" to="." method="print_winner"]
