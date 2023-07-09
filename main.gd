@@ -1,8 +1,5 @@
 extends Node
 
-@export var player : PackedScene
-@export var map : PackedScene
-
 # Port mapping for online multiplayer
 func _ready():
 	var upnp = UPNP.new()
@@ -21,7 +18,7 @@ func _on_host_button_pressed():
 		return
 	
 	multiplayer.multiplayer_peer = peer
-	start_game()
+	start_lobby()
 
 # Client
 func _on_join_button_pressed():
@@ -35,12 +32,27 @@ func _on_join_button_pressed():
 	
 	print("joining with id ", multiplayer.get_unique_id())
 
-	multiplayer.connected_to_server.connect(start_game)
+	multiplayer.connected_to_server.connect(start_lobby)
 	multiplayer.server_disconnected.connect(server_offline)
+
+func start_lobby():
+	%Menu.hide()
+	%EndScreen.hide()
+	if multiplayer.is_server():
+		AutoloadState.connect("lobby_full", start_game)
+		AutoloadState.connect("close_server", disconnect_multiplayer)
+		change_level.call_deferred(load("res://lobby.tscn"))
 
 func start_game():
 	%Menu.hide()
 	%EndScreen.hide()
+	
+	if AutoloadState.is_connected("lobby_full", start_game):
+		AutoloadState.disconnect("lobby_full", start_game)
+	
+	if AutoloadState.is_connected("close_server", disconnect_multiplayer):
+		AutoloadState.disconnect("close_server", disconnect_multiplayer)
+	
 	if multiplayer.is_server():
 		change_level.call_deferred(load("res://levels/level.tscn"))
 
