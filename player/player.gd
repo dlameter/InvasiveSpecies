@@ -72,13 +72,12 @@ func _physics_process(delta):
 		
 		input.clear_dig.rpc()
 		
-		if is_multiplayer_authority():
-			var collisions = get_world_2d().direct_space_state.intersect_point(point_query_params)
-			for collision in collisions:
-				if collision.collider and collision.collider is CropPlot:
-					var crop = collision.collider.set_crop(null)
-					if crop:
-						crop.queue_free()
+		var collisions = get_world_2d().direct_space_state.intersect_point(point_query_params)
+		for collision in collisions:
+			if collision.collider and collision.collider is CropPlot:
+				var crop = collision.collider.set_crop(null)
+				if crop:
+					crop.queue_free()
 	
 	current_water = clampf(current_water, 0.0, MAX_WATER)
 	if current_water > 0:

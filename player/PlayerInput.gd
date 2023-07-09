@@ -17,4 +17,5 @@ func _process(_delta):
 
 @rpc("any_peer", "call_local", "reliable")
 func clear_dig():
-	dig_pos = Vector2.ZERO
+	if multiplayer.get_remote_sender_id() == 1:
+		dig_pos = Vector2.ZERO
