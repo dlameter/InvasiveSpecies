@@ -55,14 +55,12 @@ func _physics_process(delta):
 		var collisions = get_world_2d().direct_space_state.intersect_point(point_query_params)
 		for collision in collisions:
 			if collision.collider and collision.collider is CropPlot:
-				print(collision)
 				clear_crop_plot.rpc_id(1, collision.collider)
 
 	move_and_slide()
 
 @rpc("call_local")
 func clear_crop_plot(crop_plot: CropPlot):
-	print("rpc called")
 	var crop = crop_plot.set_crop(null) 
 	if crop:
 		crop.queue_free()
