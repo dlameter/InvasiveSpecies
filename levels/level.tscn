@@ -424,7 +424,7 @@ sources/1 = SubResource("TileSetAtlasSource_ipevo")
 script = ExtResource("1_ipytw")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://player.tscn", "res://water.tscn")
+_spawnable_scenes = PackedStringArray("res://player/player.tscn", "res://player/water.tscn")
 spawn_path = NodePath("../Players")
 
 [node name="TileMap" type="TileMap" parent="."]

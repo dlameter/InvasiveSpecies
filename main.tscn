@@ -25,7 +25,7 @@ map = SubResource("PackedScene_pknxe")
 unique_name_in_owner = true
 
 [node name="LevelSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://level.tscn")
+_spawnable_scenes = PackedStringArray("res://levels/level.tscn")
 spawn_path = NodePath("../Level")
 spawn_limit = 1
 
