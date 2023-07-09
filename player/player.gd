@@ -19,7 +19,9 @@ const SPEED = 350
 var delay = 0
 var threshold = 0.05
 
-@export var dig_delay = 3 :
+
+var dig_threshold = 6
+@export var dig_delay = dig_threshold :
 	set(value):
 		dig_delay = value
 		if dig_delay < dig_threshold:
@@ -28,8 +30,6 @@ var threshold = 0.05
 			$DigBar.hide()
 		
 		$DigBar.value = dig_delay
-
-var dig_threshold = 3
 
 @export var current_water := 0.0 :
 	set(value):
