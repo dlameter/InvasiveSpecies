@@ -426,7 +426,7 @@ sources/1 = SubResource("TileSetAtlasSource_ipevo")
 script = ExtResource("1_ipytw")
 
 [node name="GameManager" parent="." node_paths=PackedStringArray("plot_managers") instance=ExtResource("2_6oyo2")]
-plot_managers = [NodePath("../TileMap/PlotManager1")]
+plot_managers = [NodePath("../TileMap/PlotManager1"), NodePath("../TileMap/PlotManager2")]
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://player/player.tscn", "res://player/water.tscn")
@@ -455,6 +455,12 @@ layer_2/tile_data = PackedInt32Array(65536, 524288, 1, 131072, 524288, 1, 196608
 
 [node name="PlotManager1" parent="TileMap" instance=ExtResource("5_x7nig")]
 position = Vector2(56, 56)
+scale = Vector2(0.25, 0.25)
+plot_width = 4
+plot_height = 7
+
+[node name="PlotManager2" parent="TileMap" instance=ExtResource("5_x7nig")]
+position = Vector2(184, 56)
 scale = Vector2(0.25, 0.25)
 plot_width = 4
 plot_height = 7
