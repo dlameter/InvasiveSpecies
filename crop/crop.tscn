@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cbxn8s786cujc"]
+[gd_scene load_steps=9 format=3 uid="uid://bxv6u3bhx42wl"]
 
 [ext_resource type="Script" path="res://crop/Crop.gd" id="1_vaikw"]
 [ext_resource type="Texture2D" uid="uid://omuwmbplog0m" path="res://asset/image/Fantasy Crops.png" id="2_qmbcd"]
@@ -32,8 +32,15 @@ properties/3/path = NodePath(".:position")
 properties/3/spawn = true
 properties/3/sync = false
 properties/3/watch = true
+properties/4/path = NodePath(".:growth_time")
+properties/4/spawn = true
+properties/4/sync = true
+properties/4/watch = false
 
-[node name="Crop" type="Node2D"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_jrtwy"]
+radius = 17.0
+
+[node name="Crop" type="StaticBody2D"]
 script = ExtResource("1_vaikw")
 
 [node name="SeedSprite" type="Sprite2D" parent="."]
@@ -50,16 +57,8 @@ visible = false
 scale = Vector2(4, 4)
 texture = SubResource("AtlasTexture_yhps7")
 
-[node name="SproutTimer" type="Timer" parent="."]
-wait_time = 2.0
-one_shot = true
-
-[node name="PlantTimer" type="Timer" parent="."]
-wait_time = 3.0
-one_shot = true
-
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_ehhvw")
 
-[connection signal="timeout" from="SproutTimer" to="." method="transition_to_sprout"]
-[connection signal="timeout" from="PlantTimer" to="." method="transition_to_plant"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_jrtwy")
