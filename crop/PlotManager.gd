@@ -16,7 +16,7 @@ var free_plots: Dictionary
 var finished_plots: Dictionary
 
 func _ready():
-	if not is_multiplayer_authority():
+	if not multiplayer.is_server():
 		return
 	
 	all_plots = {}

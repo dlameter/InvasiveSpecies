@@ -15,7 +15,7 @@ func _ready():
 func set_direction(new_dir: float):
 	velocity = Vector2.from_angle(new_dir) * SPEED
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	move_and_slide()
 
 func die():

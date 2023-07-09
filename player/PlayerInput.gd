@@ -7,7 +7,7 @@ extends MultiplayerSynchronizer
 func _ready():
 	set_process(get_multiplayer_authority() == multiplayer.get_unique_id())
 
-func _process(delta):
+func _process(_delta):
 	mouse_pos = get_parent().get_global_mouse_position()
 	direction = Input.get_vector("left", "right", "up", "down")
 	firing = Input.is_action_pressed("fire")
