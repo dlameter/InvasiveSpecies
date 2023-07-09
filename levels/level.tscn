@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://dgck1ncw45oby"]
+[gd_scene load_steps=11 format=3 uid="uid://dgck1ncw45oby"]
 
 [ext_resource type="Script" path="res://levels/Level.gd" id="1_ipytw"]
-[ext_resource type="PackedScene" uid="uid://dfoa3nqrx1ave" path="res://crop/GameManager.tscn" id="2_6oyo2"]
+[ext_resource type="PackedScene" path="res://crop/GameManager.tscn" id="2_6oyo2"]
 [ext_resource type="Texture2D" uid="uid://qp275dsml5d2" path="res://asset/image/tilemap.png" id="2_tjnwm"]
 [ext_resource type="Texture2D" uid="uid://cndmxi72hkvsk" path="res://asset/image/dirttile.png" id="3_7bi3x"]
 [ext_resource type="PackedScene" uid="uid://cecxifs2a2yat" path="res://crop/PlotManager.tscn" id="5_x7nig"]
+[ext_resource type="AudioStream" uid="uid://df3ufdl1qs2tq" path="res://levels/happy-funny-kids.mp3" id="6_1s70t"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wncbw"]
 texture = ExtResource("2_tjnwm")
@@ -484,5 +485,10 @@ position = Vector2(248.25, 104.5)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_nv1ml")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_1s70t")
+volume_db = -31.856
+autoplay = true
 
 [connection signal="game_won" from="GameManager" to="." method="print_winner"]

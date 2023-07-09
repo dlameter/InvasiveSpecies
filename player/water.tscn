@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://csac0aao5h5ca"]
+[gd_scene load_steps=6 format=3 uid="uid://csac0aao5h5ca"]
 
 [ext_resource type="Script" path="res://player/water.gd" id="1_enk45"]
 [ext_resource type="Texture2D" uid="uid://b7fcjh1romn4p" path="res://asset/image/water-drop-4.png" id="2_e7dbd"]
+[ext_resource type="AudioStream" uid="uid://ddjr5c7rrtvb5" path="res://player/water_drop.mp3" id="3_gaycd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6yj6v"]
 
@@ -38,5 +39,10 @@ autostart = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_mncnt")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_gaycd")
+volume_db = -20.613
+autoplay = true
 
 [connection signal="timeout" from="DeathTimer" to="." method="die"]
