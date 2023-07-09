@@ -21,9 +21,8 @@ AutoloadState="*res://levels/autoload_state.gd"
 
 [display]
 
-window/size/viewport_width=768
-window/size/viewport_height=432
-window/size/resizable=false
+window/size/viewport_width=800
+window/size/viewport_height=600
 
 [input]
 
@@ -65,3 +64,4 @@ dig={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+environment/defaults/default_clear_color=Color(0.121569, 0.298039, 0.443137, 1)
