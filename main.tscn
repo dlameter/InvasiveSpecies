@@ -42,6 +42,13 @@ layout_mode = 2
 text = "You lost..."
 horizontal_alignment = 1
 
+[node name="TimeLabel" type="Label" parent="CanvasLayer/EndScreen/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "
+Disconnecting in
+6 seconds..."
+horizontal_alignment = 1
+
 [node name="Menu" type="PanelContainer" parent="CanvasLayer"]
 unique_name_in_owner = true
 anchors_preset = 8
@@ -75,6 +82,10 @@ text = "Host"
 
 [node name="Label" type="Label" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="ToLabel" type="Label" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Enter Server IP"
 
 [node name="To" type="LineEdit" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
