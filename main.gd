@@ -62,6 +62,12 @@ func game_end(winner_id: int):
 	%EndScreen.show()
 	%YouWon.visible = multiplayer.get_unique_id() == winner_id
 	%YouLost.visible = multiplayer.get_unique_id() != winner_id
+	$DisconnectTimer.start()
+
+func disconnect_multiplayer():
+	if multiplayer.multiplayer_peer.get_connection_status() != MultiplayerPeer.CONNECTION_DISCONNECTED:
+		multiplayer.multiplayer_peer.close()
+	server_offline()
 
 func server_offline():
 	%Menu.show()
