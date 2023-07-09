@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dmqs76oj7hyhh"]
+[gd_scene load_steps=11 format=3 uid="uid://dmqs76oj7hyhh"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_d25k8"]
 [ext_resource type="Texture2D" uid="uid://pneel2kxfa8y" path="res://asset/image/character_0002.png" id="2_ommnd"]
@@ -45,6 +45,22 @@ properties/3/spawn = true
 properties/3/sync = true
 properties/3/watch = false
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c3h5g"]
+bg_color = Color(0, 0.12549, 0.258824, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a1hwm"]
+bg_color = Color(0.360784, 0.658824, 0.862745, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+anti_aliasing = false
+
 [node name="Player" type="CharacterBody2D"]
 collision_mask = 2
 script = ExtResource("1_d25k8")
@@ -85,3 +101,20 @@ script = ExtResource("6_5smtc")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 scale = Vector2(1, 1.02446)
+
+[node name="WaterBar" type="ProgressBar" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = 23.0
+offset_right = 30.0
+offset_bottom = 35.0001
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_c3h5g")
+theme_override_styles/fill = SubResource("StyleBoxFlat_a1hwm")
+value = 60.0
+show_percentage = false
