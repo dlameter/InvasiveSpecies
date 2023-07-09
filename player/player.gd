@@ -70,25 +70,21 @@ func _physics_process(delta):
 		point_query_params.collide_with_areas = true
 		point_query_params.collide_with_bodies = false
 		
-		input.dig_pos = Vector2.ZERO
+		input.clear_dig.rpc()
 		
-		var collisions = get_world_2d().direct_space_state.intersect_point(point_query_params)
-		for collision in collisions:
-			if collision.collider and collision.collider is CropPlot:
-				clear_crop_plot.rpc_id(1, collision.collider)
+		if is_multiplayer_authority():
+			var collisions = get_world_2d().direct_space_state.intersect_point(point_query_params)
+			for collision in collisions:
+				if collision.collider and collision.collider is CropPlot:
+					var crop = collision.collider.set_crop(null)
+					if crop:
+						crop.queue_free()
 	
 	current_water = clampf(current_water, 0.0, MAX_WATER)
 	if current_water > 0:
 		current_water -= delta
 	
 	move_and_slide()
-
-
-@rpc("call_local")
-func clear_crop_plot(crop_plot: CropPlot):
-	var crop = crop_plot.set_crop(null)
-	if crop:
-		crop.queue_free()
 
 
 func get_watered():
