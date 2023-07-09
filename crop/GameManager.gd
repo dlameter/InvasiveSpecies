@@ -17,9 +17,9 @@ func _ready():
 	
 	$PlantTimer.start()
 	if player1_plot_manager:
-		player1_plot_manager.connect("plot_filled", declare_winner.bind(1))
+		player1_plot_manager.connect("plot_filled", declare_winner.bind(2))
 	if player2_plot_manager:
-		player2_plot_manager.connect("plot_filled", declare_winner.bind(2))
+		player2_plot_manager.connect("plot_filled", declare_winner.bind(1))
 
 func plant():
 	var crop_template = crops.pick_random()

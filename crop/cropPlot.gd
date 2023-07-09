@@ -1,8 +1,9 @@
-class_name CropPlot extends Node2D
+class_name CropPlot extends Area2D
 
 @export var crop: Crop = null
 
 signal crop_fully_grown(CropPlot)
+signal crop_set(Crop) # used to tell when players set crops
 
 func _ready():
 	set_crop(crop)
@@ -23,6 +24,8 @@ func set_crop(new_crop: Crop) -> Crop:
 		crop.position = position
 		get_parent().add_child.call_deferred(crop, true)
 		crop.connect("fully_grown", propogate_fully_grown)
+	
+	emit_signal("crop_set", self)
 	
 	return old_crop
 

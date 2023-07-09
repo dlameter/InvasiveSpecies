@@ -33,7 +33,8 @@ func _ready():
 		crop_plots.append(new_crop_plot)
 		all_plots[new_crop_plot] = true
 		free_plots[new_crop_plot] = true
-		new_crop_plot.connect("crop_fully_grown", register_finished_crop_plot)
+		new_crop_plot.connect("crop_fully_grown", handle_finished_crop_plot)
+		new_crop_plot.connect("crop_set", handle_crop_set)
 		
 		crop_plot_destination.add_child(new_crop_plot, true)
 		
@@ -78,10 +79,18 @@ func random_plot() -> CropPlot:
 	return crop_plots[randi_range(0, (plot_width * plot_height) - 1)]
 
 
-func register_finished_crop_plot(crop_plot: CropPlot):
+func handle_finished_crop_plot(crop_plot: CropPlot):
 	finished_plots[crop_plot] = true
 	if finished_plots.size() == all_plots.size():
 		emit_signal("plot_filled")
+
+
+func handle_crop_set(crop_plot: CropPlot):
+	finished_plots.erase(crop_plot)
+	if crop_plot.get_crop():
+		free_plots.erase(crop_plots)
+	else:
+		free_plots[crop_plot] = true
 
 
 func _to_plot_index(x: int, y: int) -> int:
