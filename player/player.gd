@@ -19,6 +19,18 @@ const SPEED = 350
 var delay = 0
 var threshold = 0.05
 
+@export var dig_delay = 3 :
+	set(value):
+		dig_delay = value
+		if dig_delay < dig_threshold:
+			$DigBar.show()
+		else:
+			$DigBar.hide()
+		
+		$DigBar.value = dig_delay
+
+var dig_threshold = 3
+
 @export var current_water := 0.0 :
 	set(value):
 		current_water = value
@@ -33,8 +45,10 @@ var water_threshold := 6.0
 const MAX_WATER := 10.0
 
 func _ready():
+	dig_delay = dig_threshold
 	current_water = 0
 	$WaterBar.max_value = MAX_WATER
+	$DigBar.max_value = dig_threshold
 	$Authority.visible = input.is_multiplayer_authority()
 	if input.is_multiplayer_authority():
 		$Camera2D.make_current()
@@ -63,6 +77,7 @@ func _physics_process(delta):
 		velocity = Vector2()
 	
 	# TODO: probably need a limit on distance :)
+	dig_delay += delta
 	if input.dig_pos != Vector2.ZERO and is_multiplayer_authority():
 		var point_query_params := PhysicsPointQueryParameters2D.new()
 		point_query_params.collision_mask = dig_collision_mask
@@ -72,12 +87,14 @@ func _physics_process(delta):
 		
 		input.clear_dig.rpc()
 		
-		var collisions = get_world_2d().direct_space_state.intersect_point(point_query_params)
-		for collision in collisions:
-			if collision.collider and collision.collider is CropPlot:
-				var crop = collision.collider.set_crop(null)
-				if crop:
-					crop.queue_free()
+		if dig_delay > dig_threshold:
+			var collisions = get_world_2d().direct_space_state.intersect_point(point_query_params)
+			for collision in collisions:
+				if collision.collider and collision.collider is CropPlot:
+					var crop = collision.collider.set_crop(null)
+					if crop:
+						crop.queue_free()
+						dig_delay = 0
 	
 	current_water = clampf(current_water, 0.0, MAX_WATER)
 	if current_water > 0:

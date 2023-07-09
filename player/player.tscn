@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dmqs76oj7hyhh"]
+[gd_scene load_steps=13 format=3 uid="uid://dmqs76oj7hyhh"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_d25k8"]
 [ext_resource type="Texture2D" uid="uid://pneel2kxfa8y" path="res://asset/image/character_0002.png" id="2_ommnd"]
@@ -26,6 +26,10 @@ properties/3/path = NodePath(".:current_water")
 properties/3/spawn = true
 properties/3/sync = true
 properties/3/watch = false
+properties/4/path = NodePath(".:dig_delay")
+properties/4/spawn = true
+properties/4/sync = true
+properties/4/watch = false
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_y881q"]
 properties/0/path = NodePath("PlayerInput:direction")
@@ -44,6 +48,22 @@ properties/3/path = NodePath("PlayerInput:dig_pos")
 properties/3/spawn = true
 properties/3/sync = true
 properties/3/watch = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y0nvs"]
+bg_color = Color(0.203922, 0.101961, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jtc7y"]
+bg_color = Color(0.407843, 0.231373, 0.0980392, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c3h5g"]
 bg_color = Color(0, 0.12549, 0.258824, 1)
@@ -101,6 +121,23 @@ script = ExtResource("6_5smtc")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 scale = Vector2(1, 1.02446)
+
+[node name="DigBar" type="ProgressBar" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = 10.0
+offset_right = 30.0
+offset_bottom = 22.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_y0nvs")
+theme_override_styles/fill = SubResource("StyleBoxFlat_jtc7y")
+value = 60.0
+show_percentage = false
 
 [node name="WaterBar" type="ProgressBar" parent="."]
 anchors_preset = 8
