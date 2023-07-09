@@ -20,9 +20,6 @@ signal fully_grown(Crop)
 @onready var sprout_sprite = $SproutSprite
 @onready var plant_sprite = $PlantSprite 
 
-@onready var sprout_timer = $SproutTimer
-@onready var plant_timer = $PlantTimer
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	sprout_threshold = sprout_delay
