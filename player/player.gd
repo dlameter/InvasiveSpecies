@@ -54,6 +54,9 @@ func _ready():
 
 
 func _physics_process(delta):
+	if multiplayer.multiplayer_peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
+		return
+	
 	if input.mouse_pos:
 		$WaterGun.look_at(input.mouse_pos)
 	

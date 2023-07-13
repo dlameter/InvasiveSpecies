@@ -29,7 +29,7 @@ func _ready():
 
 
 func _exit_tree():
-	if not multiplayer.is_server():
+	if multiplayer.multiplayer_peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED or not multiplayer.is_server():
 		return
 	multiplayer.peer_connected.disconnect(add_player)
 	multiplayer.peer_disconnected.disconnect(del_player)

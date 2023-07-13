@@ -1,10 +1,16 @@
 extends Node
 
+const PORT = 9999
+
 # Port mapping for online multiplayer
 func _ready():
 	var upnp = UPNP.new()
 	upnp.discover()
-	var result = upnp.add_port_mapping(9999)
+	
+	var result = upnp.add_port_mapping(PORT)
+	if result != UPNP.UPNP_RESULT_SUCCESS:
+		print("Failed to expose port ", PORT, " through UPNP")
+
 	# gets public IP of current computer, disabling for internet safety
 	# %DisplayPublicIP.text = " " + upnp.query_external_address()
 	%EndScreen.hide()
@@ -13,7 +19,7 @@ func _ready():
 # Server
 func _on_host_button_pressed():
 	var peer = ENetMultiplayerPeer.new()
-	peer.create_server(9999, 1)
+	peer.create_server(PORT, 1)
 	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
 		OS.alert("Failed to start multiplayer server")
 		return
@@ -75,12 +81,27 @@ func game_end(winner_id: int):
 	$DisconnectTimer.start()
 
 func disconnect_multiplayer():
+	call_deferred("disconnect_multiplayer_actual")
+
+func disconnect_multiplayer_actual():
 	if multiplayer.multiplayer_peer.get_connection_status() != MultiplayerPeer.CONNECTION_DISCONNECTED:
-		multiplayer.multiplayer_peer.close()
-	server_offline()
+		server_offline()
+		if multiplayer.is_server():
+			for peer in multiplayer.get_peers():
+				multiplayer.multiplayer_peer.disconnect_peer(peer)
+			multiplayer.multiplayer_peer.close()
 
 func server_offline():
+	if multiplayer.connected_to_server.is_connected(start_lobby):
+		multiplayer.connected_to_server.disconnect(start_lobby)
+	if multiplayer.server_disconnected.is_connected(server_offline):
+		multiplayer.server_disconnected.disconnect(server_offline)
+	if AutoloadState.is_connected("lobby_full", start_game):
+		AutoloadState.disconnect("lobby_full", start_game)
+	if AutoloadState.is_connected("close_server", disconnect_multiplayer):
+		AutoloadState.disconnect("close_server", disconnect_multiplayer)
+	
 	%Menu.show()
 	%EndScreen.hide()
-	if %Level.get_child(0):
-		%Level.get_child(0).queue_free()
+	if %Level.get_child_count() > 0:
+		%Level.get_child(0).free()

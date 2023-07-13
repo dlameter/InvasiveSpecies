@@ -28,7 +28,8 @@ func _ready():
 	crop_plots = []
 	for i in range(plot_width * plot_height):
 		var new_crop_plot = crop_plot_scene.instantiate()
-		new_crop_plot.position = Vector2((i % plot_width) * crop_plot_width, (i / plot_width) * crop_plot_height)
+		@warning_ignore("integer_division")
+		new_crop_plot.position = Vector2((int(i) % int(plot_width)) * crop_plot_width, (int(i) / int(plot_width)) * crop_plot_height)
 		
 		crop_plots.append(new_crop_plot)
 		all_plots[new_crop_plot] = true
