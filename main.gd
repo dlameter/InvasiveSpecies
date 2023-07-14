@@ -1,23 +1,29 @@
 extends Node
 
-const PORT = 9999
 
-# Port mapping for online multiplayer
+const PORT = 9999
+var upnp: UPNP
+
+
 func _ready():
-	var upnp = UPNP.new()
+	upnp = UPNP.new()
 	upnp.discover()
-	
-	var result = upnp.add_port_mapping(PORT)
-	if result != UPNP.UPNP_RESULT_SUCCESS:
-		print("Failed to expose port ", PORT, " through UPNP")
 
 	# gets public IP of current computer, disabling for internet safety
 	# %DisplayPublicIP.text = " " + upnp.query_external_address()
+	
 	%EndScreen.hide()
 	AutoloadState.connect("game_won_by", game_end)
 
+
 # Server
 func _on_host_button_pressed():
+	# Port mapping for online multiplayer
+	var result = upnp.add_port_mapping(PORT)
+	if result != UPNP.UPNP_RESULT_SUCCESS:
+		print("Failed to expose port ", PORT, " through UPNP")
+	
+	# Start server
 	var peer = ENetMultiplayerPeer.new()
 	peer.create_server(PORT, 1)
 	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
@@ -27,8 +33,10 @@ func _on_host_button_pressed():
 	multiplayer.multiplayer_peer = peer
 	start_lobby()
 
+
 # Client
 func _on_join_button_pressed():
+	# Connect client
 	var peer = ENetMultiplayerPeer.new()
 	peer.create_client(%To.text, 9999)
 	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
@@ -40,6 +48,7 @@ func _on_join_button_pressed():
 	multiplayer.connected_to_server.connect(start_lobby)
 	multiplayer.server_disconnected.connect(server_offline)
 
+
 func start_lobby():
 	%Menu.hide()
 	%EndScreen.hide()
@@ -47,6 +56,7 @@ func start_lobby():
 		AutoloadState.connect("lobby_full", start_game)
 		AutoloadState.connect("close_server", disconnect_multiplayer)
 		change_level.call_deferred(load("res://lobby.tscn"))
+
 
 func start_game():
 	%Menu.hide()
@@ -61,6 +71,7 @@ func start_game():
 	if multiplayer.is_server():
 		change_level.call_deferred(load("res://levels/level.tscn"))
 
+
 func change_level(scene: PackedScene):
 	# Remove old level if any.
 	var level = $Level
@@ -71,8 +82,10 @@ func change_level(scene: PackedScene):
 	# Add new level.
 	level.add_child(scene.instantiate())
 
+
 func call_rpc_game_end(winner_id: int):
 	game_end.rpc(winner_id)
+
 
 func game_end(winner_id: int):
 	%EndScreen.show()
@@ -80,8 +93,10 @@ func game_end(winner_id: int):
 	%YouLost.visible = multiplayer.get_unique_id() != winner_id
 	$DisconnectTimer.start()
 
+
 func disconnect_multiplayer():
 	call_deferred("disconnect_multiplayer_actual")
+
 
 func disconnect_multiplayer_actual():
 	if multiplayer.multiplayer_peer.get_connection_status() != MultiplayerPeer.CONNECTION_DISCONNECTED:
@@ -90,6 +105,7 @@ func disconnect_multiplayer_actual():
 			for peer in multiplayer.get_peers():
 				multiplayer.multiplayer_peer.disconnect_peer(peer)
 			multiplayer.multiplayer_peer.close()
+
 
 func server_offline():
 	if multiplayer.connected_to_server.is_connected(start_lobby):
