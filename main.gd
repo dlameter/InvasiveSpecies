@@ -1,7 +1,6 @@
 extends Node
 
 
-const PORT = 9999
 var upnp: UPNP
 
 
@@ -14,18 +13,20 @@ func _ready():
 	
 	%EndScreen.hide()
 	AutoloadState.connect("game_won_by", game_end)
+	%StartMenu.connect("start_server", _on_host_button_pressed)
+	%StartMenu.connect("join_server", _on_join_button_pressed)
 
 
 # Server
-func _on_host_button_pressed():
+func _on_host_button_pressed(host_port: int):
 	# Port mapping for online multiplayer
-	var result = upnp.add_port_mapping(PORT)
+	var result = upnp.add_port_mapping(host_port)
 	if result != UPNP.UPNP_RESULT_SUCCESS:
-		print("Failed to expose port ", PORT, " through UPNP")
+		print("Failed to expose port ", host_port, " through UPNP")
 	
 	# Start server
 	var peer = ENetMultiplayerPeer.new()
-	peer.create_server(PORT, 1)
+	peer.create_server(host_port, 1)
 	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
 		OS.alert("Failed to start multiplayer server")
 		return
@@ -35,10 +36,10 @@ func _on_host_button_pressed():
 
 
 # Client
-func _on_join_button_pressed():
+func _on_join_button_pressed(address: String, port: int):
 	# Connect client
 	var peer = ENetMultiplayerPeer.new()
-	peer.create_client(%To.text, 9999)
+	peer.create_client(address, port)
 	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
 		OS.alert("Failed to start multiplayer client.")
 		return

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://x1lwev7chtcc"]
+[gd_scene load_steps=3 format=3 uid="uid://x1lwev7chtcc"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_qmj53"]
+[ext_resource type="Script" path="res://StartMenu.gd" id="2_5c34j"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_qmj53")
@@ -15,15 +16,17 @@ spawn_limit = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Control" type="Control" parent="CanvasLayer"]
+[node name="StartMenu" type="Control" parent="CanvasLayer"]
+unique_name_in_owner = true
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("2_5c34j")
 
-[node name="EndScreen" type="PanelContainer" parent="CanvasLayer/Control"]
+[node name="EndScreen" type="PanelContainer" parent="CanvasLayer/StartMenu"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
@@ -40,32 +43,32 @@ grow_vertical = 2
 metadata/_edit_lock_ = true
 metadata/_edit_group_ = true
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/EndScreen"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/StartMenu/EndScreen"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/EndScreen/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/StartMenu/EndScreen/MarginContainer"]
 layout_mode = 2
 
-[node name="YouWon" type="Label" parent="CanvasLayer/Control/EndScreen/MarginContainer/VBoxContainer"]
+[node name="YouWon" type="Label" parent="CanvasLayer/StartMenu/EndScreen/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "You Won!!!"
 horizontal_alignment = 1
 
-[node name="YouLost" type="Label" parent="CanvasLayer/Control/EndScreen/MarginContainer/VBoxContainer"]
+[node name="YouLost" type="Label" parent="CanvasLayer/StartMenu/EndScreen/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "You lost..."
 horizontal_alignment = 1
 
-[node name="TimeLabel" type="Label" parent="CanvasLayer/Control/EndScreen/MarginContainer/VBoxContainer"]
+[node name="TimeLabel" type="Label" parent="CanvasLayer/StartMenu/EndScreen/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "
 Disconnecting in
 6 seconds..."
 horizontal_alignment = 1
 
-[node name="Menu" type="PanelContainer" parent="CanvasLayer/Control"]
+[node name="Menu" type="PanelContainer" parent="CanvasLayer/StartMenu"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 8
@@ -82,53 +85,55 @@ grow_vertical = 2
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/Menu"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/StartMenu/Menu"]
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Menu/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/StartMenu/Menu/MarginContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="HBoxContainer2" type="HFlowContainer" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HFlowContainer" parent="CanvasLayer/StartMenu/Menu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="Label2" type="Label" parent="CanvasLayer/StartMenu/Menu/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Hosting port"
 
-[node name="LineEdit" type="LineEdit" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="HostPort" type="LineEdit" parent="CanvasLayer/StartMenu/Menu/MarginContainer/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "9999"
 placeholder_text = "Port"
 alignment = 1
 
-[node name="HostButton" type="Button" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer"]
+[node name="HostButton" type="Button" parent="CanvasLayer/StartMenu/Menu/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Host Server"
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/StartMenu/Menu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="HSeparator" type="HSeparator" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/StartMenu/Menu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/StartMenu/Menu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Container" type="VBoxContainer" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Container" type="VBoxContainer" parent="CanvasLayer/StartMenu/Menu/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="ToLabel" type="Label" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer/HBoxContainer/Container"]
+[node name="ToLabel" type="Label" parent="CanvasLayer/StartMenu/Menu/MarginContainer/VBoxContainer/HBoxContainer/Container"]
 layout_mode = 2
 text = "Server IP"
 horizontal_alignment = 1
 
-[node name="To" type="LineEdit" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer/HBoxContainer/Container"]
+[node name="JoinAddress" type="LineEdit" parent="CanvasLayer/StartMenu/Menu/MarginContainer/VBoxContainer/HBoxContainer/Container"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
@@ -136,25 +141,27 @@ text = "localhost"
 placeholder_text = "Server IP"
 alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/StartMenu/Menu/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="PortLabel" type="Label" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="PortLabel" type="Label" parent="CanvasLayer/StartMenu/Menu/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 text = "Port"
 horizontal_alignment = 1
 
-[node name="Port" type="LineEdit" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+[node name="JoinPort" type="LineEdit" parent="CanvasLayer/StartMenu/Menu/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "9999"
 placeholder_text = "Port"
 alignment = 1
 
-[node name="JoinButton" type="Button" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer"]
+[node name="JoinButton" type="Button" parent="CanvasLayer/StartMenu/Menu/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Join Server"
 
-[node name="DisplayPublicIP" type="Label" parent="CanvasLayer/Control"]
+[node name="DisplayPublicIP" type="Label" parent="CanvasLayer/StartMenu"]
 offset_right = 158.0
 offset_bottom = 26.0
 metadata/_edit_lock_ = true
@@ -163,7 +170,4 @@ metadata/_edit_lock_ = true
 wait_time = 6.0
 one_shot = true
 
-[connection signal="pressed" from="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
-[connection signal="text_submitted" from="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer/HBoxContainer/Container/To" to="." method="_on_to_text_submitted"]
-[connection signal="pressed" from="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
 [connection signal="timeout" from="DisconnectTimer" to="." method="disconnect_multiplayer"]
