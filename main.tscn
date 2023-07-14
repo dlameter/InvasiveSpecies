@@ -15,8 +15,17 @@ spawn_limit = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="EndScreen" type="PanelContainer" parent="CanvasLayer"]
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EndScreen" type="PanelContainer" parent="CanvasLayer/Control"]
 unique_name_in_owner = true
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -31,81 +40,121 @@ grow_vertical = 2
 metadata/_edit_lock_ = true
 metadata/_edit_group_ = true
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/EndScreen"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/EndScreen"]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/EndScreen/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/EndScreen/MarginContainer"]
 layout_mode = 2
 
-[node name="YouWon" type="Label" parent="CanvasLayer/EndScreen/MarginContainer/VBoxContainer"]
+[node name="YouWon" type="Label" parent="CanvasLayer/Control/EndScreen/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "You Won!!!"
 horizontal_alignment = 1
 
-[node name="YouLost" type="Label" parent="CanvasLayer/EndScreen/MarginContainer/VBoxContainer"]
+[node name="YouLost" type="Label" parent="CanvasLayer/Control/EndScreen/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "You lost..."
 horizontal_alignment = 1
 
-[node name="TimeLabel" type="Label" parent="CanvasLayer/EndScreen/MarginContainer/VBoxContainer"]
+[node name="TimeLabel" type="Label" parent="CanvasLayer/Control/EndScreen/MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "
 Disconnecting in
 6 seconds..."
 horizontal_alignment = 1
 
-[node name="Menu" type="PanelContainer" parent="CanvasLayer"]
+[node name="Menu" type="PanelContainer" parent="CanvasLayer/Control"]
 unique_name_in_owner = true
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -75.0
-offset_top = -69.0
-offset_right = 75.0
-offset_bottom = 69.0
+offset_left = -120.5
+offset_top = -105.5
+offset_right = 120.5
+offset_bottom = 105.5
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_group_ = true
 metadata/_edit_lock_ = true
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Menu"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/Menu"]
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Menu/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Menu/MarginContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="HostButton" type="Button" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Host"
-
-[node name="Label" type="Label" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HFlowContainer" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="ToLabel" type="Label" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer"]
+[node name="Label2" type="Label" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
-text = "Enter Server IP"
+size_flags_horizontal = 3
+text = "Hosting port"
 
-[node name="To" type="LineEdit" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+text = "9999"
+placeholder_text = "Port"
+alignment = 1
+
+[node name="HostButton" type="Button" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Host Server"
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Container" type="VBoxContainer" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="ToLabel" type="Label" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer/HBoxContainer/Container"]
+layout_mode = 2
+text = "Server IP"
+horizontal_alignment = 1
+
+[node name="To" type="LineEdit" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer/HBoxContainer/Container"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
 text = "localhost"
-placeholder_text = "Enter server IP"
+placeholder_text = "Server IP"
+alignment = 1
 
-[node name="JoinButton" type="Button" parent="CanvasLayer/Menu/MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-text = "Join"
 
-[node name="DisplayPublicIP" type="Label" parent="CanvasLayer"]
-unique_name_in_owner = true
+[node name="PortLabel" type="Label" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "Port"
+horizontal_alignment = 1
+
+[node name="Port" type="LineEdit" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+text = "9999"
+placeholder_text = "Port"
+alignment = 1
+
+[node name="JoinButton" type="Button" parent="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Join Server"
+
+[node name="DisplayPublicIP" type="Label" parent="CanvasLayer/Control"]
 offset_right = 158.0
 offset_bottom = 26.0
 metadata/_edit_lock_ = true
@@ -114,7 +163,7 @@ metadata/_edit_lock_ = true
 wait_time = 6.0
 one_shot = true
 
-[connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
-[connection signal="text_submitted" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/To" to="." method="_on_to_text_submitted"]
-[connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="text_submitted" from="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer/HBoxContainer/Container/To" to="." method="_on_to_text_submitted"]
+[connection signal="pressed" from="CanvasLayer/Control/Menu/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
 [connection signal="timeout" from="DisconnectTimer" to="." method="disconnect_multiplayer"]
