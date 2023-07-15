@@ -21,7 +21,7 @@ func _ready():
 func add_player(id: int):
 	players[id] = true
 	if players.size() >= 2:
-		AutoloadState.lobby_is_full()
+		AutoloadState.emit_change_level(load("res://levels/level.tscn"))
 
 func del_player(id: int):
 	players.erase(id)

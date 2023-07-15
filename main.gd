@@ -16,6 +16,8 @@ func _ready():
 	# %DisplayPublicIP.text = " " + upnp.query_external_address()
 	
 	AutoloadState.connect("game_won_by", game_end)
+	AutoloadState.connect("change_level", change_level)
+	AutoloadState.connect("close_server", disconnect_multiplayer)
 	start_menu.connect("start_server", _on_host_button_pressed)
 	start_menu.connect("join_server", _on_join_button_pressed)
 	start_menu.show_main_menu()
@@ -49,33 +51,22 @@ func _on_join_button_pressed(address: String, port: int):
 		return
 	
 	multiplayer.multiplayer_peer = peer
-
-	multiplayer.connected_to_server.connect(start_lobby)
-	multiplayer.server_disconnected.connect(server_offline)
+	if not multiplayer.connected_to_server.is_connected(start_lobby):
+		multiplayer.connected_to_server.connect(start_lobby)
+	if not multiplayer.server_disconnected.is_connected(server_offline):
+		multiplayer.server_disconnected.connect(server_offline)
 
 
 func start_lobby():
 	start_menu.hide_all()
 	if multiplayer.is_server():
-		AutoloadState.connect("lobby_full", start_game)
-		AutoloadState.connect("close_server", disconnect_multiplayer)
 		change_level.call_deferred(load("res://lobby.tscn"))
 
 
-func start_game():
-	start_menu.hide_all()
-	
-	if AutoloadState.is_connected("lobby_full", start_game):
-		AutoloadState.disconnect("lobby_full", start_game)
-	
-	if AutoloadState.is_connected("close_server", disconnect_multiplayer):
-		AutoloadState.disconnect("close_server", disconnect_multiplayer)
-	
-	if multiplayer.is_server():
-		change_level.call_deferred(load("res://levels/level.tscn"))
-
-
 func change_level(scene: PackedScene):
+	if multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED && !multiplayer.is_server():
+		return
+	
 	# Remove old level if any.
 	for c in level.get_children():
 		level.remove_child(c)
@@ -112,8 +103,6 @@ func server_offline():
 		multiplayer.connected_to_server.disconnect(start_lobby)
 	if multiplayer.server_disconnected.is_connected(server_offline):
 		multiplayer.server_disconnected.disconnect(server_offline)
-	if AutoloadState.is_connected("lobby_full", start_game):
-		AutoloadState.disconnect("lobby_full", start_game)
 	if AutoloadState.is_connected("close_server", disconnect_multiplayer):
 		AutoloadState.disconnect("close_server", disconnect_multiplayer)
 	
