@@ -1,8 +1,9 @@
-extends CharacterBody2D
+class_name Player extends CharacterBody2D
 
 @export var player := 1 :
 	set(id):
 		player = id
+		print("set player: setting player to id ", id)
 		$PlayerInput.set_multiplayer_authority(id)
 
 @onready var input = $PlayerInput
@@ -31,6 +32,7 @@ var dig_threshold = 4
 		
 		$DigBar.value = dig_delay
 
+
 @export var current_water := 0.0 :
 	set(value):
 		current_water = value
@@ -41,8 +43,10 @@ var dig_threshold = 4
 		
 		$WaterBar.value = value
 
+
 var water_threshold := 6.0
 const MAX_WATER := 10.0
+
 
 func _ready():
 	dig_delay = dig_threshold

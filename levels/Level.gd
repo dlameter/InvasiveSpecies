@@ -5,6 +5,7 @@ var player_2_id := -1
 
 @onready var game_menu := %InGameMenu
 @onready var disconnect_timer := %DisconnectTimer
+@onready var players_container := $Players
 
 
 @export var winner := -1:
@@ -15,7 +16,9 @@ var player_2_id := -1
 
 
 func _ready():
-	game_menu.hide()
+#	game_menu.hide_all()
+	
+	players_container.child_entered_tree.connect(hook_in_ui)
 	
 	# We only need to spawn players on the server.
 	if not multiplayer.is_server():
@@ -31,6 +34,12 @@ func _ready():
 	# Spawn the local player unless this is a dedicated server export.
 	if not OS.has_feature("dedicated_server"):
 		add_player(1, true)
+
+
+func hook_in_ui(node: Node):
+	if node.name == str(multiplayer.multiplayer_peer.get_unique_id()):
+		print("hook_in_ui: found player node ", node.name, " hooking in")
+		game_menu.show_player_ui(node)
 
 
 func _exit_tree():
@@ -51,6 +60,7 @@ func add_player(id: int, first = false):
 	else:
 		character.global_position = %Player2Spawn.global_position
 		player_2_id = id
+	
 	$Players.add_child(character, true)
 
 

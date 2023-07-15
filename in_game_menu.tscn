@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b62hga426axqb"]
+[gd_scene load_steps=3 format=3 uid="uid://b62hga426axqb"]
 
 [ext_resource type="Script" path="res://in_game_menu.gd" id="1_0k4el"]
+[ext_resource type="Script" path="res://PlayerUI.gd" id="2_1635k"]
 
 [node name="InGameMenu" type="Control"]
 layout_mode = 3
@@ -11,8 +12,45 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0k4el")
 
+[node name="PlayerUI" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_1635k")
+
+[node name="PanelContainer" type="PanelContainer" parent="PlayerUI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -127.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerUI/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PlayerUI/PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "Dig"
+
+[node name="DigBar" type="ProgressBar" parent="PlayerUI/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(97.395, 25.565)
+layout_mode = 2
+size_flags_vertical = 4
+value = 100.0
+show_percentage = false
+
 [node name="MatchEndScreen" type="PanelContainer" parent="."]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
