@@ -20,7 +20,7 @@ var delay = 0
 var threshold = 0.05
 
 
-var dig_threshold = 6
+var dig_threshold = 4
 @export var dig_delay = dig_threshold :
 	set(value):
 		dig_delay = value

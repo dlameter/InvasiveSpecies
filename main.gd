@@ -7,7 +7,6 @@ var upnp: UPNP
 
 @onready var start_menu := %StartMenu
 @onready var level := %Level
-@onready var disconnect_timer = $DisconnectTimer
 
 
 func _ready():
@@ -17,7 +16,6 @@ func _ready():
 	# gets public IP of current computer, disabling for internet safety
 	# %DisplayPublicIP.text = " " + upnp.query_external_address()
 	
-	AutoloadState.connect("game_won_by", game_end)
 	AutoloadState.connect("change_level", change_level)
 	AutoloadState.connect("close_server", disconnect_multiplayer)
 	start_menu.connect("start_server", start_host)
@@ -77,11 +75,6 @@ func change_level(scene: PackedScene):
 	level.add_child(scene.instantiate())
 
 
-func game_end(winner_id: int):
-	start_menu.show_end_screen(multiplayer.get_unique_id() == winner_id)
-	disconnect_timer.start()
-
-
 func disconnect_multiplayer():
 	call_deferred("disconnect_multiplayer_actual")
 
@@ -100,8 +93,6 @@ func server_offline():
 		multiplayer.connected_to_server.disconnect(start_lobby)
 	if multiplayer.server_disconnected.is_connected(server_offline):
 		multiplayer.server_disconnected.disconnect(server_offline)
-	if AutoloadState.is_connected("close_server", disconnect_multiplayer):
-		AutoloadState.disconnect("close_server", disconnect_multiplayer)
 	
 	start_menu.show_main_menu()
 	if level.get_child_count() > 0:
