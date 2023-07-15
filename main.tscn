@@ -20,9 +20,3 @@ spawn_limit = 1
 
 [node name="StartMenu" parent="CanvasLayer" instance=ExtResource("2_t2gf7")]
 unique_name_in_owner = true
-
-[node name="DisconnectTimer" type="Timer" parent="."]
-wait_time = 6.0
-one_shot = true
-
-[connection signal="timeout" from="DisconnectTimer" to="." method="disconnect_multiplayer"]

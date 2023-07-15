@@ -1,0 +1,58 @@
+[gd_scene load_steps=2 format=3 uid="uid://b62hga426axqb"]
+
+[ext_resource type="Script" path="res://in_game_menu.gd" id="1_0k4el"]
+
+[node name="InGameMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0k4el")
+
+[node name="MatchEndScreen" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -69.0
+offset_right = 64.0
+offset_bottom = 69.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+metadata/_edit_group_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="MatchEndScreen"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MatchEndScreen/MarginContainer"]
+layout_mode = 2
+
+[node name="YouWon" type="Label" parent="MatchEndScreen/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "You Won!!!"
+horizontal_alignment = 1
+
+[node name="YouLost" type="Label" parent="MatchEndScreen/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "You lost..."
+horizontal_alignment = 1
+
+[node name="TimeLabel" type="Label" parent="MatchEndScreen/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "
+Disconnecting in
+6 seconds..."
+horizontal_alignment = 1

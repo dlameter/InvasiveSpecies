@@ -3,15 +3,20 @@ extends Node2D
 var player_1_id := -1
 var player_2_id := -1
 
+@onready var game_menu := %InGameMenu
+@onready var disconnect_timer := %DisconnectTimer
+
 
 @export var winner := -1:
 	set(value):
 		winner = value
 		if winner > 0:
-			AutoloadState.game_won(winner)
+			show_match_end_ui(winner)
 
 
 func _ready():
+	game_menu.hide()
+	
 	# We only need to spawn players on the server.
 	if not multiplayer.is_server():
 		return
@@ -55,9 +60,18 @@ func del_player(id: int):
 	$Players.get_node(str(id)).queue_free()
 
 
-func print_winner(winner_player: int):
+func set_winner(winner_player: int):
 	var winner_id = player_1_id
 	if winner_player != 1:
 		winner_id = player_2_id
-		
+	
 	winner = winner_id
+
+
+func show_match_end_ui(winner_id: int):
+	game_menu.show_match_end_screen(multiplayer.multiplayer_peer.get_unique_id() == winner_id)
+	disconnect_timer.start()
+
+
+func disconnect_from_game():
+	AutoloadState.emit_close_server()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dgck1ncw45oby"]
+[gd_scene load_steps=12 format=3 uid="uid://dgck1ncw45oby"]
 
 [ext_resource type="Script" path="res://levels/Level.gd" id="1_ipytw"]
 [ext_resource type="PackedScene" uid="uid://dfoa3nqrx1ave" path="res://crop/GameManager.tscn" id="2_6oyo2"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cndmxi72hkvsk" path="res://asset/image/dirttile.png" id="3_7bi3x"]
 [ext_resource type="PackedScene" uid="uid://cecxifs2a2yat" path="res://crop/PlotManager.tscn" id="5_x7nig"]
 [ext_resource type="AudioStream" uid="uid://df3ufdl1qs2tq" path="res://levels/happy-funny-kids.mp3" id="6_1s70t"]
+[ext_resource type="PackedScene" uid="uid://b62hga426axqb" path="res://in_game_menu.tscn" id="8_o666t"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wncbw"]
 texture = ExtResource("2_tjnwm")
@@ -426,8 +427,8 @@ sources/1 = SubResource("TileSetAtlasSource_ipevo")
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_nv1ml"]
 properties/0/path = NodePath(".:winner")
 properties/0/spawn = true
-properties/0/sync = false
-properties/0/watch = true
+properties/0/sync = true
+properties/0/watch = false
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_ipytw")
@@ -491,4 +492,15 @@ stream = ExtResource("6_1s70t")
 volume_db = -31.856
 autoplay = true
 
-[connection signal="game_won" from="GameManager" to="." method="print_winner"]
+[node name="DisconnectTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 6.0
+one_shot = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="InGameMenu" parent="CanvasLayer" instance=ExtResource("8_o666t")]
+unique_name_in_owner = true
+
+[connection signal="game_won" from="GameManager" to="." method="set_winner"]
+[connection signal="timeout" from="DisconnectTimer" to="." method="disconnect_from_game"]

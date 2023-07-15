@@ -147,6 +147,7 @@ layout_mode = 2
 text = "Join Server"
 
 [node name="DisplayPublicIP" type="Label" parent="."]
+layout_mode = 0
 offset_right = 158.0
 offset_bottom = 26.0
 metadata/_edit_lock_ = true

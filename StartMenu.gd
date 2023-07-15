@@ -26,16 +26,16 @@ func hide_all():
 
 
 func show_main_menu():
-	show_state(%Menu.name)
+	_show_state(%Menu.name)
 
 
 func show_end_screen(winner: bool):
-	show_state(%EndScreen.name)
+	_show_state(%EndScreen.name)
 	win_label.visible = winner
 	lose_label.visible = !winner
 
 
-func show_state(state_name: String):
+func _show_state(state_name: String):
 	for child in get_children():
 		child.hide()
 	
