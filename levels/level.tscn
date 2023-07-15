@@ -8,6 +8,12 @@
 [ext_resource type="AudioStream" uid="uid://df3ufdl1qs2tq" path="res://levels/happy-funny-kids.mp3" id="6_1s70t"]
 [ext_resource type="PackedScene" uid="uid://b62hga426axqb" path="res://in_game_menu.tscn" id="8_o666t"]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_nv1ml"]
+properties/0/path = NodePath(".:winner")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wncbw"]
 texture = ExtResource("2_tjnwm")
 separation = Vector2i(1, 1)
@@ -424,22 +430,20 @@ physics_layer_0/collision_mask = 3
 sources/0 = SubResource("TileSetAtlasSource_wncbw")
 sources/1 = SubResource("TileSetAtlasSource_ipevo")
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_nv1ml"]
-properties/0/path = NodePath(".:winner")
-properties/0/spawn = true
-properties/0/sync = true
-properties/0/watch = false
-
 [node name="Level" type="Node2D"]
 script = ExtResource("1_ipytw")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_nv1ml")
+
+[node name="DisconnectTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 6.0
+one_shot = true
 
 [node name="GameManager" parent="." node_paths=PackedStringArray("player1_plot_manager", "player2_plot_manager") instance=ExtResource("2_6oyo2")]
 player1_plot_manager = NodePath("../TileMap/PlotManager1")
 player2_plot_manager = NodePath("../TileMap/PlotManager2")
-
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://player/player.tscn", "res://player/water.tscn")
-spawn_path = NodePath("../Players")
 
 [node name="TileMap" type="TileMap" parent="."]
 scale = Vector2(4, 4)
@@ -484,23 +488,19 @@ position = Vector2(248.25, 104.5)
 
 [node name="Players" type="Node2D" parent="."]
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_nv1ml")
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://player/player.tscn", "res://player/water.tscn")
+spawn_path = NodePath("../Players")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_1s70t")
 volume_db = -31.856
 autoplay = true
 
-[node name="DisconnectTimer" type="Timer" parent="."]
-unique_name_in_owner = true
-wait_time = 6.0
-one_shot = true
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="InGameMenu" parent="CanvasLayer" instance=ExtResource("8_o666t")]
 unique_name_in_owner = true
 
-[connection signal="game_won" from="GameManager" to="." method="set_winner"]
 [connection signal="timeout" from="DisconnectTimer" to="." method="disconnect_from_game"]
+[connection signal="game_won" from="GameManager" to="." method="set_winner"]
