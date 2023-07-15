@@ -1,6 +1,8 @@
 extends Node
 
 
+@export var first_scene: PackedScene
+
 var upnp: UPNP
 
 @onready var start_menu := %StartMenu
@@ -18,13 +20,12 @@ func _ready():
 	AutoloadState.connect("game_won_by", game_end)
 	AutoloadState.connect("change_level", change_level)
 	AutoloadState.connect("close_server", disconnect_multiplayer)
-	start_menu.connect("start_server", _on_host_button_pressed)
-	start_menu.connect("join_server", _on_join_button_pressed)
+	start_menu.connect("start_server", start_host)
+	start_menu.connect("join_server", start_client)
 	start_menu.show_main_menu()
 
 
-# Server
-func _on_host_button_pressed(host_port: int):
+func start_host(host_port: int):
 	# Port mapping for online multiplayer
 	var result = upnp.add_port_mapping(host_port)
 	if result != UPNP.UPNP_RESULT_SUCCESS:
@@ -41,8 +42,7 @@ func _on_host_button_pressed(host_port: int):
 	start_lobby()
 
 
-# Client
-func _on_join_button_pressed(address: String, port: int):
+func start_client(address: String, port: int):
 	# Connect client
 	var peer = ENetMultiplayerPeer.new()
 	peer.create_client(address, port)
@@ -51,6 +51,7 @@ func _on_join_button_pressed(address: String, port: int):
 		return
 	
 	multiplayer.multiplayer_peer = peer
+	
 	if not multiplayer.connected_to_server.is_connected(start_lobby):
 		multiplayer.connected_to_server.connect(start_lobby)
 	if not multiplayer.server_disconnected.is_connected(server_offline):
@@ -60,7 +61,7 @@ func _on_join_button_pressed(address: String, port: int):
 func start_lobby():
 	start_menu.hide_all()
 	if multiplayer.is_server():
-		change_level.call_deferred(load("res://lobby.tscn"))
+		change_level.call_deferred(first_scene)
 
 
 func change_level(scene: PackedScene):
@@ -74,10 +75,6 @@ func change_level(scene: PackedScene):
 	
 	# Add new level.
 	level.add_child(scene.instantiate())
-
-
-func call_rpc_game_end(winner_id: int):
-	game_end.rpc(winner_id)
 
 
 func game_end(winner_id: int):
