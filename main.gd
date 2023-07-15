@@ -3,6 +3,10 @@ extends Node
 
 var upnp: UPNP
 
+@onready var start_menu := %StartMenu
+@onready var level := %Level
+@onready var disconnect_timer = $DisconnectTimer
+
 
 func _ready():
 	upnp = UPNP.new()
@@ -11,10 +15,10 @@ func _ready():
 	# gets public IP of current computer, disabling for internet safety
 	# %DisplayPublicIP.text = " " + upnp.query_external_address()
 	
-	%EndScreen.hide()
 	AutoloadState.connect("game_won_by", game_end)
-	%StartMenu.connect("start_server", _on_host_button_pressed)
-	%StartMenu.connect("join_server", _on_join_button_pressed)
+	start_menu.connect("start_server", _on_host_button_pressed)
+	start_menu.connect("join_server", _on_join_button_pressed)
+	start_menu.show_main_menu()
 
 
 # Server
@@ -51,8 +55,7 @@ func _on_join_button_pressed(address: String, port: int):
 
 
 func start_lobby():
-	%Menu.hide()
-	%EndScreen.hide()
+	start_menu.hide_all()
 	if multiplayer.is_server():
 		AutoloadState.connect("lobby_full", start_game)
 		AutoloadState.connect("close_server", disconnect_multiplayer)
@@ -60,8 +63,7 @@ func start_lobby():
 
 
 func start_game():
-	%Menu.hide()
-	%EndScreen.hide()
+	start_menu.hide_all()
 	
 	if AutoloadState.is_connected("lobby_full", start_game):
 		AutoloadState.disconnect("lobby_full", start_game)
@@ -75,7 +77,6 @@ func start_game():
 
 func change_level(scene: PackedScene):
 	# Remove old level if any.
-	var level = $Level
 	for c in level.get_children():
 		level.remove_child(c)
 		c.queue_free()
@@ -89,10 +90,8 @@ func call_rpc_game_end(winner_id: int):
 
 
 func game_end(winner_id: int):
-	%EndScreen.show()
-	%YouWon.visible = multiplayer.get_unique_id() == winner_id
-	%YouLost.visible = multiplayer.get_unique_id() != winner_id
-	$DisconnectTimer.start()
+	start_menu.show_end_screen(multiplayer.get_unique_id() == winner_id)
+	disconnect_timer.start()
 
 
 func disconnect_multiplayer():
@@ -118,7 +117,6 @@ func server_offline():
 	if AutoloadState.is_connected("close_server", disconnect_multiplayer):
 		AutoloadState.disconnect("close_server", disconnect_multiplayer)
 	
-	%Menu.show()
-	%EndScreen.hide()
-	if %Level.get_child_count() > 0:
-		%Level.get_child(0).free()
+	start_menu.show_main_menu()
+	if level.get_child_count() > 0:
+		level.get_child(0).free()
