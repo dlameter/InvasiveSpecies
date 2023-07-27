@@ -18,10 +18,6 @@ func show_match_end_screen(winner: bool):
 
 
 func show_player_ui(player: Player):
-	var player_text = "missing"
-	if player:
-		player_text = player.name
-	print("show_player_ui: got ", player_text, " on peer ", multiplayer.multiplayer_peer.get_unique_id())
 	$PlayerUI.player = player
 	show()
 

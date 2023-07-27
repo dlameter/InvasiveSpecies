@@ -16,7 +16,7 @@ var player_2_id := -1
 
 
 func _ready():
-#	game_menu.hide_all()
+	game_menu.hide_all()
 	
 	players_container.child_entered_tree.connect(hook_in_ui)
 	
@@ -53,7 +53,7 @@ func add_player(id: int, first = false):
 	var character = preload("res://player/player.tscn").instantiate()
 	character.name = str(id)
 	character.player = id
-	character.spawn_location = $Players
+	character.spawn_location = players_container
 	if first:
 		character.global_position = %Player1Spawn.global_position
 		player_1_id = id
@@ -61,13 +61,13 @@ func add_player(id: int, first = false):
 		character.global_position = %Player2Spawn.global_position
 		player_2_id = id
 	
-	$Players.add_child(character, true)
+	players_container.add_child(character, true)
 
 
 func del_player(id: int):
-	if not $Players.has_node(str(id)):
+	if not players_container.has_node(str(id)):
 		return
-	$Players.get_node(str(id)).queue_free()
+	players_container.get_node(str(id)).queue_free()
 
 
 func set_winner(winner_player: int):

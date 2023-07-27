@@ -1,12 +1,13 @@
 class_name Player extends CharacterBody2D
 
+@onready var input := $PlayerInput
+@onready var water_gun := $WaterGun
+@onready var items := $Items
+
 @export var player := 1 :
 	set(id):
 		player = id
-		print("set player: setting player to id ", id)
 		$PlayerInput.set_multiplayer_authority(id)
-
-@onready var input = $PlayerInput
 
 @export var spawn_location: Node:
 	set (value):
@@ -48,6 +49,14 @@ var water_threshold := 6.0
 const MAX_WATER := 10.0
 
 
+@export var item: Item = Item.new(self)
+
+@export var state := PlayerState.new()
+
+
+var fire_handlers: Array[Callable] = []
+
+
 func _ready():
 	dig_delay = dig_threshold
 	current_water = 0
@@ -62,45 +71,19 @@ func _physics_process(delta):
 		return
 	
 	if input.mouse_pos:
-		$WaterGun.look_at(input.mouse_pos)
+		water_gun.look_at(input.mouse_pos)
 	
-	if input.firing and is_multiplayer_authority():
-		# extract firing to watercan object
-		delay += delta
-		if delay >= threshold:
-			delay = 0
-			$WaterGun.fire(self)
-	else:
-		delay = threshold
-
-	if input.direction:
-		var speed_modifier = SPEED
-		if current_water >= water_threshold:
-			speed_modifier = speed_modifier * 0.33
-		
-		velocity = input.direction * speed_modifier
-	else:
-		velocity = Vector2()
+	# need a switch here based on player mode (change functionality when state is transplanting)
+	state.handle_firing(self, delta)
+	
+	state.handle_movement(self, delta)
+	
+	# need a switch here to disable if in active item mode (change functionality when state is transplanting)
+	state.handle_use_item(self)
 	
 	# TODO: probably need a limit on distance :)
-	dig_delay += delta
-	if input.dig_pos != Vector2.ZERO and is_multiplayer_authority():
-		var point_query_params := PhysicsPointQueryParameters2D.new()
-		point_query_params.collision_mask = dig_collision_mask
-		point_query_params.position = input.dig_pos
-		point_query_params.collide_with_areas = true
-		point_query_params.collide_with_bodies = false
-		
-		input.clear_dig.rpc()
-		
-		if dig_delay > dig_threshold:
-			var collisions = get_world_2d().direct_space_state.intersect_point(point_query_params)
-			for collision in collisions:
-				if collision.collider and collision.collider is CropPlot:
-					var crop = collision.collider.set_crop(null)
-					if crop:
-						crop.queue_free()
-						dig_delay = 0
+	# need a switch here based on player mode (change functionality when state is transplanting)
+	state.handle_digging(self, delta)
 	
 	current_water = clampf(current_water, 0.0, MAX_WATER)
 	if current_water > 0:
@@ -108,6 +91,12 @@ func _physics_process(delta):
 	
 	move_and_slide()
 
+
+func add_fire_handler(fire_handler: Callable):
+	fire_handlers.append(fire_handler)
+
+func remove_fire_handler(fire_handler: Callable):
+	fire_handlers.erase(fire_handler)
 
 func get_watered():
 	current_water += 1
