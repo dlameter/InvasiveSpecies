@@ -1,7 +1,7 @@
 class_name PlayerState extends Resource
 
 
-func handle_movement(player: Player, delta: float):
+func handle_movement(player: Player, _delta: float):
 	if player.input.direction:
 		var speed_modifier = player.SPEED
 		if player.current_water >= player.water_threshold:
@@ -14,14 +14,14 @@ func handle_movement(player: Player, delta: float):
 
 func handle_firing(player: Player, delta: float):
 	if player.input.firing and player.is_multiplayer_authority():
-		if player.fire_handlers.size() == 0:
+		if not player.fire_handler.is_valid():
 			# extract firing to watercan object
 			player.delay += delta
 			if player.delay >= player.threshold:
 				player.delay = 0
 				player.water_gun.fire(player)
 		else:
-			player.fire_handlers.back().call(player.input.mouse_pos)
+			player.fire_handler.call(player.input.mouse_pos)
 	else:
 		player.delay = player.threshold
 

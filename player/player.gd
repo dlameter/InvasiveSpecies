@@ -54,7 +54,7 @@ const MAX_WATER := 10.0
 @export var state := PlayerState.new()
 
 
-var fire_handlers: Array[Callable] = []
+var fire_handler: Callable = Callable()
 
 
 func _ready():
@@ -91,12 +91,6 @@ func _physics_process(delta):
 	
 	move_and_slide()
 
-
-func add_fire_handler(fire_handler: Callable):
-	fire_handlers.append(fire_handler)
-
-func remove_fire_handler(fire_handler: Callable):
-	fire_handlers.erase(fire_handler)
 
 func get_watered():
 	current_water += 1

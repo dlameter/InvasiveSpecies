@@ -23,25 +23,26 @@ func _draw():
 
 
 func _exit_tree():
-	if player:
-		player.remove_fire_handler(select_area)
+	if player and player.fire_handler == select_area:
+		player.fire_handler = Callable()
 
 
 func activate(activating_player: Player):
 	player = activating_player
-	activating_player.add_fire_handler(select_area)
+	activating_player.fire_handler = select_area
 	mouse_sprite = $MouseSprite
 	enabled = false
 
 
-func select_area(position: Vector2):
-	player.remove_fire_handler(select_area)
+func select_area(selected_position: Vector2):
+	player.fire_handler = Callable()
 	var shape_transform := Transform2D(player.global_transform)
-	shape_transform.origin = position
+	shape_transform.origin = selected_position
 	
 	var physics_query = PhysicsShapeQueryParameters2D.new()
 	physics_query.shape = physics_shape
 	physics_query.collision_mask = collision_mask
+	physics_query.transform = shape_transform
 	physics_query.collide_with_areas = true
 	physics_query.collide_with_bodies = false
 	
