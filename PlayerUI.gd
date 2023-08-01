@@ -10,7 +10,7 @@ extends Control
 		_hook_in_player(player)
 
 var item: InstaGrow = null
-var cursor_sprite: Sprite2D = null
+var cursor_sprite: Node2D = null
 
 
 func _hook_in_player(new_player: Player):

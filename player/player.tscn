@@ -1,11 +1,11 @@
 [gd_scene load_steps=14 format=3 uid="uid://dmqs76oj7hyhh"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_d25k8"]
+[ext_resource type="PackedScene" uid="uid://tgghjv5lsxbu" path="res://insta_grow.tscn" id="2_354va"]
 [ext_resource type="Texture2D" uid="uid://pneel2kxfa8y" path="res://asset/image/character_0002.png" id="2_ommnd"]
 [ext_resource type="Script" path="res://player/WaterGun.gd" id="3_twiyx"]
 [ext_resource type="Texture2D" uid="uid://c6dsaptmilc7m" path="res://asset/image/watercan.png" id="5_xigby"]
 [ext_resource type="Script" path="res://player/PlayerInput.gd" id="6_5smtc"]
-[ext_resource type="PackedScene" uid="uid://tgghjv5lsxbu" path="res://insta_grow.tscn" id="6_pcog4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mubqp"]
 size = Vector2(58, 68)
@@ -89,7 +89,7 @@ anti_aliasing = false
 [node name="Player" type="CharacterBody2D"]
 collision_mask = 2
 script = ExtResource("1_d25k8")
-starting_item = ExtResource("6_pcog4")
+starting_item = ExtResource("2_354va")
 dig_collision_mask = 32768
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

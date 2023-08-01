@@ -43,17 +43,14 @@ signal changed
 var player: Player = null
 
 
-func _exit_tree():
-	print("destroying self on client ", multiplayer.get_unique_id())
-
-
 func _draw():
 	if Engine.is_editor_hint() and physics_shape:
 		physics_shape.draw(self.get_canvas_item(), Color.RED)
 
 
 func _ready():
-	hide()
+	if not Engine.is_editor_hint():
+		hide()
 
 
 # handler for use action on the item
