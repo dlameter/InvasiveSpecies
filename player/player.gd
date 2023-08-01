@@ -49,8 +49,6 @@ var dig_threshold = 4
 var water_threshold := 6.0
 const MAX_WATER := 10.0
 
-@export var state := PlayerState.new()
-
 
 signal current_item_changed(Item)
 
@@ -85,23 +83,73 @@ func _physics_process(delta):
 	if input.mouse_pos:
 		water_gun.look_at(input.mouse_pos)
 	
-	# need a switch here based on player mode (change functionality when state is transplanting)
-	state.handle_firing(self, delta)
-	
-	state.handle_movement(self, delta)
-	
-	# need a switch here to disable if in active item mode (change functionality when state is transplanting)
-	state.handle_use_item(self)
+	handle_firing(self, delta)
+	handle_movement(self, delta)
+	handle_use_item(self)
 	
 	# TODO: probably need a limit on distance :)
-	# need a switch here based on player mode (change functionality when state is transplanting)
-	state.handle_digging(self, delta)
+	handle_digging(self, delta)
 	
 	current_water = clampf(current_water, 0.0, MAX_WATER)
 	if current_water > 0:
 		current_water -= delta
 	
 	move_and_slide()
+
+
+func handle_movement(player: Player, _delta: float):
+	if player.input.direction:
+		var speed_modifier = player.SPEED
+		if player.current_water >= player.water_threshold:
+			speed_modifier = speed_modifier * 0.33
+		
+		player.velocity = player.input.direction * speed_modifier
+	else:
+		player.velocity = Vector2()
+
+
+func handle_firing(player: Player, delta: float):
+	if player.input.firing and player.is_multiplayer_authority():
+		if player.current_item and player.current_item.has_method("fire") and player.current_item.fire(player.input.mouse_pos):
+			pass # do nothing
+		else:
+			# extract firing to watercan object
+			player.delay += delta
+			if player.delay >= player.threshold:
+				player.delay = 0
+				player.water_gun.fire(player)
+	else:
+		player.delay = player.threshold
+
+
+func handle_digging(player: Player, delta: float):
+	player.dig_delay += delta
+	if player.input.dig_pos != Vector2.ZERO and player.is_multiplayer_authority():
+		var point_query_params := PhysicsPointQueryParameters2D.new()
+		point_query_params.collision_mask = player.dig_collision_mask
+		point_query_params.position = player.input.dig_pos
+		point_query_params.collide_with_areas = true
+		point_query_params.collide_with_bodies = false
+		
+		player.input.clear_dig.rpc()
+		
+		if player.dig_delay > player.dig_threshold:
+			var collisions = player.get_world_2d().direct_space_state.intersect_point(point_query_params)
+			for collision in collisions:
+				if collision.collider and collision.collider is CropPlot:
+					var crop = collision.collider.set_crop(null)
+					if crop:
+						crop.queue_free()
+						player.dig_delay = 0
+
+
+func handle_use_item(player: Player):
+	if player.input.use_item and player.items.get_child_count() > 0 and player.is_multiplayer_authority():
+		print("use up item")
+		var item = player.items.get_child(0)
+		if item and item is InstaGrow:
+			if item.enabled:
+				item.activate(player)
 
 
 func handle_item_added(node: Node):
