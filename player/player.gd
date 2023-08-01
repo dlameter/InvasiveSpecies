@@ -4,6 +4,7 @@ class_name Player extends CharacterBody2D
 @onready var water_gun := $WaterGun
 @onready var items := $Items
 
+
 @export var player := 1 :
 	set(id):
 		player = id
@@ -54,7 +55,33 @@ const MAX_WATER := 10.0
 @export var state := PlayerState.new()
 
 
-var fire_handler: Callable = Callable()
+signal fire_action_changed(ActionHandler)
+
+enum FireActionHandler {
+	NONE,
+	INSTA_GROW
+}
+
+@export var fire_action_enum: FireActionHandler = FireActionHandler.NONE:
+	set(value):
+		if fire_action_enum != value:
+			fire_action = enum_to_action(value)
+		fire_action_enum = value
+
+
+func enum_to_action(fire_enum: FireActionHandler) -> ActionHandler:
+	match fire_enum:
+		FireActionHandler.INSTA_GROW:
+			return InstaGrow.create_fire_action()
+		_:
+			return null
+
+
+# TODO: add a custom messaging system to sync this across clients. Perhaps this needs to be a choose from a list kind of deal
+var fire_action: ActionHandler = null:
+	set(value):
+		fire_action = value
+		fire_action_changed.emit(value)
 
 
 func _ready():

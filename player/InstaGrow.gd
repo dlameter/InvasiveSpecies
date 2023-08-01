@@ -14,7 +14,9 @@ var player: Player = null
 			physics_shape.changed.connect(queue_redraw)
 
 @export_flags_2d_physics var collision_mask = 0b1
-@export var mouse_sprite: Sprite2D = null
+
+static func create_fire_action() -> ActionHandler:
+	return ActionHandler.new(null, InstaGrow.select_area, load("res://item/InstaGrowSelectSprite.tscn").instantiate())
 
 
 func _draw():
@@ -23,36 +25,34 @@ func _draw():
 
 
 func _exit_tree():
-	if player and player.fire_handler == select_area:
-		player.fire_handler = Callable()
+	if player and player.fire_action_enum == player.FireActionHandler.INSTA_GROW:
+		player.fire_action_enum = player.FireActionHandler.NONE
 
 
 func activate(activating_player: Player):
 	player = activating_player
-	activating_player.fire_handler = select_area
-	mouse_sprite = $MouseSprite
+	activating_player.fire_action_enum = activating_player.FireActionHandler.INSTA_GROW
 	enabled = false
 
 
-func select_area(selected_position: Vector2):
-	player.fire_handler = Callable()
-	var shape_transform := Transform2D(player.global_transform)
+static func select_area(item: InstaGrow, selected_position: Vector2):
+	item.player.fire_action_enum = item.player.FireActionHandler.NONE
+	var shape_transform := Transform2D(item.player.global_transform)
 	shape_transform.origin = selected_position
 	
 	var physics_query = PhysicsShapeQueryParameters2D.new()
-	physics_query.shape = physics_shape
-	physics_query.collision_mask = collision_mask
+	physics_query.shape = item.physics_shape
+	physics_query.collision_mask = item.collision_mask
 	physics_query.transform = shape_transform
 	physics_query.collide_with_areas = true
 	physics_query.collide_with_bodies = false
 	
 	# todo change to grow instead of removal
-	var collisions := player.get_world_2d().direct_space_state.intersect_shape(physics_query)
+	var collisions := item.player.get_world_2d().direct_space_state.intersect_shape(physics_query)
 	for collision in collisions:
 		if collision.collider and collision.collider is CropPlot:
 			var crop = collision.collider.set_crop(null)
 			if crop:
 				crop.queue_free()
-				player.dig_delay = 0
 	
-	queue_free()
+	item.queue_free()

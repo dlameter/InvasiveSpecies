@@ -31,6 +31,10 @@ properties/4/path = NodePath(".:dig_delay")
 properties/4/spawn = true
 properties/4/sync = true
 properties/4/watch = false
+properties/5/path = NodePath(".:fire_action_enum")
+properties/5/spawn = true
+properties/5/sync = false
+properties/5/watch = true
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_y881q"]
 properties/0/path = NodePath("PlayerInput:direction")
@@ -153,6 +157,10 @@ theme_override_styles/background = SubResource("StyleBoxFlat_c3h5g")
 theme_override_styles/fill = SubResource("StyleBoxFlat_a1hwm")
 value = 60.0
 show_percentage = false
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://insta_grow.tscn")
+spawn_path = NodePath("../Items")
 
 [node name="Items" type="Node" parent="."]
 
