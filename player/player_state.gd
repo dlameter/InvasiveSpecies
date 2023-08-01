@@ -14,14 +14,14 @@ func handle_movement(player: Player, _delta: float):
 
 func handle_firing(player: Player, delta: float):
 	if player.input.firing and player.is_multiplayer_authority():
-		if not player.fire_action:
+		if player.current_item and player.current_item.has_method("fire") and player.current_item.fire(player.input.mouse_pos):
+			pass # do nothing
+		else:
 			# extract firing to watercan object
 			player.delay += delta
 			if player.delay >= player.threshold:
 				player.delay = 0
 				player.water_gun.fire(player)
-		else:
-			player.fire_action.callable.call(player.items.get_child(0), player.input.mouse_pos)
 	else:
 		player.delay = player.threshold
 

@@ -49,42 +49,27 @@ var dig_threshold = 4
 var water_threshold := 6.0
 const MAX_WATER := 10.0
 
-
-@export var item: Item = Item.new(self)
-
 @export var state := PlayerState.new()
 
 
-signal fire_action_changed(ActionHandler)
+signal current_item_changed(Item)
 
-enum FireActionHandler {
-	NONE,
-	INSTA_GROW
-}
-
-@export var fire_action_enum: FireActionHandler = FireActionHandler.NONE:
+var current_item: InstaGrow = null:
 	set(value):
-		if fire_action_enum != value:
-			fire_action = enum_to_action(value)
-		fire_action_enum = value
-
-
-func enum_to_action(fire_enum: FireActionHandler) -> ActionHandler:
-	match fire_enum:
-		FireActionHandler.INSTA_GROW:
-			return InstaGrow.create_fire_action()
-		_:
-			return null
-
-
-# TODO: add a custom messaging system to sync this across clients. Perhaps this needs to be a choose from a list kind of deal
-var fire_action: ActionHandler = null:
-	set(value):
-		fire_action = value
-		fire_action_changed.emit(value)
+		current_item = value
+		current_item_changed.emit(value)
 
 
 func _ready():
+	if items.get_child_count() > 0 and items.get_child(0) is InstaGrow:
+		current_item = items.get_child(0)
+	
+	items.child_entered_tree.connect(handle_item_added)
+	items.child_exiting_tree.connect(handle_item_removed)
+	
+	if is_multiplayer_authority():
+		items.add_child(load("res://insta_grow.tscn").instantiate(), true)
+	
 	dig_delay = dig_threshold
 	current_water = 0
 	$WaterBar.max_value = MAX_WATER
@@ -117,6 +102,18 @@ func _physics_process(delta):
 		current_water -= delta
 	
 	move_and_slide()
+
+
+func handle_item_added(node: Node):
+	if node and node is InstaGrow:
+		current_item = node
+	else:
+		node.queue_free()
+
+
+func handle_item_removed(node: Node):
+	if node and node == current_item:
+		current_item = null
 
 
 func get_watered():

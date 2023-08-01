@@ -1,10 +1,21 @@
 @tool
 class_name InstaGrow extends Node2D
 
-var player: Player = null
+enum ItemState {
+	INACTIVE,
+	SELECTING_AREA,
+	DONE
+}
 
+signal changed
+
+@export_flags_2d_physics var collision_mask = 0b1
+# visual value used to show a special cursor on the player's UI
+@export var cursor: Node = null
+# if true the item should be taking events from the player's regular inputs
+@export var active = false
+# if true it means that the item can be "use"d
 @export var enabled = true
-
 @export var physics_shape: Shape2D:
 	set(value):
 		if Engine.is_editor_hint() and physics_shape:
@@ -13,10 +24,27 @@ var player: Player = null
 		if Engine.is_editor_hint() and physics_shape:
 			physics_shape.changed.connect(queue_redraw)
 
-@export_flags_2d_physics var collision_mask = 0b1
 
-static func create_fire_action() -> ActionHandler:
-	return ActionHandler.new(null, InstaGrow.select_area, load("res://item/InstaGrowSelectSprite.tscn").instantiate())
+@export var state: = ItemState.INACTIVE:
+	set(value):
+		if value == ItemState.SELECTING_AREA:
+			cursor = $MouseSprite
+			active = true
+			enabled = false
+		else:
+			active = false
+			cursor = null
+			enabled = true
+		if state != value:
+			changed.emit()
+		state = value
+
+
+var player: Player = null
+
+
+func _exit_tree():
+	print("destroying self on client ", multiplayer.get_unique_id())
 
 
 func _draw():
@@ -24,36 +52,39 @@ func _draw():
 		physics_shape.draw(self.get_canvas_item(), Color.RED)
 
 
-func _exit_tree():
-	if player and player.fire_action_enum == player.FireActionHandler.INSTA_GROW:
-		player.fire_action_enum = player.FireActionHandler.NONE
+func _ready():
+	hide()
 
 
+# handler for use action on the item
 func activate(activating_player: Player):
-	player = activating_player
-	activating_player.fire_action_enum = activating_player.FireActionHandler.INSTA_GROW
-	enabled = false
+	if state == ItemState.INACTIVE:
+		player = activating_player
+		state = ItemState.SELECTING_AREA
 
 
-# todo, would be nice to have this be tied to the actual object instead of static
-static func select_area(item: InstaGrow, selected_position: Vector2):
-	item.player.fire_action_enum = item.player.FireActionHandler.NONE
-	var shape_transform := Transform2D(item.player.global_transform)
-	shape_transform.origin = selected_position
-	
-	var physics_query = PhysicsShapeQueryParameters2D.new()
-	physics_query.shape = item.physics_shape
-	physics_query.collision_mask = item.collision_mask
-	physics_query.transform = shape_transform
-	physics_query.collide_with_areas = true
-	physics_query.collide_with_bodies = false
-	
-	# todo change to grow instead of removal
-	var collisions := item.player.get_world_2d().direct_space_state.intersect_shape(physics_query)
-	for collision in collisions:
-		if collision.collider and collision.collider is CropPlot:
-			var crop = collision.collider.set_crop(null)
-			if crop:
-				crop.queue_free()
-	
-	item.queue_free()
+# returns true if the event should be captured by this handler
+func fire(selected_position: Vector2) -> bool:
+	if state == ItemState.SELECTING_AREA:
+		var shape_transform := Transform2D(player.global_transform)
+		shape_transform.origin = selected_position
+		
+		var physics_query = PhysicsShapeQueryParameters2D.new()
+		physics_query.shape = physics_shape
+		physics_query.collision_mask = collision_mask
+		physics_query.transform = shape_transform
+		physics_query.collide_with_areas = true
+		physics_query.collide_with_bodies = false
+		
+		# todo change to grow instead of removal
+		var collisions := player.get_world_2d().direct_space_state.intersect_shape(physics_query)
+		for collision in collisions:
+			if collision.collider and collision.collider is CropPlot:
+				var crop = collision.collider.set_crop(null)
+				if crop:
+					crop.queue_free()
+		
+		state = ItemState.DONE
+		queue_free()
+		return true
+	return false
