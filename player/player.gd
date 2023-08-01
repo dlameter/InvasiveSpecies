@@ -15,6 +15,8 @@ class_name Player extends CharacterBody2D
 		spawn_location = value
 		$WaterGun.bullet_destination = value
 
+@export var starting_item: PackedScene
+
 @export_flags_2d_physics var dig_collision_mask = 0b1
 
 const SPEED = 350
@@ -65,8 +67,8 @@ func _ready():
 	items.child_entered_tree.connect(handle_item_added)
 	items.child_exiting_tree.connect(handle_item_removed)
 	
-	if is_multiplayer_authority():
-		items.add_child(load("res://insta_grow.tscn").instantiate(), true)
+	if is_multiplayer_authority() and starting_item:
+		items.add_child(starting_item.instantiate(), true)
 	
 	dig_delay = dig_threshold
 	current_water = 0
