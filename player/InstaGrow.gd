@@ -35,6 +35,7 @@ func activate(activating_player: Player):
 	enabled = false
 
 
+# todo, would be nice to have this be tied to the actual object instead of static
 static func select_area(item: InstaGrow, selected_position: Vector2):
 	item.player.fire_action_enum = item.player.FireActionHandler.NONE
 	var shape_transform := Transform2D(item.player.global_transform)
