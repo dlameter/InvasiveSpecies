@@ -3,12 +3,15 @@ extends Area2D
 
 @export var item: PackedScene
 
+var taken := false
+
 
 func _body_enter(body: Node2D):
 	if not is_multiplayer_authority():
 		return
 	
-	if body is Player and body.can_take_item():
+	if not taken and body is Player and body.can_take_item():
+		taken = true
 		body.add_item(item.instantiate())
 		
 		die.rpc()
@@ -16,7 +19,8 @@ func _body_enter(body: Node2D):
 
 @rpc("call_local")
 func die():
-	queue_free()
+	if is_multiplayer_authority():
+		queue_free()
 
 
 func _ready():

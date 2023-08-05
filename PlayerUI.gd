@@ -2,6 +2,7 @@ extends Control
 
 
 @onready var dig_bar := %DigBar
+@onready var item_icon := %ItemIcon
 
 
 @export var player: Player:
@@ -37,6 +38,7 @@ func player_item_change_handler(new_item: InstaGrow):
 		if cursor_sprite:
 			cursor_sprite.queue_free()
 			cursor_sprite = null
+		item_icon.texture = null
 	else:
 		if item:
 			item.changed.disconnect(item_change_handler)
@@ -54,3 +56,8 @@ func item_change_handler():
 	elif cursor_sprite:
 		cursor_sprite.queue_free()
 		cursor_sprite = null
+	
+	if item.icon:
+		item_icon.texture = item.icon
+	else:
+		item_icon.texture = null

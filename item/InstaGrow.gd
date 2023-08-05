@@ -10,6 +10,8 @@ enum ItemState {
 signal changed
 
 @export_flags_2d_physics var collision_mask = 0b1
+# visual value used to show current item
+@export var icon: Texture2D = null
 # visual value used to show a special cursor on the player's UI
 @export var cursor: Node = null
 # if true the item should be taking events from the player's regular inputs

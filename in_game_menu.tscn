@@ -38,6 +38,17 @@ grow_vertical = 0
 [node name="HBoxContainer" type="HBoxContainer" parent="PlayerUI/PanelContainer"]
 layout_mode = 2
 
+[node name="Item" type="Label" parent="PlayerUI/PanelContainer/HBoxContainer"]
+layout_mode = 2
+text = "Item"
+
+[node name="ItemIcon" type="TextureRect" parent="PlayerUI/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(38, 38)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
 [node name="Label" type="Label" parent="PlayerUI/PanelContainer/HBoxContainer"]
 layout_mode = 2
 text = "Dig"
