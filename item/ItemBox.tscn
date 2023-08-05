@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://item/ItemBox.gd" id="1_8nqra"]
 [ext_resource type="Texture2D" uid="uid://df0ooqpnic0cc" path="res://asset/image/icon.svg" id="1_ihnnv"]
-[ext_resource type="PackedScene" uid="uid://tgghjv5lsxbu" path="res://insta_grow.tscn" id="2_2fl55"]
+[ext_resource type="PackedScene" uid="uid://tgghjv5lsxbu" path="res://item/insta_grow.tscn" id="2_73ixn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cs7e0"]
 size = Vector2(15, 15)
@@ -11,7 +11,7 @@ size = Vector2(15, 15)
 collision_layer = 0
 monitorable = false
 script = ExtResource("1_8nqra")
-item = ExtResource("2_2fl55")
+item = ExtResource("2_73ixn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_cs7e0")

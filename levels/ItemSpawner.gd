@@ -24,7 +24,6 @@ func _ready():
 
 
 func _spawn_thing():
-	print("spawning")
 	var instance = thing.instantiate()
 	spawn_slot.add_child(instance, true)
 

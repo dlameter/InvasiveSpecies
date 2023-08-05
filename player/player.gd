@@ -149,7 +149,6 @@ func handle_digging(delta: float):
 
 func handle_use_item():
 	if input.use_item and items.get_child_count() > 0 and is_multiplayer_authority():
-		print("use up item")
 		var item = items.get_child(0)
 		if item and item is InstaGrow:
 			if item.enabled:
