@@ -155,6 +155,14 @@ func handle_use_item():
 				item.activate(self)
 
 
+func can_take_item():
+	return items.get_child_count() < 1
+
+
+func add_item(node: InstaGrow):
+	items.add_child(node)
+
+
 func handle_item_added(node: Node):
 	if node and node is InstaGrow:
 		current_item = node
