@@ -56,14 +56,14 @@ const MAX_WATER := 10.0
 signal current_item_changed(Item)
 
 
-var current_item: InstaGrow = null:
+var current_item: Item = null:
 	set(value):
 		current_item = value
 		current_item_changed.emit(value)
 
 
 func _ready():
-	if items.get_child_count() > 0 and items.get_child(0) is InstaGrow:
+	if items.get_child_count() > 0 and items.get_child(0) is Item:
 		current_item = items.get_child(0)
 	
 	items.child_entered_tree.connect(handle_item_added)
@@ -150,7 +150,7 @@ func handle_digging(delta: float):
 func handle_use_item():
 	if input.use_item and items.get_child_count() > 0 and is_multiplayer_authority():
 		var item = items.get_child(0)
-		if item and item is InstaGrow:
+		if item and item is Item:
 			if item.enabled:
 				item.activate(self)
 
@@ -159,12 +159,12 @@ func can_take_item():
 	return items.get_child_count() < 1
 
 
-func add_item(node: InstaGrow):
+func add_item(node: Item):
 	items.add_child(node)
 
 
 func handle_item_added(node: Node):
-	if node and node is InstaGrow:
+	if node and node is Item:
 		current_item = node
 	else:
 		node.queue_free()

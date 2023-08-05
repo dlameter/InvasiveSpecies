@@ -1,5 +1,5 @@
 @tool
-class_name InstaGrow extends Node2D
+class_name InstaGrow extends Item
 
 enum ItemState {
 	INACTIVE,
@@ -7,17 +7,7 @@ enum ItemState {
 	DONE
 }
 
-signal changed
-
 @export_flags_2d_physics var collision_mask = 0b1
-# visual value used to show current item
-@export var icon: Texture2D = null
-# visual value used to show a special cursor on the player's UI
-@export var cursor: Node = null
-# if true the item should be taking events from the player's regular inputs
-@export var active = false
-# if true it means that the item can be "use"d
-@export var enabled = true
 @export var physics_shape: Shape2D:
 	set(value):
 		if Engine.is_editor_hint() and physics_shape:
@@ -51,6 +41,11 @@ func _draw():
 
 
 func _ready():
+	icon = null
+	cursor = null
+	active = false
+	enabled = true
+	
 	if not Engine.is_editor_hint():
 		hide()
 

@@ -16,9 +16,10 @@ properties/0/watch = false
 [node name="InstaGrow" type="Node2D"]
 script = ExtResource("1_x171h")
 collision_mask = 32768
+physics_shape = SubResource("CircleShape2D_r623v")
 icon = ExtResource("2_qi72y")
 active = null
-physics_shape = SubResource("CircleShape2D_r623v")
+enabled = true
 
 [node name="MouseSprite" parent="." instance=ExtResource("3_v4kfb")]
 

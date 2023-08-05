@@ -10,7 +10,7 @@ extends Control
 		player = value
 		_hook_in_player(player)
 
-var item: InstaGrow = null
+var item: Item = null
 var cursor_sprite: Node2D = null
 
 
@@ -30,7 +30,7 @@ func _process(_delta):
 			cursor_sprite.global_position = global_to_viewport * player.input.mouse_pos
 
 
-func player_item_change_handler(new_item: InstaGrow):
+func player_item_change_handler(new_item: Item):
 	if not new_item:
 		if item:
 			item.changed.disconnect(item_change_handler)
