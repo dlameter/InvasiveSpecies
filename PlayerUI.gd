@@ -14,7 +14,6 @@ var cursor_sprite: Node2D = null
 
 
 func _hook_in_player(new_player: Player):
-	print("_hook_in_player peer ", multiplayer.multiplayer_peer.get_unique_id(), ": got max dig of ", new_player.dig_threshold)
 	dig_bar.max_value = new_player.dig_threshold
 	player_item_change_handler(new_player.current_item)
 	new_player.current_item_changed.connect(player_item_change_handler)

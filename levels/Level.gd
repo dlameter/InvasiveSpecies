@@ -38,7 +38,6 @@ func _ready():
 
 func hook_in_ui(node: Node):
 	if node.name == str(multiplayer.multiplayer_peer.get_unique_id()):
-		print("hook_in_ui: found player node ", node.name, " hooking in")
 		game_menu.show_player_ui(node)
 
 
