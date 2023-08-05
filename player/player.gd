@@ -55,6 +55,7 @@ const MAX_WATER := 10.0
 
 signal current_item_changed(Item)
 
+
 var current_item: InstaGrow = null:
 	set(value):
 		current_item = value

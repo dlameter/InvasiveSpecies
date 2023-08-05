@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://tgghjv5lsxbu" path="res://insta_grow.tscn" id="2_2fl55"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cs7e0"]
-size = Vector2(70, 70)
+size = Vector2(15, 15)
 
 [node name="ItemBox" type="Area2D"]
 collision_layer = 0
@@ -17,7 +17,7 @@ item = ExtResource("2_2fl55")
 shape = SubResource("RectangleShape2D_cs7e0")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_ihnnv")
 
 [connection signal="body_entered" from="." to="." method="_body_enter"]

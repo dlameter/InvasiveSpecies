@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://c4x3d4y0p43ol"]
+
+[ext_resource type="Script" path="res://levels/ItemSpawner.gd" id="1_d6emt"]
+[ext_resource type="PackedScene" uid="uid://vtllx1uybxub" path="res://item/ItemBox.tscn" id="2_8no6k"]
+
+[node name="ItemSpawner" type="Node2D"]
+script = ExtResource("1_d6emt")
+thing = ExtResource("2_8no6k")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://item/ItemBox.tscn")
+spawn_path = NodePath("../SpawnSlot")
+
+[node name="SpawnSlot" type="Node2D" parent="."]
