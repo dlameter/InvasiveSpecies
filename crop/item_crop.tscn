@@ -34,3 +34,7 @@ texture = SubResource("AtlasTexture_yeicj")
 
 [node name="PlantSprite" parent="." index="2"]
 texture = SubResource("AtlasTexture_xqjv3")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." index="5"]
+_spawnable_scenes = PackedStringArray("res://item/ItemBox.tscn")
+spawn_path = NodePath("..")
