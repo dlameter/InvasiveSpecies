@@ -5,10 +5,7 @@ extends Node
 
 signal game_won(int)
 
-var crops := [
-	preload("res://crop/crop.tscn"),
-	preload("res://crop/dandelion_crop.tscn")
-]
+@export var crops: Array[PackedScene]
 
 var winner := -1
 

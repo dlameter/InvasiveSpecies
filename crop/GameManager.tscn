@@ -1,9 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://dfoa3nqrx1ave"]
+[gd_scene load_steps=5 format=3 uid="uid://dfoa3nqrx1ave"]
 
 [ext_resource type="Script" path="res://crop/GameManager.gd" id="1_6tpgh"]
+[ext_resource type="PackedScene" uid="uid://bxv6u3bhx42wl" path="res://crop/crop.tscn" id="2_owpkv"]
+[ext_resource type="PackedScene" uid="uid://mo8102sy5nxy" path="res://crop/dandelion_crop_stop.tscn" id="3_0gj1r"]
+[ext_resource type="PackedScene" uid="uid://hg7yxbuo3o5k" path="res://crop/item_crop.tscn" id="4_r2cfy"]
 
 [node name="GameManager" type="Node"]
 script = ExtResource("1_6tpgh")
+crops = Array[PackedScene]([ExtResource("2_owpkv"), ExtResource("3_0gj1r"), ExtResource("4_r2cfy")])
 
 [node name="PlantTimer" type="Timer" parent="."]
 

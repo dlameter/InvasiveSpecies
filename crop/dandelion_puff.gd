@@ -5,8 +5,6 @@ extends Node2D
 @export var lifetime = 10 # life expectancy of the pellet, used with delta
 var timelife = 0
 
-@onready var plant = preload("res://crop/dandelion_crop.tscn")
-
 func _ready():
 	#set collision mask to ignore owner
 	if (owner_id > 0 and owner_id <= 32):
@@ -27,8 +25,9 @@ func _process(delta):
 
 func process_area(area: Area2D):
 	if area and area is CropPlot:
+		var new_plant = load("res://crop/dandelion_crop_stop.tscn").instantiate()
 		var crop_plot: CropPlot = area
-		if crop_plot.set_if_empty(plant.instantiate()):
+		if crop_plot.set_if_empty(new_plant):
 			queue_free()
 		
 

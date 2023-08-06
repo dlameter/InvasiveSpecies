@@ -1,0 +1,43 @@
+[gd_scene load_steps=4 format=3 uid="uid://mo8102sy5nxy"]
+
+[ext_resource type="Script" path="res://crop/dandelion_crop.gd" id="1_6hj2q"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c8vfp"]
+radius = 17.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_1dnrb"]
+properties/0/path = NodePath("SeedSprite:visible")
+properties/0/spawn = true
+properties/0/sync = false
+properties/0/watch = true
+properties/1/path = NodePath("SproutSprite:visible")
+properties/1/spawn = true
+properties/1/sync = false
+properties/1/watch = true
+properties/2/path = NodePath("PlantSprite:visible")
+properties/2/spawn = true
+properties/2/sync = false
+properties/2/watch = true
+properties/3/path = NodePath(".:position")
+properties/3/spawn = true
+properties/3/sync = false
+properties/3/watch = true
+properties/4/path = NodePath(".:growth_time")
+properties/4/spawn = true
+properties/4/sync = true
+properties/4/watch = false
+
+[node name="dandelion_crop_stop" type="StaticBody2D"]
+script = ExtResource("1_6hj2q")
+
+[node name="SeedSprite" type="Sprite2D" parent="."]
+
+[node name="SproutSprite" type="Sprite2D" parent="."]
+
+[node name="PlantSprite" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_c8vfp")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_1dnrb")

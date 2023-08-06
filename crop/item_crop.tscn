@@ -1,0 +1,36 @@
+[gd_scene load_steps=9 format=3 uid="uid://hg7yxbuo3o5k"]
+
+[ext_resource type="PackedScene" uid="uid://bxv6u3bhx42wl" path="res://crop/crop.tscn" id="1_oewli"]
+[ext_resource type="Script" path="res://crop/ItemCrop.gd" id="2_kdcmk"]
+[ext_resource type="Texture2D" uid="uid://omuwmbplog0m" path="res://asset/image/Fantasy Crops.png" id="2_wajyu"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7eac6"]
+atlas = ExtResource("2_wajyu")
+region = Rect2(0, 112, 16, 16)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6omw3"]
+load_path = "res://.godot/imported/Fantasy Crops.png-fe228563631712e6606b64f4801951dd.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yeicj"]
+atlas = SubResource("CompressedTexture2D_6omw3")
+region = Rect2(32, 112, 16, 16)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_h4ny4"]
+load_path = "res://.godot/imported/Fantasy Crops.png-fe228563631712e6606b64f4801951dd.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xqjv3"]
+atlas = SubResource("CompressedTexture2D_h4ny4")
+region = Rect2(64, 112, 16, 16)
+
+[node name="ItemCrop" instance=ExtResource("1_oewli")]
+script = ExtResource("2_kdcmk")
+sprout_delay = 10.0
+
+[node name="SeedSprite" parent="." index="0"]
+texture = SubResource("AtlasTexture_7eac6")
+
+[node name="SproutSprite" parent="." index="1"]
+texture = SubResource("AtlasTexture_yeicj")
+
+[node name="PlantSprite" parent="." index="2"]
+texture = SubResource("AtlasTexture_xqjv3")

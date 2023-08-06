@@ -1,0 +1,62 @@
+[gd_scene load_steps=8 format=3 uid="uid://mo8102sy5nxy"]
+
+[ext_resource type="Script" path="res://crop/dandelion_crop.gd" id="1_6hj2q"]
+[ext_resource type="Texture2D" uid="uid://omuwmbplog0m" path="res://asset/image/Fantasy Crops.png" id="2_tpe1v"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qefu1"]
+atlas = ExtResource("2_tpe1v")
+region = Rect2(0, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_16bjc"]
+atlas = ExtResource("2_tpe1v")
+region = Rect2(32, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c0vwb"]
+atlas = ExtResource("2_tpe1v")
+region = Rect2(64, 80, 16, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c8vfp"]
+radius = 17.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_1dnrb"]
+properties/0/path = NodePath("SeedSprite:visible")
+properties/0/spawn = true
+properties/0/sync = false
+properties/0/watch = true
+properties/1/path = NodePath("SproutSprite:visible")
+properties/1/spawn = true
+properties/1/sync = false
+properties/1/watch = true
+properties/2/path = NodePath("PlantSprite:visible")
+properties/2/spawn = true
+properties/2/sync = false
+properties/2/watch = true
+properties/3/path = NodePath(".:position")
+properties/3/spawn = true
+properties/3/sync = false
+properties/3/watch = true
+properties/4/path = NodePath(".:growth_time")
+properties/4/spawn = true
+properties/4/sync = true
+properties/4/watch = false
+
+[node name="dandelion_crop_stop" type="StaticBody2D"]
+script = ExtResource("1_6hj2q")
+
+[node name="SeedSprite" type="Sprite2D" parent="."]
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_qefu1")
+
+[node name="SproutSprite" type="Sprite2D" parent="."]
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_16bjc")
+
+[node name="PlantSprite" type="Sprite2D" parent="."]
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_c0vwb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_c8vfp")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_1dnrb")
