@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bua7aldlaxb67" path="res://asset/image/tilemap_packed.png" id="4_l607k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cs7e0"]
-size = Vector2(15, 15)
+size = Vector2(60, 60)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x2l4v"]
 atlas = ExtResource("4_l607k")
@@ -22,7 +22,7 @@ items = Array[PackedScene]([ExtResource("2_73ixn"), ExtResource("3_mtcmc")])
 shape = SubResource("RectangleShape2D_cs7e0")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.8, 0.8)
+scale = Vector2(3.2, 3.2)
 texture = SubResource("AtlasTexture_x2l4v")
 
 [connection signal="body_entered" from="." to="." method="_body_enter"]
