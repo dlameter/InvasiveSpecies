@@ -4,6 +4,7 @@ extends Area2D
 
 var crop_plots: Dictionary
 var players: Dictionary
+var water_per_second: float = 8
 
 
 func _ready():
@@ -19,10 +20,10 @@ func _process(delta):
 	for crop_plot in crop_plots.keys():
 		var crop: Crop = crop_plot.get_crop()
 		if crop:
-			crop.get_watered()
+			crop.get_watered(water_per_second * delta)
 	
 	for player in players.keys():
-		player.get_watered()
+		player.get_watered(water_per_second * delta)
 
 
 func _on_area_entered(area):

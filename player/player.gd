@@ -177,5 +177,5 @@ func handle_item_removed(node: Node):
 		current_item = null
 
 
-func get_watered():
-	current_water += 1
+func get_watered(amount: float):
+	current_water += amount

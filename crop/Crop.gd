@@ -53,5 +53,5 @@ func handle_stage_visuals():
 	sprout_sprite.visible = stage == Stage.SPROUT
 	plant_sprite.visible = stage == Stage.PLANT
 
-func get_watered():
-	growth_time += 0.50
+func get_watered(amount: float):
+	growth_time += amount

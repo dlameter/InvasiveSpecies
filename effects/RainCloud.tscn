@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cp1kdw6qughty"]
+[gd_scene load_steps=7 format=3 uid="uid://cp1kdw6qughty"]
 
 [ext_resource type="Script" path="res://effects/DrawDisk.gd" id="1_5aiq7"]
 [ext_resource type="Script" path="res://effects/RainCloud.gd" id="1_lpjmu"]
+[ext_resource type="Texture2D" uid="uid://b7fcjh1romn4p" path="res://asset/image/water-drop-4.png" id="3_4y35v"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_x1t8o"]
 radius = 100.51
@@ -11,6 +12,21 @@ properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/sync = false
 properties/0/watch = true
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hd8s5"]
+emission_shape = 2
+emission_sphere_radius = 136.25
+particle_flag_disable_z = true
+direction = Vector3(-0.1, 1, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 1000.0
+initial_velocity_max = 1000.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 3.0
+scale_max = 3.0
+color = Color(1, 1, 1, 0.431373)
 
 [node name="RainCloud" type="Area2D"]
 collision_layer = 0
@@ -24,7 +40,7 @@ shape = SubResource("CircleShape2D_x1t8o")
 z_index = 1000
 z_as_relative = false
 script = ExtResource("1_5aiq7")
-radius = 140.77
+radius = 200.0
 color = Color(0, 0, 0, 0.321569)
 
 [node name="Timer" type="Timer" parent="."]
@@ -32,6 +48,16 @@ wait_time = 5.0
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_ypwbc")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+z_index = 150
+position = Vector2(47, -482)
+amount = 200
+process_material = SubResource("ParticleProcessMaterial_hd8s5")
+texture = ExtResource("3_4y35v")
+lifetime = 0.5
+explosiveness = 0.08
+visibility_rect = Rect2(-189, 340, 285, 285)
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="area_exited" from="." to="." method="_on_area_exited"]
