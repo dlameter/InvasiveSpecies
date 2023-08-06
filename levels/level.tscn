@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dgck1ncw45oby"]
+[gd_scene load_steps=12 format=3 uid="uid://dgck1ncw45oby"]
 
 [ext_resource type="Script" path="res://levels/Level.gd" id="1_ipytw"]
 [ext_resource type="PackedScene" uid="uid://dfoa3nqrx1ave" path="res://crop/GameManager.tscn" id="2_6oyo2"]
@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://cndmxi72hkvsk" path="res://asset/image/dirttile.png" id="3_7bi3x"]
 [ext_resource type="PackedScene" uid="uid://cecxifs2a2yat" path="res://crop/PlotManager.tscn" id="5_x7nig"]
 [ext_resource type="AudioStream" uid="uid://df3ufdl1qs2tq" path="res://levels/happy-funny-kids.mp3" id="6_1s70t"]
-[ext_resource type="PackedScene" uid="uid://c4x3d4y0p43ol" path="res://item/item_spawner.tscn" id="6_phgyo"]
 [ext_resource type="PackedScene" uid="uid://b62hga426axqb" path="res://in_game_menu.tscn" id="8_o666t"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_nv1ml"]
@@ -486,9 +485,6 @@ position = Vector2(166, 420)
 [node name="Player2Spawn" type="Node2D" parent="Node"]
 unique_name_in_owner = true
 position = Vector2(993, 418)
-
-[node name="ItemSpawner" parent="Node" instance=ExtResource("6_phgyo")]
-position = Vector2(578, 420)
 
 [node name="Players" type="Node2D" parent="."]
 

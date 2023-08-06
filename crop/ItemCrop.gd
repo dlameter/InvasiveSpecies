@@ -13,5 +13,5 @@ func _ready():
 
 func spawn_itembox(_garbage):
 	var itembox = load("res://item/ItemBox.tscn").instantiate()
-	get_parent().add_child(itembox)
-	itembox.position = position
+	add_child(itembox, true)
+	itembox.position = Vector2.ZERO
