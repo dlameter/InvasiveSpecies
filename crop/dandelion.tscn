@@ -87,13 +87,5 @@ position = Vector2(-1.69407e-21, -1)
 scale = Vector2(5, 5)
 texture = SubResource("AtlasTexture_h238e")
 
-[node name="SproutTimer" type="Timer" parent="."]
-wait_time = 3.0
-one_shot = true
-
-[node name="PlantTimer" type="Timer" parent="."]
-wait_time = 4.0
-one_shot = true
-
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_h0b3i")
