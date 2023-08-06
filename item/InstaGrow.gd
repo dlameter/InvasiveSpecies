@@ -41,10 +41,7 @@ func _draw():
 
 
 func _ready():
-	icon = null
-	cursor = null
-	active = false
-	enabled = true
+	state = ItemState.INACTIVE
 	
 	if not Engine.is_editor_hint():
 		hide()

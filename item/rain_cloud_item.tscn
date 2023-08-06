@@ -1,0 +1,26 @@
+[gd_scene load_steps=7 format=3 uid="uid://ruqrm74s70w3"]
+
+[ext_resource type="Script" path="res://item/RainCloudItem.gd" id="1_itrqd"]
+[ext_resource type="PackedScene" uid="uid://dv3kqx5lpdx0u" path="res://item/SelectCircle.tscn" id="2_d3wyk"]
+[ext_resource type="PackedScene" uid="uid://cp1kdw6qughty" path="res://effects/RainCloud.tscn" id="2_hx1w1"]
+[ext_resource type="Texture2D" uid="uid://qp275dsml5d2" path="res://asset/image/tilemap.png" id="3_smurj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l7vaj"]
+atlas = ExtResource("3_smurj")
+region = Rect2(187, 170, 16, 16)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_b1l8k"]
+properties/0/path = NodePath(".:state")
+properties/0/spawn = true
+properties/0/sync = false
+properties/0/watch = true
+
+[node name="RainCloudItem" type="Node2D"]
+script = ExtResource("1_itrqd")
+rain_cloud_scene = ExtResource("2_hx1w1")
+icon = SubResource("AtlasTexture_l7vaj")
+
+[node name="MouseSprite" parent="." instance=ExtResource("2_d3wyk")]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_b1l8k")

@@ -151,7 +151,9 @@ func handle_use_item():
 	if input.use_item and items.get_child_count() > 0 and is_multiplayer_authority():
 		var item = items.get_child(0)
 		if item and item is Item:
+			print("item use")
 			if item.enabled:
+				print("activating")
 				item.activate(self)
 
 

@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://vtllx1uybxub"]
+[gd_scene load_steps=6 format=3 uid="uid://vtllx1uybxub"]
 
 [ext_resource type="Script" path="res://item/ItemBox.gd" id="1_8nqra"]
 [ext_resource type="Texture2D" uid="uid://df0ooqpnic0cc" path="res://asset/image/icon.svg" id="1_ihnnv"]
 [ext_resource type="PackedScene" uid="uid://tgghjv5lsxbu" path="res://item/insta_grow.tscn" id="2_73ixn"]
+[ext_resource type="PackedScene" uid="uid://ruqrm74s70w3" path="res://item/rain_cloud_item.tscn" id="3_mtcmc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cs7e0"]
 size = Vector2(15, 15)
@@ -11,7 +12,7 @@ size = Vector2(15, 15)
 collision_layer = 0
 monitorable = false
 script = ExtResource("1_8nqra")
-item = ExtResource("2_73ixn")
+items = Array[PackedScene]([ExtResource("2_73ixn"), ExtResource("3_mtcmc")])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_cs7e0")

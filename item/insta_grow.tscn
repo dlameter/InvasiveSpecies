@@ -1,11 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://tgghjv5lsxbu"]
+[gd_scene load_steps=7 format=3 uid="uid://tgghjv5lsxbu"]
 
 [ext_resource type="Script" path="res://item/InstaGrow.gd" id="1_x171h"]
-[ext_resource type="Texture2D" uid="uid://df0ooqpnic0cc" path="res://asset/image/icon.svg" id="2_qi72y"]
+[ext_resource type="Texture2D" uid="uid://qp275dsml5d2" path="res://asset/image/tilemap.png" id="2_8p2jt"]
 [ext_resource type="PackedScene" uid="uid://dv3kqx5lpdx0u" path="res://item/SelectCircle.tscn" id="3_v4kfb"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_r623v"]
 radius = 140.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4d517"]
+atlas = ExtResource("2_8p2jt")
+region = Rect2(136, 170, 16, 16)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_8kfoq"]
 properties/0/path = NodePath(".:state")
@@ -17,8 +21,7 @@ properties/0/watch = false
 script = ExtResource("1_x171h")
 collision_mask = 32768
 physics_shape = SubResource("CircleShape2D_r623v")
-icon = ExtResource("2_qi72y")
-active = null
+icon = SubResource("AtlasTexture_4d517")
 enabled = true
 
 [node name="MouseSprite" parent="." instance=ExtResource("3_v4kfb")]

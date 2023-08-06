@@ -493,7 +493,7 @@ position = Vector2(144.5, 105)
 [node name="Players" type="Node2D" parent="."]
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://player/player.tscn", "res://player/water.tscn")
+_spawnable_scenes = PackedStringArray("res://player/player.tscn", "res://player/water.tscn", "res://effects/RainCloud.tscn")
 spawn_path = NodePath("../Players")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

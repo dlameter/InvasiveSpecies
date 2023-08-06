@@ -1,7 +1,7 @@
 extends Area2D
 
 
-@export var item: PackedScene
+@export var items: Array[PackedScene]
 
 var taken := false
 
@@ -12,7 +12,7 @@ func _body_enter(body: Node2D):
 	
 	if not taken and body is Player and body.can_take_item():
 		taken = true
-		body.add_item(item.instantiate())
+		body.add_item(items.pick_random().instantiate())
 		
 		die.rpc()
 

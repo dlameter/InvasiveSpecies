@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://cp1kdw6qughty"]
+
+[ext_resource type="Script" path="res://effects/DrawDisk.gd" id="1_5aiq7"]
+[ext_resource type="Script" path="res://effects/RainCloud.gd" id="1_lpjmu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x1t8o"]
+radius = 100.51
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ypwbc"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = false
+properties/0/watch = true
+
+[node name="RainCloud" type="Area2D"]
+collision_layer = 0
+collision_mask = 32769
+script = ExtResource("1_lpjmu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_x1t8o")
+
+[node name="Disk" type="Node2D" parent="."]
+z_index = 1000
+z_as_relative = false
+script = ExtResource("1_5aiq7")
+radius = 140.77
+color = Color(0, 0, 0, 0.321569)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_ypwbc")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
