@@ -8,6 +8,7 @@ enum ItemState {
 }
 
 @export_flags_2d_physics var collision_mask = 0b1
+@export var max_crops: int
 @export var physics_shape: Shape2D:
 	set(value):
 		if Engine.is_editor_hint() and physics_shape:
@@ -68,10 +69,27 @@ func fire(selected_position: Vector2) -> bool:
 		physics_query.collide_with_bodies = false
 		
 		# todo change to grow instead of removal
+		var crop_plots: Dictionary = {}
 		var collisions := player.get_world_2d().direct_space_state.intersect_shape(physics_query)
 		for collision in collisions:
 			if collision.collider and collision.collider is CropPlot:
-				var crop = collision.collider.set_crop(null)
+				crop_plots[collision.collider] = true
+		
+		
+		if crop_plots.size() > max_crops:
+			var crops_removed = 0;
+			while crop_plots.size() > 0 and crops_removed < max_crops:
+				var random_plot = crop_plots.keys().pick_random()
+				crop_plots.erase(random_plot)
+				
+				var crop = random_plot.set_crop(null)
+				if crop:
+					crops_removed += 1
+					crop.queue_free()
+				
+		else:
+			for crop_plot in crop_plots.keys():
+				var crop = crop_plot.set_crop(null)
 				if crop:
 					crop.queue_free()
 		

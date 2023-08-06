@@ -20,6 +20,7 @@ properties/0/watch = false
 [node name="InstaGrow" type="Node2D"]
 script = ExtResource("1_x171h")
 collision_mask = 32768
+max_crops = 9
 physics_shape = SubResource("CircleShape2D_r623v")
 icon = SubResource("AtlasTexture_4d517")
 enabled = true

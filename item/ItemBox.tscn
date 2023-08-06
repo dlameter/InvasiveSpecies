@@ -1,12 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://vtllx1uybxub"]
+[gd_scene load_steps=7 format=3 uid="uid://vtllx1uybxub"]
 
 [ext_resource type="Script" path="res://item/ItemBox.gd" id="1_8nqra"]
-[ext_resource type="Texture2D" uid="uid://df0ooqpnic0cc" path="res://asset/image/icon.svg" id="1_ihnnv"]
 [ext_resource type="PackedScene" uid="uid://tgghjv5lsxbu" path="res://item/insta_grow.tscn" id="2_73ixn"]
 [ext_resource type="PackedScene" uid="uid://ruqrm74s70w3" path="res://item/rain_cloud_item.tscn" id="3_mtcmc"]
+[ext_resource type="Texture2D" uid="uid://bua7aldlaxb67" path="res://asset/image/tilemap_packed.png" id="4_l607k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cs7e0"]
 size = Vector2(15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x2l4v"]
+atlas = ExtResource("4_l607k")
+region = Rect2(234, 54, 18, 18)
 
 [node name="ItemBox" type="Area2D"]
 collision_layer = 0
@@ -18,7 +22,7 @@ items = Array[PackedScene]([ExtResource("2_73ixn"), ExtResource("3_mtcmc")])
 shape = SubResource("RectangleShape2D_cs7e0")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("1_ihnnv")
+scale = Vector2(0.8, 0.8)
+texture = SubResource("AtlasTexture_x2l4v")
 
 [connection signal="body_entered" from="." to="." method="_body_enter"]
