@@ -1,6 +1,5 @@
 extends Crop
 
-
 var puff = preload("res://crop/dandelion_puff.tscn")
 
 func dandyBurst(_unused):

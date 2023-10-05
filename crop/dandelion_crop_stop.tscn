@@ -42,6 +42,9 @@ properties/4/watch = false
 
 [node name="dandelion_crop_stop" type="StaticBody2D"]
 script = ExtResource("1_6hj2q")
+stage = null
+growth_time = null
+sprout_delay = null
 
 [node name="SeedSprite" type="Sprite2D" parent="."]
 scale = Vector2(4, 4)

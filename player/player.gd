@@ -3,7 +3,6 @@ extends CharacterBody2D
 
 @onready var input := $PlayerInput
 @onready var water_gun := $WaterGun
-@onready var items := $Items
 
 
 @export var player := 1 :
@@ -11,14 +10,12 @@ extends CharacterBody2D
 		player = id
 		$PlayerInput.set_multiplayer_authority(id)
 
+
 @export var spawn_location: Node:
 	set (value):
 		spawn_location = value
 		$WaterGun.bullet_destination = value
 
-@export var starting_item: PackedScene
-
-@export_flags_2d_physics var dig_collision_mask = 0b1
 
 const SPEED = 350
 
@@ -26,56 +23,12 @@ var delay = 0
 var threshold = 0.05
 
 
-var dig_threshold = 4
-@export var dig_delay = dig_threshold :
-	set(value):
-		dig_delay = value
-		if dig_delay < dig_threshold:
-			$DigBar.show()
-		else:
-			$DigBar.hide()
-		
-		$DigBar.value = dig_delay
-
-
-@export var current_water := 0.0 :
-	set(value):
-		current_water = value
-		if value <= 0.0:
-			$WaterBar.hide()
-		else:
-			$WaterBar.show()
-		
-		$WaterBar.value = value
-
-
-var water_threshold := 6.0
-const MAX_WATER := 10.0
-
-
-signal current_item_changed(Item)
-
-
-var current_item: Item = null:
-	set(value):
-		current_item = value
-		current_item_changed.emit(value)
-
-
 func _ready():
-	if items.get_child_count() > 0 and items.get_child(0) is Item:
-		current_item = items.get_child(0)
-	
-	items.child_entered_tree.connect(handle_item_added)
-	items.child_exiting_tree.connect(handle_item_removed)
-	
-	if is_multiplayer_authority() and starting_item:
-		items.add_child(starting_item.instantiate(), true)
-	
-	dig_delay = dig_threshold
-	current_water = 0
-	$WaterBar.max_value = MAX_WATER
-	$DigBar.max_value = dig_threshold
+	item_setup()
+	dig_setup()
+	water_setup()
+	plant_setup()
+
 	if input.is_multiplayer_authority():
 		$Camera2D.make_current()
 
@@ -126,6 +79,29 @@ func handle_firing(delta: float):
 		delay = threshold
 
 
+## Dig code
+
+
+@export_flags_2d_physics var dig_collision_mask = 0b1
+
+
+var dig_threshold = 4
+@export var dig_delay = dig_threshold :
+	set(value):
+		dig_delay = value
+		if dig_delay < dig_threshold:
+			$DigBar.show()
+		else:
+			$DigBar.hide()
+		
+		$DigBar.value = dig_delay
+
+
+func dig_setup():
+	dig_delay = dig_threshold
+	$DigBar.max_value = dig_threshold
+
+
 func handle_digging(delta: float):
 	dig_delay += delta
 	if input.dig_pos != Vector2.ZERO and is_multiplayer_authority():
@@ -145,6 +121,31 @@ func handle_digging(delta: float):
 					if crop:
 						crop.queue_free()
 						dig_delay = 0
+
+
+## Item code
+
+
+@export var starting_item: PackedScene
+@onready var items := $Items
+signal current_item_changed(Item)
+
+
+var current_item: Item = null:
+	set(value):
+		current_item = value
+		current_item_changed.emit(value)
+
+
+func item_setup():
+	if items.get_child_count() > 0 and items.get_child(0) is Item:
+		current_item = items.get_child(0)
+	
+	items.child_entered_tree.connect(handle_item_added)
+	items.child_exiting_tree.connect(handle_item_removed)
+	
+	if is_multiplayer_authority() and starting_item:
+		items.add_child(starting_item.instantiate(), true)
 
 
 func handle_use_item():
@@ -175,6 +176,73 @@ func handle_item_added(node: Node):
 func handle_item_removed(node: Node):
 	if node and node == current_item:
 		current_item = null
+
+
+## Plant code
+
+@export var starting_plant: PackedScene
+@onready var plants := $PlantContainer
+signal current_plant_changed(CropItem)
+
+
+var current_plant: CropItem = null:
+	set(value):
+		current_plant = value
+		current_plant_changed.emit(value)
+
+
+func plant_setup():
+	if plants.get_child_count() > 0 and plants.get_child(0) is Item:
+		current_plant = plants.get_child(0)
+	
+	plants.child_entered_tree.connect(handle_plant_added)
+	plants.child_exiting_tree.connect(handle_plant_removed)
+	
+	if is_multiplayer_authority() and starting_plant:
+		plants.add_child(starting_plant.instantiate(), true)
+
+
+func can_take_plant():
+	return plants.get_child_count() < 1
+
+
+func add_plant(node: CropItem):
+	plants.add_child(node)
+
+
+func handle_plant_added(node: Node):
+	if node and node is Item:
+		current_plant = node
+	else:
+		node.queue_free()
+
+
+func handle_plant_removed(node: Node):
+	if node and node == current_plant:
+		current_plant = null
+
+
+## Water code
+
+
+@export var current_water := 0.0 :
+	set(value):
+		current_water = value
+		if value <= 0.0:
+			$WaterBar.hide()
+		else:
+			$WaterBar.show()
+		
+		$WaterBar.value = value
+
+
+var water_threshold := 6.0
+const MAX_WATER := 10.0
+
+
+func water_setup():
+	current_water = 0
+	$WaterBar.max_value = MAX_WATER
 
 
 func get_watered(amount: float):

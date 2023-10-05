@@ -10,6 +10,7 @@ enum Stage {
 @export var growth_time: float = 0.0
 @export var sprout_delay: float = 2.0
 @export var plant_delay: float = sprout_threshold + 3.0
+@export var crop_item: CropItem
 
 var sprout_threshold: float
 var plant_threshold: float
@@ -52,6 +53,9 @@ func handle_stage_visuals():
 	seed_sprite.visible = stage == Stage.SEED
 	sprout_sprite.visible = stage == Stage.SPROUT
 	plant_sprite.visible = stage == Stage.PLANT
+
+func pick() -> CropItem:
+	return null
 
 func get_watered(amount: float):
 	growth_time += amount
