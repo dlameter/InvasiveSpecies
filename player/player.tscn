@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://dmqs76oj7hyhh"]
+[gd_scene load_steps=15 format=3 uid="uid://dmqs76oj7hyhh"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_d25k8"]
 [ext_resource type="PackedScene" uid="uid://ruqrm74s70w3" path="res://item/rain_cloud_item.tscn" id="2_eawd8"]
 [ext_resource type="Texture2D" uid="uid://pneel2kxfa8y" path="res://asset/image/character_0002.png" id="2_ommnd"]
+[ext_resource type="PackedScene" uid="uid://bljof475abuce" path="res://crop/CropItem.tscn" id="3_gabe4"]
 [ext_resource type="Script" path="res://player/WaterGun.gd" id="3_twiyx"]
 [ext_resource type="Texture2D" uid="uid://c6dsaptmilc7m" path="res://asset/image/watercan.png" id="5_xigby"]
 [ext_resource type="Script" path="res://player/PlayerInput.gd" id="6_5smtc"]
@@ -91,6 +92,7 @@ collision_mask = 2
 script = ExtResource("1_d25k8")
 dig_collision_mask = 32768
 starting_item = ExtResource("2_eawd8")
+starting_plant = ExtResource("3_gabe4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
@@ -113,8 +115,6 @@ position = Vector2(55.12, 0)
 position = Vector2(-25, -5)
 scale = Vector2(3, 3)
 texture = ExtResource("5_xigby")
-
-[node name="PlantContainer" type="Node2D" parent="."]
 
 [node name="PlayerInput" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_y881q")
@@ -162,3 +162,9 @@ _spawnable_scenes = PackedStringArray("res://item/insta_grow.tscn", "res://item/
 spawn_path = NodePath("../Items")
 
 [node name="Items" type="Node" parent="."]
+
+[node name="PlantSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://crop/CropItem.tscn")
+spawn_path = NodePath("../PlantContainer")
+
+[node name="PlantContainer" type="Node2D" parent="."]

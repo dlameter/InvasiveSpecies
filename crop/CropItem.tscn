@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://bljof475abuce"]
+
+[ext_resource type="Script" path="res://crop/CropItem.gd" id="1_oc87l"]
+[ext_resource type="Texture2D" uid="uid://omuwmbplog0m" path="res://asset/image/Fantasy Crops.png" id="2_ap2ak"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mbfhm"]
+atlas = ExtResource("2_ap2ak")
+region = Rect2(208, 16, 16, 16)
+
+[node name="CropItem" type="Node2D"]
+script = ExtResource("1_oc87l")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(3, 3)
+texture = SubResource("AtlasTexture_mbfhm")

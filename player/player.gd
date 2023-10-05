@@ -105,6 +105,11 @@ func dig_setup():
 func handle_digging(delta: float):
 	dig_delay += delta
 	if input.dig_pos != Vector2.ZERO and is_multiplayer_authority():
+		if current_plant:
+			handle_throw_plant()
+			input.clear_dig.rpc()
+			return
+		
 		var point_query_params := PhysicsPointQueryParameters2D.new()
 		point_query_params.collision_mask = dig_collision_mask
 		point_query_params.position = input.dig_pos
@@ -202,6 +207,13 @@ func plant_setup():
 		plants.add_child(starting_plant.instantiate(), true)
 
 
+func handle_throw_plant():
+	if current_plant and is_multiplayer_authority():
+		var plant_item = current_plant
+		if plant_item is CropItem:
+			plant_item.throw((global_position - input.mouse_pos).normalized())
+
+
 func can_take_plant():
 	return plants.get_child_count() < 1
 
@@ -211,7 +223,7 @@ func add_plant(node: CropItem):
 
 
 func handle_plant_added(node: Node):
-	if node and node is Item:
+	if node and node is CropItem:
 		current_plant = node
 	else:
 		node.queue_free()
