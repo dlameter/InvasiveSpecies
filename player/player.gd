@@ -185,6 +185,7 @@ func handle_item_removed(node: Node):
 
 ## Plant code
 
+
 @export var starting_plant: PackedScene
 @onready var plants := $PlantContainer
 signal current_plant_changed(CropItem)
@@ -211,7 +212,15 @@ func handle_throw_plant():
 	if current_plant and is_multiplayer_authority():
 		var plant_item = current_plant
 		if plant_item is CropItem:
-			plant_item.throw((global_position - input.mouse_pos).normalized())
+			plant_item.throw(self, (global_position - input.mouse_pos).normalized())
+
+
+func handle_block_plant():
+	if current_plant and is_multiplayer_authority():
+		var plant_item = current_plant
+		# perhaps this should just tell the plant item when blocking has been started and when it has ended
+		if plant_item is CropItem:
+			plant_item.block(self, self)
 
 
 func can_take_plant():
