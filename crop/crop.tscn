@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://bxv6u3bhx42wl"]
+[gd_scene load_steps=10 format=3 uid="uid://bxv6u3bhx42wl"]
 
 [ext_resource type="Script" path="res://crop/Crop.gd" id="1_vaikw"]
+[ext_resource type="PackedScene" uid="uid://bljof475abuce" path="res://crop/item/CropItem.tscn" id="2_7wslj"]
 [ext_resource type="Texture2D" uid="uid://omuwmbplog0m" path="res://asset/image/Fantasy Crops.png" id="2_qmbcd"]
 [ext_resource type="Texture2D" uid="uid://c20r44nnah8r7" path="res://asset/image/Fantasy Crops.tres" id="3_fb7m3"]
 
@@ -42,6 +43,7 @@ radius = 17.0
 
 [node name="Crop" type="StaticBody2D"]
 script = ExtResource("1_vaikw")
+crop_item = ExtResource("2_7wslj")
 
 [node name="SeedSprite" type="Sprite2D" parent="."]
 scale = Vector2(4, 4)

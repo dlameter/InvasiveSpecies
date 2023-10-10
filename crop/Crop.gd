@@ -10,7 +10,7 @@ enum Stage {
 @export var growth_time: float = 0.0
 @export var sprout_delay: float = 2.0
 @export var plant_delay: float = sprout_threshold + 3.0
-@export var crop_item: CropItem
+@export var crop_item: PackedScene
 
 var sprout_threshold: float
 var plant_threshold: float
@@ -20,6 +20,7 @@ signal fully_grown(Crop)
 @onready var seed_sprite = $SeedSprite
 @onready var sprout_sprite = $SproutSprite
 @onready var plant_sprite = $PlantSprite 
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -32,6 +33,7 @@ func _ready():
 	stage = Stage.SEED
 	handle_stage_visuals()
 
+
 func _process(delta):
 	growth_time += delta
 	
@@ -40,22 +42,29 @@ func _process(delta):
 	if growth_time >= plant_threshold and stage == Stage.SPROUT:
 		transition_to_plant()
 
+
 func transition_to_sprout():
 	stage = Stage.SPROUT
 	handle_stage_visuals()
+
 
 func transition_to_plant():
 	stage = Stage.PLANT
 	handle_stage_visuals()
 	emit_signal("fully_grown", self)
 
+
 func handle_stage_visuals():
 	seed_sprite.visible = stage == Stage.SEED
 	sprout_sprite.visible = stage == Stage.SPROUT
 	plant_sprite.visible = stage == Stage.PLANT
 
+
 func pick() -> CropItem:
+	if stage == Stage.PLANT and crop_item:
+		return crop_item.instantiate()
 	return null
+
 
 func get_watered(amount: float):
 	growth_time += amount

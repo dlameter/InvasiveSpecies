@@ -3,7 +3,6 @@ class_name CropItem extends Node2D
 
 const projectile: PackedScene = preload("res://player/water.tscn")
 
-
 # returns an item created to be thrown
 func throw(player: Player, _dir: Vector2):
 	print('throwing crop item')

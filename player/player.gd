@@ -124,6 +124,9 @@ func handle_digging(delta: float):
 				if collision.collider and collision.collider is CropPlot:
 					var crop = collision.collider.set_crop(null)
 					if crop:
+						var crop_item = crop.pick()
+						if crop_item:
+							add_plant(crop_item)
 						crop.queue_free()
 						dig_delay = 0
 
