@@ -14,8 +14,8 @@ size = Vector2(58, 68)
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_eswml"]
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
-properties/0/sync = true
-properties/0/watch = false
+properties/0/sync = false
+properties/0/watch = true
 properties/1/path = NodePath("WaterGun:rotation")
 properties/1/spawn = true
 properties/1/sync = true
@@ -32,6 +32,10 @@ properties/4/path = NodePath(".:dig_delay")
 properties/4/spawn = true
 properties/4/sync = true
 properties/4/watch = false
+properties/5/path = NodePath(".:current_dig_state")
+properties/5/spawn = true
+properties/5/sync = true
+properties/5/watch = false
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_y881q"]
 properties/0/path = NodePath("PlayerInput:direction")

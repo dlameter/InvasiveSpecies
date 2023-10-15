@@ -96,15 +96,88 @@ var dig_threshold = 4
 		
 		$DigBar.value = dig_delay
 
+@export var dig_hold: float = 0.0
+@export var dig_block_threshold: float = 0.5
+
+enum DigState {
+	IDLE,
+	DIG_PLANT,
+	POST_DIG_WAIT
+}
+@export var current_dig_state: DigState = DigState.IDLE
+
 
 func dig_setup():
 	dig_delay = dig_threshold
 	$DigBar.max_value = dig_threshold
 
 
+var max_event_depth = 10
+
 func handle_digging(delta: float):
 	dig_delay += delta
-	if input.dig_pos != Vector2.ZERO and is_multiplayer_authority():
+	if !is_multiplayer_authority():
+		return
+	
+	var depth = 0
+	while depth < max_event_depth:
+		var next_dig_state = dig_state_to_function(current_dig_state).call(delta)
+		if next_dig_state == current_dig_state:
+			break
+		current_dig_state = next_dig_state
+		depth += 1
+
+
+func dig_state_to_function(state: DigState) -> Callable:
+	match state:
+		DigState.DIG_PLANT:
+			return dig_plant
+		DigState.POST_DIG_WAIT:
+			return post_dig_wait
+		_:
+			return dig_idle
+
+
+func dig_idle(_delta: float) -> DigState:
+	if input.dig_pos != Vector2.ZERO:
+		if dig_delay > dig_threshold:
+			return DigState.DIG_PLANT
+	return DigState.IDLE
+
+
+func dig_plant(delta: float) -> DigState:
+	var point_query_params := PhysicsPointQueryParameters2D.new()
+	point_query_params.collision_mask = dig_collision_mask
+	point_query_params.position = input.dig_pos
+	point_query_params.collide_with_areas = true
+	point_query_params.collide_with_bodies = false
+	
+	var collisions = get_world_2d().direct_space_state.intersect_point(point_query_params)
+	for collision in collisions:
+		if collision.collider and collision.collider is CropPlot:
+			var crop = collision.collider.set_crop(null)
+			if crop:
+				var crop_item = crop.pick()
+				if crop_item:
+					add_plant(crop_item)
+				crop.queue_free()
+				dig_delay = 0
+	
+	return DigState.POST_DIG_WAIT
+
+
+func post_dig_wait(_delta: float) -> DigState:
+	if input.dig_pos != Vector2.ZERO:
+		return DigState.POST_DIG_WAIT
+	return DigState.IDLE
+
+
+func old_handle_digging(delta: float):
+	dig_delay += delta
+	if !is_multiplayer_authority():
+		return
+	
+	if input.dig_pos != Vector2.ZERO:
 		if current_plant:
 			handle_throw_plant()
 			input.clear_dig.rpc()

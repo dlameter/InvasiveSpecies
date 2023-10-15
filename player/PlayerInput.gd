@@ -15,8 +15,10 @@ func _process(_delta):
 	firing = Input.is_action_pressed("fire")
 	use_item = Input.is_action_pressed("use_item")
 	
-	if Input.is_action_just_pressed("dig"):
+	if Input.is_action_pressed("dig"):
 		dig_pos = get_parent().get_global_mouse_position()
+	elif dig_pos != Vector2.ZERO:
+		dig_pos = Vector2.ZERO
 
 @rpc("any_peer", "call_local", "reliable")
 func clear_dig():
