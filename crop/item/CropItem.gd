@@ -16,10 +16,17 @@ func throw(player: Player, _dir: Vector2):
 		instance.set_direction(direction.angle(), player.velocity)
 		queue_free()
 
-# returns true if the block was handled by the weed item
-func block(_player: Player, _node: Node) -> bool:
-	return false
+
+func hold(_player: Player):
+	print("start holding plant")
+	pass
 
 
-func rip_up(_player: Player):
+func let_go():
+	print("let go of plant")
+	pass
+
+
+# perhaps firing while holding a plant does a bash?
+func bash(_player: Player):
 	pass

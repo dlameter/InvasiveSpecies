@@ -97,14 +97,36 @@ var dig_threshold = 4
 		$DigBar.value = dig_delay
 
 @export var dig_hold: float = 0.0
-@export var dig_block_threshold: float = 0.5
+@export var dig_hold_threshold: float = 0.5
 
 enum DigState {
 	IDLE,
 	DIG_PLANT,
-	POST_DIG_WAIT
+	WAIT_FOR_RELEASE,
+	HOLD_VS_THROW,
+	THROW_PLANT,
+	HOLD_PLANT,
+	UNHOLD_PLANT
 }
 @export var current_dig_state: DigState = DigState.IDLE
+
+
+func dig_state_to_function(state: DigState) -> Callable:
+	match state:
+		DigState.DIG_PLANT:
+			return dig_plant
+		DigState.WAIT_FOR_RELEASE:
+			return wait_for_release
+		DigState.HOLD_VS_THROW:
+			return block_vs_throw
+		DigState.THROW_PLANT:
+			return throw_plant
+		DigState.HOLD_PLANT:
+			return hold_plant
+		DigState.UNHOLD_PLANT:
+			return unhold_plant
+		_:
+			return dig_idle
 
 
 func dig_setup():
@@ -128,20 +150,13 @@ func handle_digging(delta: float):
 		depth += 1
 
 
-func dig_state_to_function(state: DigState) -> Callable:
-	match state:
-		DigState.DIG_PLANT:
-			return dig_plant
-		DigState.POST_DIG_WAIT:
-			return post_dig_wait
-		_:
-			return dig_idle
-
-
 func dig_idle(_delta: float) -> DigState:
 	if input.dig_pos != Vector2.ZERO:
-		if dig_delay > dig_threshold:
+		if current_plant:
+			return DigState.HOLD_VS_THROW
+		elif dig_delay > dig_threshold:
 			return DigState.DIG_PLANT
+	
 	return DigState.IDLE
 
 
@@ -163,45 +178,44 @@ func dig_plant(delta: float) -> DigState:
 				crop.queue_free()
 				dig_delay = 0
 	
-	return DigState.POST_DIG_WAIT
+	return DigState.WAIT_FOR_RELEASE
 
 
-func post_dig_wait(_delta: float) -> DigState:
+func wait_for_release(_delta: float) -> DigState:
 	if input.dig_pos != Vector2.ZERO:
-		return DigState.POST_DIG_WAIT
+		return DigState.WAIT_FOR_RELEASE
 	return DigState.IDLE
 
 
-func old_handle_digging(delta: float):
-	dig_delay += delta
-	if !is_multiplayer_authority():
-		return
+func block_vs_throw(delta: float) -> DigState:
+	if input.dig_pos == Vector2.ZERO:
+		dig_hold = 0
+		return DigState.THROW_PLANT
+	elif dig_hold >= dig_hold_threshold:
+		dig_hold = 0
+		return DigState.HOLD_PLANT
 	
-	if input.dig_pos != Vector2.ZERO:
-		if current_plant:
-			handle_throw_plant()
-			input.clear_dig.rpc()
-			return
-		
-		var point_query_params := PhysicsPointQueryParameters2D.new()
-		point_query_params.collision_mask = dig_collision_mask
-		point_query_params.position = input.dig_pos
-		point_query_params.collide_with_areas = true
-		point_query_params.collide_with_bodies = false
-		
-		input.clear_dig.rpc()
-		
-		if dig_delay > dig_threshold:
-			var collisions = get_world_2d().direct_space_state.intersect_point(point_query_params)
-			for collision in collisions:
-				if collision.collider and collision.collider is CropPlot:
-					var crop = collision.collider.set_crop(null)
-					if crop:
-						var crop_item = crop.pick()
-						if crop_item:
-							add_plant(crop_item)
-						crop.queue_free()
-						dig_delay = 0
+	dig_hold += delta
+	
+	return DigState.HOLD_VS_THROW
+
+
+func throw_plant(_delta: float) -> DigState:
+	handle_throw_plant()
+	return DigState.WAIT_FOR_RELEASE
+
+
+func hold_plant(_delta: float) -> DigState:
+	handle_hold_plant()
+	return DigState.UNHOLD_PLANT
+
+
+func unhold_plant(_delta: float) -> DigState:
+	if input.dig_pos == Vector2.ZERO:
+		handle_let_go_of_plant()
+		return DigState.IDLE
+	else:
+		return DigState.UNHOLD_PLANT
 
 
 ## Item code
@@ -291,12 +305,14 @@ func handle_throw_plant():
 			plant_item.throw(self, (global_position - input.mouse_pos).normalized())
 
 
-func handle_block_plant():
-	if current_plant and is_multiplayer_authority():
-		var plant_item = current_plant
-		# perhaps this should just tell the plant item when blocking has been started and when it has ended
-		if plant_item is CropItem:
-			plant_item.block(self, self)
+func handle_hold_plant():
+	if is_multiplayer_authority() and current_plant and current_plant is CropItem:
+		current_plant.hold(self)
+
+
+func handle_let_go_of_plant():
+	if is_multiplayer_authority() and current_plant and current_plant is CropItem:
+		current_plant.let_go()
 
 
 func can_take_plant():
@@ -316,6 +332,7 @@ func handle_plant_added(node: Node):
 
 func handle_plant_removed(node: Node):
 	if node and node == current_plant:
+		current_plant.let_go()
 		current_plant = null
 
 
