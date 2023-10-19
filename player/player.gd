@@ -2,7 +2,6 @@ class_name Player
 extends CharacterBody2D
 
 @onready var input := $PlayerInput
-@onready var water_gun := $WaterGun
 
 
 @export var player := 1 :
@@ -14,19 +13,14 @@ extends CharacterBody2D
 @export var spawn_location: Node:
 	set (value):
 		spawn_location = value
-		$WaterGun.bullet_destination = value
 
 
 const SPEED = 350
-
-var delay = 0
-var threshold = 0.05
 
 
 func _ready():
 	item_setup()
 	dig_setup()
-	water_setup()
 	plant_setup()
 
 	if input.is_multiplayer_authority():
@@ -36,9 +30,6 @@ func _ready():
 func _physics_process(delta):
 	if multiplayer.multiplayer_peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
 		return
-	
-	if input.mouse_pos:
-		water_gun.look_at(input.mouse_pos)
 	
 	handle_firing(delta)
 	handle_movement(delta)
@@ -67,16 +58,8 @@ func handle_movement(_delta: float):
 
 func handle_firing(delta: float):
 	if input.firing and is_multiplayer_authority():
-		if current_item and current_item.has_method("fire") and current_item.fire(input.mouse_pos):
-			pass # do nothing
-		else:
-			# extract firing to watercan object
-			delay += delta
-			if delay >= threshold:
-				delay = 0
-				water_gun.fire(self)
-	else:
-		delay = threshold
+		if current_item and current_item.has_method("fire"):
+			current_item.fire(input.mouse_pos)
 
 
 ## Dig code

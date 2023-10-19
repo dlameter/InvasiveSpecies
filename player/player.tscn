@@ -1,11 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://dmqs76oj7hyhh"]
+[gd_scene load_steps=13 format=3 uid="uid://dmqs76oj7hyhh"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_d25k8"]
 [ext_resource type="PackedScene" uid="uid://ruqrm74s70w3" path="res://item/rain_cloud_item.tscn" id="2_eawd8"]
 [ext_resource type="Texture2D" uid="uid://pneel2kxfa8y" path="res://asset/image/character_0002.png" id="2_ommnd"]
 [ext_resource type="PackedScene" uid="uid://bljof475abuce" path="res://crop/item/CropItem.tscn" id="3_ek64b"]
-[ext_resource type="Script" path="res://player/WaterGun.gd" id="3_twiyx"]
-[ext_resource type="Texture2D" uid="uid://c6dsaptmilc7m" path="res://asset/image/watercan.png" id="5_xigby"]
 [ext_resource type="Script" path="res://player/PlayerInput.gd" id="6_5smtc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mubqp"]
@@ -108,17 +106,6 @@ texture = ExtResource("2_ommnd")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_eswml")
-
-[node name="WaterGun" type="Node2D" parent="."]
-script = ExtResource("3_twiyx")
-
-[node name="FirePos" type="Node2D" parent="WaterGun"]
-position = Vector2(55.12, 0)
-
-[node name="Sprite2D" type="Sprite2D" parent="WaterGun/FirePos"]
-position = Vector2(-25, -5)
-scale = Vector2(3, 3)
-texture = ExtResource("5_xigby")
 
 [node name="PlayerInput" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_y881q")
