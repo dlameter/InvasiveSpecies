@@ -1,7 +1,40 @@
 class_name CropItem extends Node2D
 
+@export var water := preload("res://player/water.tscn")
+
+@onready var item_sprite := $Sprite2D
+@onready var block_location: Node2D = $BlockingLocation
 
 const projectile: PackedScene = preload("res://player/water.tscn")
+
+var attached_player: Player = null
+@export var delay = 0
+var threshold = 0.05
+
+
+func _ready():
+	state = InternalState.IDLE
+	set_physics_process(is_multiplayer_authority())
+
+
+func _physics_process(delta):
+	if state == InternalState.HELD && attached_player && attached_player.input.mouse_pos:
+		look_at(attached_player.input.mouse_pos)
+		delay += delta
+		if delay >= threshold:
+			delay = 0
+			fire(attached_player)
+	elif rotation != 0:
+		rotation = 0
+
+
+func fire(player: CharacterBody2D):
+	var instance = water.instantiate()
+	instance.global_position = block_location.global_position
+	instance.add_collision_exception_with(player)
+	player.get_parent().add_child(instance, true)
+	instance.set_direction(global_rotation, player.velocity)
+
 
 # returns an item created to be thrown
 func throw(player: Player, _dir: Vector2):
@@ -17,14 +50,37 @@ func throw(player: Player, _dir: Vector2):
 		queue_free()
 
 
-func hold(_player: Player):
+func hold(player: Player):
 	print("start holding plant")
-	pass
+	state = InternalState.HELD
+	attached_player = player
 
 
 func let_go():
 	print("let go of plant")
-	pass
+	state = InternalState.IDLE
+	attached_player = null
+
+
+enum InternalState {
+	IDLE,
+	HELD
+}
+@export var state: InternalState = InternalState.IDLE:
+	set (value):
+		print("prev ", state, " new ", value)
+		if state != value:
+			handle_state_change(value)
+		state = value
+
+
+func handle_state_change(new_state: InternalState):
+	match new_state:
+		InternalState.HELD:
+			item_sprite.position = block_location.position
+		InternalState.IDLE:
+			item_sprite.position = Vector2.ZERO
+	
 
 
 # perhaps firing while holding a plant does a bash?
