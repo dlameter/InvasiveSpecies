@@ -285,7 +285,7 @@ func handle_throw_plant():
 	if current_plant and is_multiplayer_authority():
 		var plant_item = current_plant
 		if plant_item is CropItem:
-			plant_item.throw(self, (global_position - input.mouse_pos).normalized())
+			plant_item.throw(self, (input.mouse_pos - global_position).normalized())
 
 
 func handle_hold_plant():

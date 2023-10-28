@@ -1,10 +1,6 @@
 class_name CropItem extends Node2D
 
 
-func fire(player: CharacterBody2D):
-	assert(false, "fire should be implemented in the subclass")
-
-
 func throw(_player: Player, _dir: Vector2):
 	assert(false, "throw should be implemented in the subclass")
 

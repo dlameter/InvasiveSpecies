@@ -151,7 +151,7 @@ spawn_path = NodePath("../Items")
 [node name="Items" type="Node" parent="."]
 
 [node name="PlantSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://crop/item/lettuce/LettuceItem.tscn")
+_spawnable_scenes = PackedStringArray("res://crop/item/lettuce/LettuceItem.tscn", "res://crop/item/dandelion/DandelionItem.tscn")
 spawn_path = NodePath("../PlantContainer")
 
 [node name="PlantContainer" type="Node2D" parent="."]

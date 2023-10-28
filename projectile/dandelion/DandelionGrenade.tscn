@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://7uss3x38r61a"]
+
+[ext_resource type="Script" path="res://projectile/dandelion/DandelionGrenade.gd" id="1_8dc14"]
+[ext_resource type="Texture2D" uid="uid://omuwmbplog0m" path="res://asset/image/Fantasy Crops.png" id="2_l13me"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7sev0"]
+atlas = ExtResource("2_l13me")
+region = Rect2(96, 80, 16, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_er5s4"]
+radius = 18.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_jq27r"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+properties/1/path = NodePath(".:linear_velocity")
+properties/1/spawn = true
+properties/1/sync = true
+properties/1/watch = false
+
+[node name="DandelionGrenade" type="RigidBody2D"]
+linear_damp = 1.329
+script = ExtResource("1_8dc14")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(3, 3)
+texture = SubResource("AtlasTexture_7sev0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_er5s4")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_jq27r")

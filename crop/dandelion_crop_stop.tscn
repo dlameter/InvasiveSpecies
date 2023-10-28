@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://mo8102sy5nxy"]
+[gd_scene load_steps=9 format=3 uid="uid://mo8102sy5nxy"]
 
 [ext_resource type="Script" path="res://crop/dandelion_crop.gd" id="1_6hj2q"]
+[ext_resource type="PackedScene" uid="uid://c253tqrsrs54t" path="res://crop/item/dandelion/DandelionItem.tscn" id="2_bk4dt"]
 [ext_resource type="Texture2D" uid="uid://omuwmbplog0m" path="res://asset/image/Fantasy Crops.png" id="2_tpe1v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qefu1"]
@@ -45,6 +46,7 @@ script = ExtResource("1_6hj2q")
 stage = null
 growth_time = null
 sprout_delay = null
+crop_item = ExtResource("2_bk4dt")
 
 [node name="SeedSprite" type="Sprite2D" parent="."]
 scale = Vector2(4, 4)

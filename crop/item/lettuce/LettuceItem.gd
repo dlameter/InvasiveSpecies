@@ -36,7 +36,6 @@ func fire(player: CharacterBody2D):
 	instance.set_direction(global_rotation, player.velocity)
 
 
-# returns an item created to be thrown
 func throw(player: Player, _dir: Vector2):
 	print('throwing crop item')
 	if is_multiplayer_authority():

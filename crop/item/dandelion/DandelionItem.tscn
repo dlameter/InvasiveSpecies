@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://c253tqrsrs54t"]
+
+[ext_resource type="Texture2D" uid="uid://omuwmbplog0m" path="res://asset/image/Fantasy Crops.png" id="1_bnno8"]
+[ext_resource type="Script" path="res://crop/item/dandelion/DandelionItem.gd" id="1_s5ykj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pqmuy"]
+atlas = ExtResource("1_bnno8")
+region = Rect2(96, 80, 16, 16)
+
+[node name="DandelionItem" type="Node2D"]
+script = ExtResource("1_s5ykj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(3, 3)
+texture = SubResource("AtlasTexture_pqmuy")
