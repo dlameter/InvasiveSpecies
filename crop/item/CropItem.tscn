@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bljof475abuce"]
 
-[ext_resource type="Script" path="res://crop/item/CropItem.gd" id="1_nqujy"]
+[ext_resource type="Script" path="res://crop/item/lettuce/LettuceItem.gd" id="1_o468b"]
 [ext_resource type="Texture2D" uid="uid://omuwmbplog0m" path="res://asset/image/Fantasy Crops.png" id="2_n4t0s"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mbfhm"]
@@ -22,7 +22,7 @@ properties/2/sync = true
 properties/2/watch = false
 
 [node name="CropItem" type="Node2D"]
-script = ExtResource("1_nqujy")
+script = ExtResource("1_o468b")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(3, 3)
