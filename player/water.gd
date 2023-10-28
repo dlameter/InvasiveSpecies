@@ -3,7 +3,12 @@ extends CharacterBody2D
 const SPEED = 300.0
 var direction: float = 0
 
-@export var water_amount: float = 0.5
+const default_water_amount: float = 0.5
+@export var water_amount: float = default_water_amount:
+	set(value):
+		var scale_factor = sqrt(value / default_water_amount)
+		scale = Vector2(scale_factor, scale_factor)
+		water_amount = value
 @export var velocity_proxy: Vector2 : 
 	set(value):
 		velocity = value

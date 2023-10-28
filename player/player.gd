@@ -2,8 +2,6 @@ class_name Player
 extends CharacterBody2D
 
 @onready var input := $PlayerInput
-@onready var water_gun := $WaterGun
-@onready var items := $Items
 
 
 @export var player := 1 :
@@ -11,71 +9,20 @@ extends CharacterBody2D
 		player = id
 		$PlayerInput.set_multiplayer_authority(id)
 
+
 @export var spawn_location: Node:
 	set (value):
 		spawn_location = value
-		$WaterGun.bullet_destination = value
 
-@export var starting_item: PackedScene
-
-@export_flags_2d_physics var dig_collision_mask = 0b1
 
 const SPEED = 350
 
-var delay = 0
-var threshold = 0.05
-
-
-var dig_threshold = 4
-@export var dig_delay = dig_threshold :
-	set(value):
-		dig_delay = value
-		if dig_delay < dig_threshold:
-			$DigBar.show()
-		else:
-			$DigBar.hide()
-		
-		$DigBar.value = dig_delay
-
-
-@export var current_water := 0.0 :
-	set(value):
-		current_water = value
-		if value <= 0.0:
-			$WaterBar.hide()
-		else:
-			$WaterBar.show()
-		
-		$WaterBar.value = value
-
-
-var water_threshold := 6.0
-const MAX_WATER := 10.0
-
-
-signal current_item_changed(Item)
-
-
-var current_item: Item = null:
-	set(value):
-		current_item = value
-		current_item_changed.emit(value)
-
 
 func _ready():
-	if items.get_child_count() > 0 and items.get_child(0) is Item:
-		current_item = items.get_child(0)
-	
-	items.child_entered_tree.connect(handle_item_added)
-	items.child_exiting_tree.connect(handle_item_removed)
-	
-	if is_multiplayer_authority() and starting_item:
-		items.add_child(starting_item.instantiate(), true)
-	
-	dig_delay = dig_threshold
-	current_water = 0
-	$WaterBar.max_value = MAX_WATER
-	$DigBar.max_value = dig_threshold
+	item_setup()
+	dig_setup()
+	plant_setup()
+
 	if input.is_multiplayer_authority():
 		$Camera2D.make_current()
 
@@ -83,9 +30,6 @@ func _ready():
 func _physics_process(delta):
 	if multiplayer.multiplayer_peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
 		return
-	
-	if input.mouse_pos:
-		water_gun.look_at(input.mouse_pos)
 	
 	handle_firing(delta)
 	handle_movement(delta)
@@ -114,37 +58,172 @@ func handle_movement(_delta: float):
 
 func handle_firing(delta: float):
 	if input.firing and is_multiplayer_authority():
-		if current_item and current_item.has_method("fire") and current_item.fire(input.mouse_pos):
-			pass # do nothing
-		else:
-			# extract firing to watercan object
-			delay += delta
-			if delay >= threshold:
-				delay = 0
-				water_gun.fire(self)
-	else:
-		delay = threshold
+		if current_item and current_item.has_method("fire"):
+			current_item.fire(input.mouse_pos)
 
+
+## Dig code
+
+
+@export_flags_2d_physics var dig_collision_mask = 0b1
+
+
+var dig_threshold = 4
+@export var dig_delay = dig_threshold :
+	set(value):
+		dig_delay = value
+		if dig_delay < dig_threshold:
+			$DigBar.show()
+		else:
+			$DigBar.hide()
+		
+		$DigBar.value = dig_delay
+
+@export var dig_hold: float = 0.0
+@export var dig_hold_threshold: float = 0.5
+
+enum DigState {
+	IDLE,
+	DIG_PLANT,
+	WAIT_FOR_RELEASE,
+	HOLD_VS_THROW,
+	THROW_PLANT,
+	HOLD_PLANT,
+	UNHOLD_PLANT
+}
+@export var current_dig_state: DigState = DigState.IDLE
+
+
+func dig_state_to_function(state: DigState) -> Callable:
+	match state:
+		DigState.DIG_PLANT:
+			return dig_plant
+		DigState.WAIT_FOR_RELEASE:
+			return wait_for_release
+		DigState.HOLD_VS_THROW:
+			return block_vs_throw
+		DigState.THROW_PLANT:
+			return throw_plant
+		DigState.HOLD_PLANT:
+			return hold_plant
+		DigState.UNHOLD_PLANT:
+			return unhold_plant
+		_:
+			return dig_idle
+
+
+func dig_setup():
+	dig_delay = dig_threshold
+	$DigBar.max_value = dig_threshold
+
+
+var max_event_depth = 10
 
 func handle_digging(delta: float):
 	dig_delay += delta
-	if input.dig_pos != Vector2.ZERO and is_multiplayer_authority():
-		var point_query_params := PhysicsPointQueryParameters2D.new()
-		point_query_params.collision_mask = dig_collision_mask
-		point_query_params.position = input.dig_pos
-		point_query_params.collide_with_areas = true
-		point_query_params.collide_with_bodies = false
-		
-		input.clear_dig.rpc()
-		
-		if dig_delay > dig_threshold:
-			var collisions = get_world_2d().direct_space_state.intersect_point(point_query_params)
-			for collision in collisions:
-				if collision.collider and collision.collider is CropPlot:
-					var crop = collision.collider.set_crop(null)
-					if crop:
-						crop.queue_free()
-						dig_delay = 0
+	if !is_multiplayer_authority():
+		return
+	
+	var depth = 0
+	while depth < max_event_depth:
+		var next_dig_state = dig_state_to_function(current_dig_state).call(delta)
+		if next_dig_state == current_dig_state:
+			break
+		current_dig_state = next_dig_state
+		depth += 1
+
+
+func dig_idle(_delta: float) -> DigState:
+	if input.dig_pos != Vector2.ZERO:
+		if current_plant:
+			return DigState.HOLD_VS_THROW
+		elif dig_delay > dig_threshold:
+			return DigState.DIG_PLANT
+	
+	return DigState.IDLE
+
+
+func dig_plant(delta: float) -> DigState:
+	var point_query_params := PhysicsPointQueryParameters2D.new()
+	point_query_params.collision_mask = dig_collision_mask
+	point_query_params.position = input.dig_pos
+	point_query_params.collide_with_areas = true
+	point_query_params.collide_with_bodies = false
+	
+	var collisions = get_world_2d().direct_space_state.intersect_point(point_query_params)
+	for collision in collisions:
+		if collision.collider and collision.collider is CropPlot:
+			var crop = collision.collider.set_crop(null)
+			if crop:
+				var crop_item = crop.pick()
+				if crop_item:
+					add_plant(crop_item)
+				crop.queue_free()
+				dig_delay = 0
+	
+	return DigState.WAIT_FOR_RELEASE
+
+
+func wait_for_release(_delta: float) -> DigState:
+	if input.dig_pos != Vector2.ZERO:
+		return DigState.WAIT_FOR_RELEASE
+	return DigState.IDLE
+
+
+func block_vs_throw(delta: float) -> DigState:
+	if input.dig_pos == Vector2.ZERO:
+		dig_hold = 0
+		return DigState.THROW_PLANT
+	elif dig_hold >= dig_hold_threshold:
+		dig_hold = 0
+		return DigState.HOLD_PLANT
+	
+	dig_hold += delta
+	
+	return DigState.HOLD_VS_THROW
+
+
+func throw_plant(_delta: float) -> DigState:
+	handle_throw_plant()
+	return DigState.WAIT_FOR_RELEASE
+
+
+func hold_plant(_delta: float) -> DigState:
+	handle_hold_plant()
+	return DigState.UNHOLD_PLANT
+
+
+func unhold_plant(_delta: float) -> DigState:
+	if input.dig_pos == Vector2.ZERO:
+		handle_let_go_of_plant()
+		return DigState.IDLE
+	else:
+		return DigState.UNHOLD_PLANT
+
+
+## Item code
+
+
+@export var starting_item: PackedScene
+@onready var items := $Items
+signal current_item_changed(Item)
+
+
+var current_item: Item = null:
+	set(value):
+		current_item = value
+		current_item_changed.emit(value)
+
+
+func item_setup():
+	if items.get_child_count() > 0 and items.get_child(0) is Item:
+		current_item = items.get_child(0)
+	
+	items.child_entered_tree.connect(handle_item_added)
+	items.child_exiting_tree.connect(handle_item_removed)
+	
+	if is_multiplayer_authority() and starting_item:
+		items.add_child(starting_item.instantiate(), true)
 
 
 func handle_use_item():
@@ -175,6 +254,92 @@ func handle_item_added(node: Node):
 func handle_item_removed(node: Node):
 	if node and node == current_item:
 		current_item = null
+
+
+## Plant code
+
+
+@export var starting_plant: PackedScene
+@onready var plants := $PlantContainer
+signal current_plant_changed(CropItem)
+
+
+var current_plant: CropItem = null:
+	set(value):
+		current_plant = value
+		current_plant_changed.emit(value)
+
+
+func plant_setup():
+	if plants.get_child_count() > 0 and plants.get_child(0) is Item:
+		current_plant = plants.get_child(0)
+	
+	plants.child_entered_tree.connect(handle_plant_added)
+	plants.child_exiting_tree.connect(handle_plant_removed)
+	
+	if is_multiplayer_authority() and starting_plant:
+		plants.add_child(starting_plant.instantiate(), true)
+
+
+func handle_throw_plant():
+	if current_plant and is_multiplayer_authority():
+		var plant_item = current_plant
+		if plant_item is CropItem:
+			plant_item.throw(self, (input.mouse_pos - global_position).normalized())
+
+
+func handle_hold_plant():
+	if is_multiplayer_authority() and current_plant and current_plant is CropItem:
+		current_plant.hold(self)
+
+
+func handle_let_go_of_plant():
+	if is_multiplayer_authority() and current_plant and current_plant is CropItem:
+		current_plant.let_go()
+
+
+func can_take_plant():
+	return plants.get_child_count() < 1
+
+
+func add_plant(node: CropItem):
+	plants.add_child(node)
+
+
+func handle_plant_added(node: Node):
+	if node and node is CropItem:
+		current_plant = node
+	else:
+		node.queue_free()
+
+
+func handle_plant_removed(node: Node):
+	if node and node == current_plant:
+		current_plant.let_go()
+		current_plant = null
+
+
+## Water code
+
+
+@export var current_water := 0.0 :
+	set(value):
+		current_water = value
+		if value <= 0.0:
+			$WaterBar.hide()
+		else:
+			$WaterBar.show()
+		
+		$WaterBar.value = value
+
+
+var water_threshold := 6.0
+const MAX_WATER := 10.0
+
+
+func water_setup():
+	current_water = 0
+	$WaterBar.max_value = MAX_WATER
 
 
 func get_watered(amount: float):
