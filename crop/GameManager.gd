@@ -7,6 +7,7 @@ signal game_won(int)
 
 var crops: Array = [
 	{ "probability": 0.11, "crop": preload("res://crop/item_crop.tscn") },
+	{ "probability": 0.3275, "crop": preload("res://crop/plant/bokchoy/BokChoyPlant.tscn") },
 	{ "probability": 0.545, "crop": preload("res://crop/dandelion_crop_stop.tscn") },
 	{ "probability": 1.0, "crop": preload("res://crop/crop.tscn") }
 ]
