@@ -17,7 +17,7 @@ func dandyBurst():
 
 func _physics_process(delta):
 	if is_multiplayer_authority():
-		if linear_velocity.length_squared() < 0.5:
+		if linear_velocity.length_squared() < 1:
 			dandyBurst()
 			queue_free()
 

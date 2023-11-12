@@ -10,15 +10,19 @@ region = Rect2(96, 80, 16, 16)
 [sub_resource type="CircleShape2D" id="CircleShape2D_er5s4"]
 radius = 18.0
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_jq27r"]
-properties/0/path = NodePath(".:position")
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_spyrs"]
+properties/0/path = NodePath(".:linear_velocity")
 properties/0/spawn = true
 properties/0/sync = true
 properties/0/watch = false
-properties/1/path = NodePath(".:linear_velocity")
+properties/1/path = NodePath(".:position")
 properties/1/spawn = true
 properties/1/sync = true
 properties/1/watch = false
+properties/2/path = NodePath(".:rotation")
+properties/2/spawn = true
+properties/2/sync = true
+properties/2/watch = false
 
 [node name="DandelionGrenade" type="RigidBody2D"]
 linear_damp = 1.329
@@ -32,4 +36,4 @@ texture = SubResource("AtlasTexture_7sev0")
 shape = SubResource("CircleShape2D_er5s4")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_jq27r")
+replication_config = SubResource("SceneReplicationConfig_spyrs")
