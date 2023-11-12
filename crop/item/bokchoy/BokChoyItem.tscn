@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://bbu6iukr5rnv0"]
+
+[ext_resource type="Script" path="res://crop/item/bokchoy/BokChoyItem.gd" id="1_awljw"]
+[ext_resource type="Texture2D" uid="uid://omuwmbplog0m" path="res://asset/image/Fantasy Crops.png" id="2_r0a2t"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_of00h"]
+atlas = ExtResource("2_r0a2t")
+region = Rect2(96, 96, 16, 16)
+
+[node name="BokChoyItem" type="Node2D"]
+script = ExtResource("1_awljw")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.54287
+scale = Vector2(-3, 3)
+texture = SubResource("AtlasTexture_of00h")
