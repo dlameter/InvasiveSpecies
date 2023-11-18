@@ -14,3 +14,6 @@ script = ExtResource("1_awljw")
 rotation = 1.54287
 scale = Vector2(-3, 3)
 texture = SubResource("AtlasTexture_of00h")
+
+[node name="GustLocation" type="Node2D" parent="."]
+position = Vector2(50, 0)
