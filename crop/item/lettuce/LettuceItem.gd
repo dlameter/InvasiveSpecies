@@ -4,6 +4,7 @@ class_name LettuceItem extends CropItem
 
 @onready var item_sprite := $Sprite2D
 @onready var block_location: Node2D = $BlockingLocation
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 const projectile: PackedScene = preload("res://player/water.tscn")
 
@@ -34,6 +35,7 @@ func fire(player: CharacterBody2D):
 	instance.add_collision_exception_with(player)
 	player.get_parent().add_child(instance, true)
 	instance.set_direction(global_rotation, player.velocity)
+	animation_player.play("squeezing")
 
 
 func throw(player: Player, _dir: Vector2):
