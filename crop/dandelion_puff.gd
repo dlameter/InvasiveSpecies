@@ -1,6 +1,5 @@
-extends Node2D
+extends RigidBody2D
 
-@export var velocity = Vector2(0,0)
 @export var owner_id = 0 # valid ids are the mask layers, so 1-32
 @export var lifetime = 10 # life expectancy of the pellet, used with delta
 var timelife = 0
@@ -19,8 +18,6 @@ func _process(delta):
 	timelife += delta
 	if (timelife >= lifetime):
 		queue_free()
-	
-	transform = transform.translated(velocity*delta)
 	
 
 func process_area(area: Area2D):

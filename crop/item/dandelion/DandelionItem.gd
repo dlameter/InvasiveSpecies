@@ -48,7 +48,7 @@ func _process(delta):
 
 func drop_seed(player: Player, dir: Vector2):
 	var puffButActually = seed.instantiate()
-	puffButActually.velocity = 50 * dir
+	puffButActually.set_axis_velocity(50 * dir)
 	puffButActually.lifetime = 2
 	player.spawn_location.add_child(puffButActually, true)
 	puffButActually.position = global_position

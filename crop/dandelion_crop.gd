@@ -8,7 +8,7 @@ func dandyBurst(_unused):
 
 	for i in range(randi() % 3 + 2):
 		var puffButActually = puff.instantiate()
-		puffButActually.velocity = Vector2(randi() % 100 - 50,randi() % 100 - 50)
+		puffButActually.set_axis_velocity(Vector2(randi() % 100 - 50,randi() % 100 - 50))
 		puffButActually.lifetime = 2
 		puffButActually.position = position
 		get_parent().add_child(puffButActually, true)
