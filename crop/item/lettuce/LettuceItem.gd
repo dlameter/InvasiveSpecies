@@ -1,4 +1,4 @@
-class_name LettuceItem extends CropItem
+class_name LettuceItem extends HoldableCropItem
 
 @export var water := preload("res://player/water.tscn")
 

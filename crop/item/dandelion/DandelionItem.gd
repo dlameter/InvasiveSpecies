@@ -1,4 +1,4 @@
-class_name DandelionItem extends CropItem
+class_name DandelionItem extends HoldableCropItem
 
 
 const projectile: PackedScene = preload("res://projectile/dandelion/DandelionGrenade.tscn")

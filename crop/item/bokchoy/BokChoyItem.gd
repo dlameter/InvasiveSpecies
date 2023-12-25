@@ -1,4 +1,4 @@
-extends CropItem
+extends HoldableCropItem
 
 const gust: PackedScene = preload("res://crop/effect/BokChoyGust.tscn")
 
