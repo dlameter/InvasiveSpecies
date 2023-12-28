@@ -85,11 +85,8 @@ var dig_threshold = 4
 enum DigState {
 	IDLE,
 	DIG_PLANT,
-	WAIT_FOR_RELEASE,
-	HOLD_VS_THROW,
-	THROW_PLANT,
-	HOLD_PLANT,
-	UNHOLD_PLANT
+	SEND_DIG_TO_PLANT,
+	WAIT_FOR_RELEASE
 }
 @export var current_dig_state: DigState = DigState.IDLE
 
@@ -100,14 +97,8 @@ func dig_state_to_function(state: DigState) -> Callable:
 			return dig_plant
 		DigState.WAIT_FOR_RELEASE:
 			return wait_for_release
-		DigState.HOLD_VS_THROW:
-			return block_vs_throw
-		DigState.THROW_PLANT:
-			return throw_plant
-		DigState.HOLD_PLANT:
-			return hold_plant
-		DigState.UNHOLD_PLANT:
-			return unhold_plant
+		DigState.SEND_DIG_TO_PLANT:
+			return send_dig_to_plant
 		_:
 			return dig_idle
 
@@ -136,7 +127,7 @@ func handle_digging(delta: float):
 func dig_idle(_delta: float) -> DigState:
 	if input.dig_pos != Vector2.ZERO:
 		if current_plant:
-			return DigState.HOLD_VS_THROW
+			return DigState.SEND_DIG_TO_PLANT
 		elif dig_delay > dig_threshold:
 			return DigState.DIG_PLANT
 	
@@ -164,41 +155,15 @@ func dig_plant(delta: float) -> DigState:
 	return DigState.WAIT_FOR_RELEASE
 
 
+func send_dig_to_plant(delta: float) -> DigState:
+	current_plant.handle_dig(self, delta, input.dig_pos)
+	return DigState.WAIT_FOR_RELEASE
+
+
 func wait_for_release(_delta: float) -> DigState:
 	if input.dig_pos != Vector2.ZERO:
 		return DigState.WAIT_FOR_RELEASE
 	return DigState.IDLE
-
-
-func block_vs_throw(delta: float) -> DigState:
-	if input.dig_pos == Vector2.ZERO:
-		dig_hold = 0
-		return DigState.THROW_PLANT
-	elif dig_hold >= dig_hold_threshold:
-		dig_hold = 0
-		return DigState.HOLD_PLANT
-	
-	dig_hold += delta
-	
-	return DigState.HOLD_VS_THROW
-
-
-func throw_plant(_delta: float) -> DigState:
-	handle_throw_plant()
-	return DigState.WAIT_FOR_RELEASE
-
-
-func hold_plant(_delta: float) -> DigState:
-	handle_hold_plant()
-	return DigState.UNHOLD_PLANT
-
-
-func unhold_plant(_delta: float) -> DigState:
-	if input.dig_pos == Vector2.ZERO:
-		handle_let_go_of_plant()
-		return DigState.IDLE
-	else:
-		return DigState.UNHOLD_PLANT
 
 
 ## Item code
@@ -309,12 +274,14 @@ func add_plant(node: CropItem):
 func handle_plant_added(node: Node):
 	if node and node is CropItem:
 		current_plant = node
+		current_plant.attach_player(self)
 	else:
 		node.queue_free()
 
 
 func handle_plant_removed(node: Node):
 	if node and node == current_plant:
+		current_plant.dettach_player()
 		current_plant.let_go()
 		current_plant = null
 
