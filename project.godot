@@ -66,6 +66,10 @@ use_item={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_5="WindLayer"
+
 [physics]
 
 2d/default_gravity=0.0

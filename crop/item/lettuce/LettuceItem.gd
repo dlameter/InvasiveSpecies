@@ -81,7 +81,6 @@ func handle_state_change(new_state: InternalState):
 			item_sprite.position = block_location.position
 		InternalState.IDLE:
 			item_sprite.position = Vector2.ZERO
-	
 
 
 # perhaps firing while holding a plant does a bash?

@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://lclos8xkaonf"]
+
+[ext_resource type="Texture2D" uid="uid://c5rmdvrgp12hi" path="res://asset/image/pelletthing.png" id="1_j63cq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2otmy"]
+radius = 400.0
+
+[node name="BokChoyWind" type="Area2D"]
+collision_layer = 16
+collision_mask = 17
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(-450, 0)
+scale = Vector2(4, 4)
+amount = 16
+lifetime = 0.7
+texture = ExtResource("1_j63cq")
+emission_shape = 1
+emission_sphere_radius = 100.0
+particle_flag_align_y = true
+spread = 3.18
+gravity = Vector2(0, 0)
+initial_velocity_min = 394.14
+initial_velocity_max = 461.71
+scale_amount_min = 0.2
+scale_amount_max = 0.85
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_2otmy")
